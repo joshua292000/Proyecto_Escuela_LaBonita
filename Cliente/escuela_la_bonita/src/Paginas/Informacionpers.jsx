@@ -5,7 +5,7 @@ export default function Inicio() {
         <h1>Información personal del estudiante</h1>
         <label>Cédula:</label>
         <TXT_info name="txt_cedula" id="txt_cedula"></TXT_info>
-        <ButtonSiguiente dir="informacionest" nom="Siguiente" css="button_Siguiente"/>
+        <ButtonSiguiente dir="informacionestudiante" nom="Siguiente" css="button_Siguiente"/>
       </div>
     );
   }
