@@ -48,7 +48,7 @@ export default function Inicio() {
       
 
           
-        <ButtonSiguiente dir="informacionencargados" nom="Siguiente" css="button_Siguiente"/>
+        <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/>
       </div> 
     );
   }
