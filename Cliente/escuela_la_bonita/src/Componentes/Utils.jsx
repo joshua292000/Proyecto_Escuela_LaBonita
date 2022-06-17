@@ -1,6 +1,5 @@
 import {useNavigate} from "react-router-dom";
 
-
 export function ButtonSiguiente(dir){
     
     const navegar = useNavigate();
@@ -16,8 +15,9 @@ export function ButtonSiguiente(dir){
 
 export function TXT_info(){
 return(
-    <div>
+     <div>
     <input type="text" required></input><br></br>
     </div>
 )
 }
+
