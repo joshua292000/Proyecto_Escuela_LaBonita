@@ -34,27 +34,57 @@ export function InfoPeronal(){
                 <td><label>Segundo nombre:</label><TXT_info name="txt_snombre" id="txt_snombre"></TXT_info><br></br></td>
                 <td><label>Primer apellido:</label><TXT_info name="txt_papellido" id="txt_papellido"></TXT_info><br></br></td>
                 <td> <label>Segundo apellido:</label><TXT_info name="txt_papellido" id="txt_papellido"></TXT_info><br></br></td>
+ 
                 </tr>
                 <tr>
-                <td><label>Provincia:</label><TXT_info name="txt_provincia" id="txt_provincia"></TXT_info><br></br></td>
-                <td><label>Cantón:</label><TXT_info name="txt_canton" id="txt_canton"></TXT_info><br></br></td>
-                <td><label>Distrito:</label><TXT_info name="txt_distrito" id="txt_distrito"></TXT_info><br></br></td>
                 <td>
                 <div>
-                <br></br>
-                <label>País:</label><br></br>
-                <select name="País" id="País">
-                    <option value="CostaRica">Costa Rica</option>
-                    <option value="Panamá">Panamá</option>
-                    <option value="USA">Estados Unidos</option>
+                <label>Provincia:</label>
+                <select name="Provincia" id="Provincia">
+                    <option value="SanJose">San José</option>
+                    <option value="Alajuela">Alajuela</option>
+                    <option value="Heredia">Heredia</option>
+                    <option value="Puntarenas">Puntarenas</option>
+                    <option value="Cartago">Cartago</option>
+                    <option value="Limon">Limón</option>
+                    <option value="Guanacaste">Guanacaste</option>
                 </select>
                 </div><br /><br></br></td>
+                <td>
+                <div>
+                <label>Cantón:</label>
+                <select name="Canton" id="Canton">
+                    <option value="PZ">Pérez Zeledón</option>
+                    <option value="Escazu">Escazú</option>
+                    <option value="Heredia">Desamparados</option>
+                </select>
+                </div><br /><br></br></td>
+                <td>
+                <div>
+                <label>Distrito:</label>
+                <select name="Distrito" id="Distrito">
+                    <option value="SanIsidro">San Isidro de El General</option>
+                    <option value="ElGeneral">El General</option>
+                    <option value="DanielFlores">Daniel Flores</option>
+                </select>
+                </div><br /><br></br></td> 
+                <br></br>
                 </tr>
                 <td><label>Sexo:</label>
                 <input type="radio" id="hombre" name="sexoest" value="soltero"></input>
                 <label for="hombre">Hombre</label>
                 <input type="radio" id="mujer" name="sexoest" value="Mujer"></input>
                 <label for="mujer">Mujer </label><br></br><br></br></td>
+                <td></td>
+                <td>
+                <div>
+                <label>Lugar nacimiento:</label>
+                <select name="lugarnacimiento" id="lugarnacimiento">
+                    <option value="CostaRica">Costa Rica</option>
+                    <option value="Panamá">Panamá</option>
+                    <option value="USA">Estados Unidos</option>
+                </select>
+                </div><br /><br></br></td>
             </table>
         </div>
     )
