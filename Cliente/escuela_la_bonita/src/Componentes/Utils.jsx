@@ -2,11 +2,20 @@ import {useNavigate} from "react-router-dom";
 import { Button } from 'primereact/button';
 import { useState } from "react";
 const personal= [];
+let contador= 0;
+let ced=' ';
 export function ButtonSiguiente(dir){
     
     const navegar = useNavigate();
     const link = ()=>{
         navegar("/"+dir.dir);
+        console.log('You clicked submit.  '+ dir.cedula);
+        console.log('You clicked submit.  '+ dir.nombre);
+        personal.push(dir.cedula);
+        console.log('You clicked submit.  '+ personal);
+        personal.push(dir.nombre);
+        console.log('You clicked submit.  '+ personal);
+        console.log('You clicked submit.  '+ personal);
     }
     return(
         <div>
@@ -25,16 +34,18 @@ return(
 export function InfoPersonal(){
     const [Cedula, setCedula]= useState('');
     const [Nombre, setNombre]= useState('');
-   // const [Cedula, setCedula]= useState('');
-   function handleSubmit() {
-    console.log('You clicked submit.  '+ Cedula);
-    console.log('You clicked submit.  '+ Nombre);
-        personal.push(Cedula);
-        console.log('You clicked submit.  '+ personal);
-        personal.push(Nombre);
-        console.log('You clicked submit.  '+ personal);
-        console.log('You clicked submit.  '+ personal);
+    console.log('You clicked submit.  '+ personal.length);
+    console.log('Cedula.length.  '+ Cedula.length);
+
+   if(personal.length !=0 && contador==0){
+       setCedula(personal[0]);
+       contador++;
+       ced=personal[0];
+        //Cedula=personal[1];
+       // Nombre=personal[2];
     }
+   // const [Cedula, setCedula]= useState('');
+   
     return(
          <div>
             <h1>Resultado de: {Cedula}</h1>
@@ -42,7 +53,7 @@ export function InfoPersonal(){
             <table width="40%">
             <tbody>
                     <tr>
-                        <td><label>Cédula:</label> <input type="text" required value={Cedula} onChange={ev=>setCedula(ev.target.value)} ></input><br></br></td><br></br>
+                        <td><label>Cédula:</label> <input type="text" placeholder={ced} required value={Cedula} onChange={ev=>setCedula(ev.target.value)} ></input><br></br></td><br></br>
                         <tr><Button label="Buscar"  /><br></br></tr>
                         <td><label>Fecha nacimiento:</label><br></br><input type="date" name="fnacimiento" id="fnacimiento"></input><br></br><br></br></td>
                     </tr>
@@ -118,7 +129,7 @@ export function InfoPersonal(){
                 </tbody>
                 
             </table>
-            <Button label="Buscar" onClick={handleSubmit}/>
+            <ButtonSiguiente dir="informacionestudiante" nom="Siguiente" css="button_Siguiente " cedula={Cedula} nombre={Nombre}  />
         </div>
     )
 }
