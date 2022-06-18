@@ -1,5 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import { Button } from 'primereact/button';
+import { useState } from "react";
+const personal= [];
 export function ButtonSiguiente(dir){
     
     const navegar = useNavigate();
@@ -20,20 +22,34 @@ return(
     </div>
 )
 }
-export function InfoPeronal(){
+export function InfoPersonal(){
+    const [Cedula, setCedula]= useState('');
+    const [Nombre, setNombre]= useState('');
+   // const [Cedula, setCedula]= useState('');
+   function handleSubmit() {
+    console.log('You clicked submit.  '+ Cedula);
+    console.log('You clicked submit.  '+ Nombre);
+        personal.push(Cedula);
+        console.log('You clicked submit.  '+ personal);
+        personal.push(Nombre);
+        console.log('You clicked submit.  '+ personal);
+        console.log('You clicked submit.  '+ personal);
+    }
     return(
          <div>
+            <h1>Resultado de: {Cedula}</h1>
+            <h1>Resultado de: {Nombre}</h1>
             <table width="40%">
             <tbody>
                     <tr>
-                        <td><label>Cédula:</label><TXT_info name="txt_cedula" id="txt_cedula"></TXT_info><br></br></td><br></br>
+                        <td><label>Cédula:</label> <input type="text" required value={Cedula} onChange={ev=>setCedula(ev.target.value)} ></input><br></br></td><br></br>
                         <tr><Button label="Buscar"  /><br></br></tr>
                         <td><label>Fecha nacimiento:</label><br></br><input type="date" name="fnacimiento" id="fnacimiento"></input><br></br><br></br></td>
                     </tr>
                 </tbody>
                 <tbody>
                     <tr>
-                        <td><label>Primer nombre:</label><TXT_info name="txt_pnombre" id="txt_pnombre"  ></TXT_info><br></br></td>
+                        <td><label>Primer nombre:</label><input type="text" required value={Nombre} onChange={ev=>setNombre(ev.target.value)} ></input><br></br></td>
                         <td><label>Segundo nombre:</label><TXT_info name="txt_snombre" id="txt_snombre"></TXT_info><br></br></td>
                         <td><label>Primer apellido:</label><TXT_info name="txt_papellido" id="txt_papellido"></TXT_info><br></br></td>
                         <td> <label>Segundo apellido:</label><TXT_info name="txt_papellido" id="txt_papellido"></TXT_info><br></br></td>
@@ -102,6 +118,7 @@ export function InfoPeronal(){
                 </tbody>
                 
             </table>
+            <Button label="Buscar" onClick={handleSubmit}/>
         </div>
     )
 }
