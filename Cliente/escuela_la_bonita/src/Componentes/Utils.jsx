@@ -26,7 +26,7 @@ export function InfoPeronal(){
             <table width="40%">
                 <tr>
                 <td><label>Cédula:</label><TXT_info name="txt_cedula" id="txt_cedula"></TXT_info><br></br></td><br></br>
-                <tr><Button label="Buscar" loading loadingIcon="pi pi-spin pi-sun"  /><br></br></tr>
+                <tr><Button label="Buscar"  /><br></br></tr>
                 <td><label>Fecha nacimiento:</label><br></br><input type="date" name="fnacimiento" id="fnacimiento"></input><br></br><br></br></td>
                 </tr>
                 <tr>
