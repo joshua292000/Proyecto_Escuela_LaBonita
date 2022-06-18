@@ -9,13 +9,8 @@ export function ButtonSiguiente(dir){
     const navegar = useNavigate();
     const link = ()=>{
         navegar("/"+dir.dir);
-        console.log('You clicked submit.  '+ dir.cedula);
-        console.log('You clicked submit.  '+ dir.nombre);
         personal.push(dir.cedula);
-        console.log('You clicked submit.  '+ personal);
         personal.push(dir.nombre);
-        console.log('You clicked submit.  '+ personal);
-        console.log('You clicked submit.  '+ personal);
     }
     return(
         <div>
@@ -34,17 +29,12 @@ return(
 export function InfoPersonal(){
     const [Cedula, setCedula]= useState('');
     const [Nombre, setNombre]= useState('');
-    console.log('You clicked submit.  '+ personal.length);
-    console.log('Cedula.length.  '+ Cedula.length);
 
    if(personal.length !=0 && contador==0){
        setCedula(personal[0]);
        contador++;
        ced=personal[0];
-        //Cedula=personal[1];
-       // Nombre=personal[2];
     }
-   // const [Cedula, setCedula]= useState('');
    
     return(
          <div>
