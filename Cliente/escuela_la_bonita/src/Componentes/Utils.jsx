@@ -5,7 +5,6 @@ import { AppContext } from "../Context/provider";
 import {AgregarInfoPersonal} from "../Persistencia/InsertarInfoPer";
 
 export function ButtonSiguiente(dir){
-   
     const navegar = useNavigate();
     const link = ()=>{
         navegar("/"+dir.dir);

@@ -12,7 +12,7 @@ try {
         password: process.env.DBPASS,
         database: process.env.DBNAME
     });
-    console.log("coneccion exitosa con la db");
+    console.log("conexión exitosa con la db");
 
 } catch (error) {
     console.log("Error al conectar con la base de datos");
