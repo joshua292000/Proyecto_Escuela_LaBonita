@@ -5,6 +5,10 @@ const app = express();
 //nos ayuda a analizar el cuerpo de la solicitud POST
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+var cors = require('cors')
+
+app.use(cors())
 /*
 app.use(session({
     secret: '123',

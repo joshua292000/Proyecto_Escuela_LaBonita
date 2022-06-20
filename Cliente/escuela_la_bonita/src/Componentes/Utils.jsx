@@ -2,16 +2,22 @@ import {useNavigate} from "react-router-dom";
 import { Button } from 'primereact/button';
 import { useContext } from "react";
 import { AppContext } from "../Context/provider";
+import {AgregarInfoPersonal} from "../Persistencia/InsertarInfoPer";
+
 export function ButtonSiguiente(dir){
-    
+   
     const navegar = useNavigate();
     const link = ()=>{
         navegar("/"+dir.dir);
         
     }
+    const prueba=()=>{
+        link();
+        AgregarInfoPersonal();
+    }
     return(
         <div>
-         <button type="button" className={dir.css} onClick={link}>{dir.nom}</button><br />
+         <button type="button" className={dir.css} onClick={AgregarInfoPersonal}>{dir.nom}</button><br />
         </div>
        );
 }
@@ -44,10 +50,10 @@ export function InfoPersonal(){
                 </tbody>
                 <tbody>
                     <tr>
-                        <td><label>Primer nombre:</label><TXT_info name="txt_pnombre" id="txt_pnombre" value="PNombre"></TXT_info><br></br></td>
-                        <td><label>Segundo nombre:</label><TXT_info name="txt_snombre" id="txt_snombre" value="SNombre"></TXT_info><br></br></td>
-                        <td><label>Primer apellido:</label><TXT_info name="txt_papellido" id="txt_papellido" value="PApellido"></TXT_info><br></br></td>
-                        <td> <label>Segundo apellido:</label><TXT_info name="txt_papellido" id="txt_papellido" value="SApellido"></TXT_info><br></br></td>
+                        <td><label>Primer nombre:</label><TXT_info name="txt_pnombre" id="txt_pnombre" value="pNombre"></TXT_info><br></br></td>
+                        <td><label>Segundo nombre:</label><TXT_info name="txt_snombre" id="txt_snombre" value="sNombre"></TXT_info><br></br></td>
+                        <td><label>Primer apellido:</label><TXT_info name="txt_papellido" id="txt_papellido" value="pApellido"></TXT_info><br></br></td>
+                        <td> <label>Segundo apellido:</label><TXT_info name="txt_papellido" id="txt_papellido" value="sApellido"></TXT_info><br></br></td>
                    </tr>
                 </tbody>
                 <tbody>
@@ -94,11 +100,11 @@ export function InfoPersonal(){
                 <tbody>
                         <td>
                             <label>Sexo:</label>
-                            <input type="radio" id="Hombre" name="sexoest" value="Hombre"
-                            onChange={(e) => setState({ ...state, "Hombre": e.target.value })}></input>
+                            <input type="radio" id="Hombre" name="sexoest" 
+                            onChange={(e) => setState({ ...state, "Sexo": "M" })}></input>
                             <label htmlFor="Hombre">Hombre</label>
-                            <input type="radio" id="Mujer" name="sexoest" value="Mujer"
-                            onChange={(e) => setState({ ...state, "Mujer": e.target.value })}></input>
+                            <input type="radio" id="Mujer" name="sexoest" 
+                            onChange={(e) => setState({ ...state, "Sexo":"F" })}></input>
                             <label htmlFor="Mujer">Mujer </label>
                             <br></br>
                             <br></br>
