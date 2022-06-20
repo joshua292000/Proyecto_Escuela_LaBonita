@@ -6,7 +6,7 @@ export default function Inicio() {
         <h1>Información del Encargado</h1>
         <InfoPersonal/> 
         <InfoEncargado></InfoEncargado>
-        
+        <ButtonSiguiente dir="informacionestudiante" nom="Siguiente" css="button_Siguiente " />
       </div>
       
     );

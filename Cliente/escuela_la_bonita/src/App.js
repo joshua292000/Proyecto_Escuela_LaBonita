@@ -3,7 +3,7 @@ import Informacionpers from "./Paginas/Informacionpers";
 import InformacionEst from "./Paginas/InformacionEst";  
 import InformacionEnc from "./Paginas/InformacionEnc";  
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import React, { Component }  from 'react';
 
 export function App() {
 return(
