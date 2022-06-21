@@ -2,6 +2,7 @@ import { ButtonSiguiente, TXT_info, InfoPersonal,InfoEncargado } from "../Compon
 import {useContext} from 'react';
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
 import 'primeicons/primeicons.css';
+
 export default function Inicio() {
   const [state, setState] = useContext(infoEncargado);
     return (

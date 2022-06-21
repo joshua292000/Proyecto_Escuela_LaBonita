@@ -34,8 +34,8 @@ export function TXT_info(props) {
     );
   }
 export function InfoPersonal(props){
-    //const [state, setState] = useContext(AppContext);
-   // const [statee, setStatee] = useContext(infoEncargado);
+    const [state, setState] = useContext(AppContext);
+    const [statee, setStatee] = useContext(infoEncargado);
 
     return(
          <div>
@@ -130,7 +130,7 @@ export function InfoPersonal(props){
 }
 
 export function InfoEncargado(){
-    const [state, setState] = useContext(infoEncargado);
+    const [state, setState] = useContext(AppContext);
     return(
         <div>
         <table  width="40%">

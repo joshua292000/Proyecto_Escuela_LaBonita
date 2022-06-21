@@ -22,7 +22,7 @@ export  function AgregarInfoPersonal(props){
     }
     console.log(infop)
     axios.post('http://localhost:3000/insertarPersona', infop).then(res =>{
-            Swal.fire('Felicidades', 'la información personal se creo con éxito')
+            //Swal.fire('Felicidades', 'la información personal se creo con éxito')
             console.log(infop)
     })
     .then(err=> {console.log(err)})
