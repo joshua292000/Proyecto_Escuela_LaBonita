@@ -2,7 +2,7 @@ import { ButtonSiguiente, TXT_info, dt_Fechanacimiento,InfoPersonal } from "../C
 import { Button } from 'primereact/button';
 import {AgregarInfoPersonal} from "../Persistencia/InsertarInfoPer";
 import { useContext } from "react";
-import { AppContext } from "../context/provider";
+import { AppContext } from "../AppContext/provider";
 
 export default function Inicio() {
   const [state, setState] = useContext(AppContext);

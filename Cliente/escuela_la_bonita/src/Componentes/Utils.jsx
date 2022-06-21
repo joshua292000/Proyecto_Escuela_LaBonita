@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import { Button } from 'primereact/button';
 import { useContext } from "react";
-import { AppContext } from "../context/provider";
+import { AppContext } from "../AppContext/provider";
 import AgregarInfoPersonal from "../Persistencia/InsertarInfoPer";
 
 export function ButtonSiguiente(dir){
