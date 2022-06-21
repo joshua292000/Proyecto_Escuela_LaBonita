@@ -9,11 +9,12 @@ export default function Inicio() {
     return (
       <div>
         <h1>Información personal del estudiante</h1>
-        <InfoPersonal/>
-        
-        <button type="button" onClick={()=>AgregarInfoPersonal({value : state})}></button><br />
+        <InfoPersonal setState = {setState} />
+        <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/>
+       
       </div> 
     );
   }
 
   //<ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/>
+  // <button type="button" onClick={()=>AgregarInfoPersonal({value : state})}></button><br />

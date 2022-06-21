@@ -5,7 +5,9 @@ import Swal from 'sweetalert2';
 
 
 export  function AgregarInfoPersonal(props){
-    var infop = {
+  console.log("prueba: "+ props.value.fechNac)
+
+   /* var infop = {
       cedula: props.value.cedula,
       pNombre: props.value.pNombre,
       sNombre: props.value.sNombre,
@@ -23,7 +25,7 @@ export  function AgregarInfoPersonal(props){
             Swal.fire('Felicidades', 'la información personal se creo con éxito')
             console.log(infop)
     })
-    .then(err=> {console.log(err)})
+    .then(err=> {console.log(err)})*/
   }
   
   /*var infop = {

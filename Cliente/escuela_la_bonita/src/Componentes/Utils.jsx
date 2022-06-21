@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import { Button } from 'primereact/button';
 import { useContext } from "react";
 import { AppContext } from "../AppContext/provider";
+import { infoEncargado } from "../AppContext/providerInfoEncargado";
 import AgregarInfoPersonal from "../Persistencia/InsertarInfoPer";
 
 export function ButtonSiguiente(dir){
@@ -18,39 +19,42 @@ export function ButtonSiguiente(dir){
        );
 }
 
-export function TXT_info(pro) {
-    const [state, setState] = useContext(AppContext);
+export function TXT_info(props) {
+    //const [state, setState] = useContext(AppContext);
     return (
       <div>
         <input
           type="text"
-          value={pro.dfvalue}
-          onChange={(e) => setState({ ...state, [pro.value]: e.target.value })}
+          value={props.dfvalue}
+          onChange={(e) => props.setState({ [props.value]: e.target.value })}
           required
         ></input>
         <br></br>
       </div>
     );
   }
-export function InfoPersonal(){
+export function InfoPersonal(props){
     const [state, setState] = useContext(AppContext);
+    const [statee, setStatee] = useContext(infoEncargado);
+
     return(
          <div>
             <table width="40%">
             <tbody>
                     <tr>
-                        <td><label>Cédula:</label> <TXT_info name="txt_cedula" id="txt_cedula" value="cedula"></TXT_info><br></br></td><br></br>
+                        <td><label>Cédula:</label> <TXT_info name="txt_cedula" id="txt_cedula" value="cedula" setState ={props.setState}></TXT_info><br></br></td><br></br>
                         <p>{state.cedula}</p>
+                        <p>{statee.cedula}</p>
                         <tr><Button label="Buscar"  /><br></br></tr>
-                        <td><label>Fecha nacimiento:</label><br></br> <input type="date" name="fnacimiento" id="fnacimiento" onChange={(e) => setState({ ...state, "fechNac": e.target.value })}></input><br></br><br></br></td>
+                        <td><label>Fecha nacimiento:</label><br></br> <input type="date" name="fnacimiento" id="fnacimiento" onChange={(e) => props.setState({  "fechNac": e.target.value })}></input><br></br><br></br></td>
                     </tr>
                 </tbody>
                 <tbody>
                     <tr>
-                        <td><label>Primer nombre:</label><TXT_info name="txt_pnombre" id="txt_pnombre" value="pNombre"></TXT_info><br></br></td>
-                        <td><label>Segundo nombre:</label><TXT_info name="txt_snombre" id="txt_snombre" value="sNombre"></TXT_info><br></br></td>
-                        <td><label>Primer apellido:</label><TXT_info name="txt_papellido" id="txt_papellido" value="pApellido"></TXT_info><br></br></td>
-                        <td> <label>Segundo apellido:</label><TXT_info name="txt_papellido" id="txt_papellido" value="sApellido"></TXT_info><br></br></td>
+                        <td><label>Primer nombre:</label><TXT_info name="txt_pnombre" id="txt_pnombre" value="pNombre" setState ={props.setState}></TXT_info><br></br></td>
+                        <td><label>Segundo nombre:</label><TXT_info name="txt_snombre" id="txt_snombre" value="sNombre" setState ={props.setState}></TXT_info><br></br></td>
+                        <td><label>Primer apellido:</label><TXT_info name="txt_papellido" id="txt_papellido" value="pApellido" setState ={props.setState}></TXT_info><br></br></td>
+                        <td> <label>Segundo apellido:</label><TXT_info name="txt_papellido" id="txt_papellido" value="sApellido" setState ={props.setState}></TXT_info><br></br></td>
                    </tr>
                 </tbody>
                 <tbody>
@@ -59,7 +63,7 @@ export function InfoPersonal(){
                             <div>
                             <label>Provincia:</label>
                             <select name="Provincia" id="Provincia" 
-                            onChange={(e) => setState({ ...state, "Provincia": e.target.value })}>
+                            onChange={(e) => props.setState({ "Provincia": e.target.value })}>
                                 <option value="SanJose">San José</option>
                                 <option value="Alajuela">Alajuela</option>
                                 <option value="Heredia">Heredia</option>
@@ -74,7 +78,7 @@ export function InfoPersonal(){
                             <div>
                             <label>Cantón:</label>
                             <select name="Canton" id="Canton"
-                            onChange={(e) => setState({ ...state, "Canton": e.target.value })}>
+                            onChange={(e) => props.setState({"Canton": e.target.value })}>
                                 <option value="PZ">Pérez Zeledón</option>
                                 <option value="Escazu">Escazú</option>
                                 <option value="Heredia">Desamparados</option>
@@ -84,7 +88,7 @@ export function InfoPersonal(){
                             <div>
                             <label>Distrito:</label>
                             <select name="Distrito" id="Distrito" 
-                            onChange={(e) => setState({ ...state, "Distrito": e.target.value })} >
+                            onChange={(e) => props.setState({  "Distrito": e.target.value })} >
                                 <option value="SanIsidro">San Isidro de El General</option>
                                 <option value="ElGeneral">El General</option>
                                 <option value="DanielFlores">Daniel Flores</option>
@@ -98,22 +102,21 @@ export function InfoPersonal(){
                         <td>
                             <label>Sexo:</label>
                             <input type="radio" id="Hombre" name="sexoest" 
-                            onChange={(e) => setState({ ...state, "sexo": "M" })}></input>
+                            onChange={(e) => props.setState({  "sexo": "M" })}></input>
                             <label htmlFor="Hombre">Hombre</label>
                             <input type="radio" id="Mujer" name="sexoest" 
-                            onChange={(e) => setState({ ...state, "sexo":"F" })}></input>
+                            onChange={(e) =>  props.setState({ "sexo":"F" })}></input>
                             <label htmlFor="Mujer">Mujer </label>
                             <br></br>
                             <br></br>
-                            <p>{state.Mujer}</p>
-                            <p>{state.Hombre}</p>
+                            
                         </td>
                         <td></td>
                         <td>
                             <div>
                             <label>Lugar nacimiento:</label>
                             <select name="lugarnacimiento" id="lugarnacimiento" 
-                            onChange={(e) => setState({ ...state, "lugarnacimiento": e.target.value })}>
+                            onChange={(e) =>  props.setState({  "lugarnacimiento": e.target.value })}>
                                 <option value="CostaRica">Costa Rica</option>
                                 <option value="Panamá">Panamá</option>
                                 <option value="USA">Estados Unidos</option>
