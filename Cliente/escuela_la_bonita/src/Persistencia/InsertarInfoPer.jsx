@@ -1,23 +1,19 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useContext } from "react";
-import { AppContext } from "../Context/provider";
 
 
 
-export default function AgregarInfoPersonal(object){
 
-  //const [Info, setState] = useContext(AppContext);
-
+export  function AgregarInfoPersonal(props){
     var infop = {
-      cedula: object.value.cedula,
-      pNombre: object.value.cedula,
-      sNombre: object.value.cedula,
-      pApellido:object.value.cedula,
-      sApellido: object.value.cedula,
-      fechNaci:object.value.fechNac,
+      cedula: props.value.cedula,
+      pNombre: props.value.pNombre,
+      sNombre: props.value.sNombre,
+      pApellido:props.value.pApellido,
+      sApellido: props.value.sApellido,
+      fechNaci: props.value.fechNac,
       estCivil: "S",
-      sexo: "F",
+      sexo: props.value.sexo,
       estado: "A",
       idDirec: 1,
       idNacio: 1
