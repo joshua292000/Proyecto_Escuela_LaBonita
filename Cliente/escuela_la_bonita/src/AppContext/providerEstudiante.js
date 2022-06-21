@@ -3,12 +3,12 @@ import {createContext,useState} from 'react';
 const ProviderInfoEstudiante = ({ children }) =>{
     const [state,setState] = useState({});
     return (            
-            <inforEstudiante.Provider value={[state,setState]}>
+            <infoEstudiante.Provider value={[state,setState]}>
                 {children}
-            </inforEstudiante.Provider>  
+            </infoEstudiante.Provider>  
     );
 }
 
 
 export default ProviderInfoEstudiante;
-export const inforEstudiante = createContext();
+export const infoEstudiante = createContext();

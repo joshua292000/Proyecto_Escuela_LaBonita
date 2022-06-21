@@ -2,11 +2,12 @@ import { ButtonSiguiente, TXT_info } from "../Componentes/Utils";
 import { Button } from "primereact/button";
 import "primeicons/primeicons.css";
 import { useContext } from "react";
-import { inforEstudiante } from "../AppContext/providerEstudiante";
+import { infoEstudiante } from "../AppContext/providerEstudiante";
 import Matricula from "../Persistencia/Matricula";
+import { AppContext } from "../AppContext/provider";
 
 
-export function TXT_infoE(props) {
+/*export function TXT_infoE(props) {
   //const [state, setState] = useContext(AppContext);
   return (
     <div>
@@ -19,13 +20,12 @@ export function TXT_infoE(props) {
       <br></br>
     </div>
   );
-}
+}*/
 
 
-export function InfoEstudiante(props) {
-
-  //const [state, setState] = useContext(inforEstudiante);
-
+export function InfoEstudiante() {
+  const [state1, setState1] = useContext(AppContext);
+  const [state, setState] = useContext(infoEstudiante);
   return (
     <div>
       <h1>Información del estudiante</h1>
@@ -37,7 +37,7 @@ export function InfoEstudiante(props) {
                 <label>Grado:</label>
                 <br></br>
                 <select name="Grado" id="Grado"
-                 onChange={(e) => props.setState({ "Grado": e.target.value })}>
+                 onChange={(e) => setState({ "Grado": e.target.value })}>
                   <option value="Primero">Primero</option>
                   <option value="Segundo">Segundo</option>
                   <option value="Tercero">Tercero</option>
@@ -47,14 +47,15 @@ export function InfoEstudiante(props) {
                 </select>
               </div>
               <br></br>
+              
             </td>
-
+            
             <tr>
               <div>
                 <label>Adecuación:</label>
                 <br></br>
                 <select name="Adecuación" id="Adecuación"
-                   onChange={(e) => props.setState({ "Adecuación": e.target.value })}>
+                   onChange={(e) => setState({ "Adecuacion": e.target.value })}>
                   <option value="Notiene">No tiene</option>
                   <option value="Nosignificativa">No significativa</option>
                   <option value="Significativa">Significativa</option>
@@ -70,14 +71,14 @@ export function InfoEstudiante(props) {
             <td>
               <label>Viaja:</label>
               <br></br>
-              <input type="radio" id="solo" name="viaja"  onChange={(e) => props.setState({  "viaje": "S" })}></input>
+              <input type="radio" id="solo" name="viaja"  onChange={(e) => setState({  "viaje": "S" })}></input>
               <label for="solo">Solo</label>
               <br></br>
               <input
                 type="radio"
                 id="acompaniado"
                 name="viaja"
-                onChange={(e) => props.setState({  "viaje": "A" })}
+                onChange={(e) => setState({  "viaje": "A" })}
               ></input>
               <label for="acompaniado">Acompañado </label>
               <br></br>
@@ -88,7 +89,7 @@ export function InfoEstudiante(props) {
               <label for="Acompaniantes">
                 Nombre de las personas que lo pueden acompañar:
               </label>
-              <TXT_info name="txt_acompanante" id="txt_acompanante" value="Acompanante" setState ={props.setState}></TXT_info>
+              <TXT_info name="txt_acompanante" id="txt_acompanante" value="Acompanante" setState ={setState}></TXT_info>
               <br></br>
               <br></br>
             </td>
@@ -102,11 +103,11 @@ export function InfoEstudiante(props) {
               <label>Posee póliza estudiantil:</label>
               <br></br>
               <input type="radio" id="no" name="desestimada"     
-              onChange={(e) => props.setState({  "poliza": "N" })}></input>
+              onChange={(e) => setState({  "poliza": "N" })}></input>
               <label for="no">No</label>
               <br></br>
               <input type="radio" id="si" name="desestimada"   
-              onChange={(e) => props.setState({  "poliza": "S" })}></input>
+              onChange={(e) => setState({  "poliza": "S" })}></input>
               <label for="si">Sí </label>
               <br></br>
               <br></br>
@@ -116,14 +117,21 @@ export function InfoEstudiante(props) {
           <td></td>
         </table>
       </fieldset>
-
-      <ButtonSiguiente
+      <p>prueba:{state1.fechNac}<br></br>
+         prueba2: {state.Grado}<br></br>
+         prueba3: {state.Adecuacion}<br></br>
+         prueba4: {state.viaje}<br></br>
+         prueba5: {state.Acompanante}<br></br>
+         prueba6: {state.poliza}<br></br>
+         prueba6: {state.lugarnacimiento}<br></br></p>
+      <button type="button" onClick={()=>Matricula({valueest: state},{valueper: state1})}>Matricula</button><br />
+      {/*<ButtonSiguiente
         dir="informacionestudiante"
         nom="Matricula"
         css="button_Siguiente"
-        onClick={Matricula}
+        onClick={()=>Matricula()}
        
-      />
+      />*/}
     </div>
   );
 }

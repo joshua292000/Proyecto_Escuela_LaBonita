@@ -34,8 +34,6 @@ export function TXT_info(props) {
     );
   }
 export function InfoPersonal(props){
-    //const [state, setState] = useContext(AppContext);
-   // const [statee, setStatee] = useContext(infoEncargado);
 
     return(
          <div>
