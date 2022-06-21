@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import { Button } from 'primereact/button';
 import { useContext } from "react";
 import { AppContext } from "../Context/provider";
-import {AgregarInfoPersonal} from "../Persistencia/InsertarInfoPer";
+import AgregarInfoPersonal from "../Persistencia/InsertarInfoPer";
 
 export function ButtonSiguiente(dir){
    
@@ -11,13 +11,10 @@ export function ButtonSiguiente(dir){
         navegar("/"+dir.dir);
         
     }
-    const prueba=()=>{
-        link();
-        AgregarInfoPersonal();
-    }
+  
     return(
         <div>
-         <button type="button" className={dir.css} onClick={AgregarInfoPersonal}>{dir.nom}</button><br />
+         <button type="button" className={dir.css} onClick={link}>{dir.nom}</button><br />
         </div>
        );
 }

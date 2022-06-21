@@ -5,15 +5,17 @@ import { AppContext } from "../Context/provider";
 
 
 
-export function AgregarInfoPersonal(){
-    const [state, setState] = useContext(AppContext);
+export default function AgregarInfoPersonal(object){
+
+  //const [Info, setState] = useContext(AppContext);
+
     var infop = {
-      cedula: "111",
-      pNombre: "pp",
-      sNombre: "dd",
-      pApellido: "gg",
-      sApellido: "jj",
-      fechNaci: "1990-05-01",
+      cedula: object.value.cedula,
+      pNombre: object.value.cedula,
+      sNombre: object.value.cedula,
+      pApellido:object.value.cedula,
+      sApellido: object.value.cedula,
+      fechNaci:object.value.fechNac,
       estCivil: "S",
       sexo: "F",
       estado: "A",
