@@ -1,9 +1,9 @@
 import Inicio from "./Paginas/Inicio";   
 import Informacionpers from "./Paginas/Informacionpers";  
-import {InfoEstudiante, TXT_infoE} from "./Paginas/InformacionEst";  
+import {InfoEstudiante} from "./Paginas/InformacionEst";  
 import InformacionEnc from "./Paginas/InformacionEnc";  
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import React, { Component }  from 'react';
+import React from 'react';
 
 export function App() {
 return(

@@ -11,3 +11,4 @@ const Provider = ({ children }) =>{
 
 export default Provider;
 export const AppContext = createContext();
+

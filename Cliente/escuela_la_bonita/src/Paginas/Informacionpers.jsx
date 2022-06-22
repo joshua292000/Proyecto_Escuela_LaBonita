@@ -9,7 +9,7 @@ export default function Inicio() {
     return (
       <div>
         <h1>Información personal del estudiante</h1>
-        <InfoPersonal setState = {setState} />
+        <InfoPersonal setState={setState} state ={state} />
         <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/>
        
       </div> 
