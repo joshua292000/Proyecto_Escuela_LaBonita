@@ -1,16 +1,16 @@
-import { ButtonSiguiente, TXT_info, dt_Fechanacimiento,InfoPersonal } from "../Componentes/Utils";
-import { Button } from 'primereact/button';
-import {AgregarInfoPersonal} from "../Persistencia/InsertarInfoPer";
+import { ButtonSiguiente,InfoPersonal } from "../Componentes/Utils";
 import { useContext } from "react";
-import { AppContext } from "../AppContext/provider";
+import { infoEstudiante } from "../AppContext/providerEstudiante";
+import { agregarInfoPersonal } from "../Persistencia/InsertarInfoPer";
 
 export default function Inicio() {
-  const [state, setState] = useContext(AppContext);
+  const [state, setState] = useContext(infoEstudiante);
     return (
       <div>
         <h1>Información personal del estudiante</h1>
         <InfoPersonal setState={setState} state ={state} />
-        <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/>
+        <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br />
+        {/* <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/> */}
        
       </div> 
     );

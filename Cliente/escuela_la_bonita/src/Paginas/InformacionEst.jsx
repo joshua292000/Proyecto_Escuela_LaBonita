@@ -1,14 +1,13 @@
-import { ButtonSiguiente, TXT_info } from "../Componentes/Utils";
-import { Button } from "primereact/button";
+import {TXT_info } from "../Componentes/Utils";
 import "primeicons/primeicons.css";
 import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
 import {Matricula} from "../Persistencia/Matricula";
-import { AppContext } from "../AppContext/provider";
+import { infoEncargado } from "../AppContext/providerInfoEncargado";
 
 
 export function InfoEstudiante() {
-     const [stateApp, setStateApp] = useContext(AppContext);
+     const [stateApp, setStateApp] = useContext(infoEncargado);
      const [state, setState] = useContext(infoEstudiante);
   return (
     <div>
@@ -21,7 +20,7 @@ export function InfoEstudiante() {
                 <label>Grado:</label>
                 <br></br>
                 <select name="Grado" id="Grado"
-                 onChange={(e) => setState({ ...state,"grado": e.target.value })}>
+                 onChange={(e) => setState({ ...state, "Grado": e.target.value })}>
                   <option value="Primero">Primero</option>
                   <option value="Segundo">Segundo</option>
                   <option value="Tercero">Tercero</option>
@@ -59,12 +58,8 @@ export function InfoEstudiante() {
               <input type="radio" id="solo" name="viaja"  onChange={(e) => setState({...state,  "viaja": "S" })}></input>
               <label for="solo">Solo</label>
               <br></br>
-              <input
-                type="radio"
-                id="acompaniado"
-                name="viaja"
-                onChange={(e) => setState({...state,  "viaja": "A" })}
-              ></input>
+              <input type="radio" id="acompaniado" name="viaja"  onChange={(e) => setState({...state,  "viaja": "A" })}></input>
+              
               <label for="acompaniado">Acompañado </label>
               <br></br>
               <br></br>
@@ -110,7 +105,7 @@ export function InfoEstudiante() {
       <p>  prueba6: {state.poliza}<br/></p>
       <p> prueba6: {state.lugarnacimiento}<br/></p>
   
-      <button type="button" onClick={()=>Matricula({valueEst: state}, {valuePer: stateApp})}>Matricula</button><br />
+      <button type="button" onClick={()=>Matricula({valueEst: state}, {valueEnc: stateApp})}>Matricula</button><br />
       {/*<ButtonSiguiente
         dir="informacionestudiante"
         nom="Matricula"

@@ -175,7 +175,7 @@ export function InfoEncargado(){
                         <div >
                             <label  >Estado Civil:</label>
                             <select name="EstadoCivil" id="EstadoCivil"
-                              onChange={(e) => setState({ ...state, "estadoCilvil": e.target.value })}>
+                              onChange={(e) => setState({ ...state, "estadoCivil": e.target.value })}>
                                 <option value="S">Soltero(a)</option>
                                 <option value="C">Casado(a)</option>
                                 <option value="U">Unión libre</option>

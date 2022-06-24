@@ -4,8 +4,14 @@ import Swal from 'sweetalert2';
 
 
 
-export  function AgregarInfoPersonal(props){
-  console.log("prueba: "+ props.value.fechNac)
+export  function agregarInfoPersonal(props){
+  console.log(props.value);
+  var estadoCivil ="";
+  if('estadoCivil' in props.value){
+    estadoCivil = props.value.estadoCivil;
+  }else{
+    estadoCivil = "S";
+  }
 
    var infop = {
       cedula: props.value.cedula,
@@ -14,18 +20,25 @@ export  function AgregarInfoPersonal(props){
       pApellido:props.value.pApellido,
       sApellido: props.value.sApellido,
       fechNaci: props.value.fechNac,
-      estCivil: "S",
+      estCivil: estadoCivil,
       sexo: props.value.sexo,
       estado: "A",
       idDirec: 1,
       idNacio: 1
     }
-    console.log(infop)
-    axios.post('http://localhost:3000/insertarPersona', infop).then(res =>{
-            //Swal.fire('Felicidades', 'la información personal se creo con éxito')
-            console.log(infop)
-    })
-    .then(err=> {console.log(err)})
+    console.log(infop);
+    // try{
+    //   axios.post('http://localhost:3000/insertarPersona', infop).then(res =>{
+    //         //Swal.fire('Felicidades', 'la información personal se creo con éxito')
+    //         console.log("Se inserto correctamente la persona->>>" + res.data);
+    //        //return res.data;
+    // })
+
+    // }catch(e){
+    //   console.log(e);
+
+    // }
+    
   }
   
   /*var infop = {
