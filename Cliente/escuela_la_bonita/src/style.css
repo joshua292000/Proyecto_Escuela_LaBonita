@@ -1,0 +1,7 @@
+
+body {
+    --bs-body-font-family: var(--bs-font-monospace);
+    --bs-body-line-height: 1.4;
+    --bs-body-bg: var(--bs-gray-100);
+    background-color: blueviolet;
+  }
