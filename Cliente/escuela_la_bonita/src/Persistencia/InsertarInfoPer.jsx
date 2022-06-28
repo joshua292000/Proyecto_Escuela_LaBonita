@@ -1,9 +1,6 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-
-
-
 export  function agregarInfoPersonal(props){
   console.log(props.value);
   var estadoCivil ="";
