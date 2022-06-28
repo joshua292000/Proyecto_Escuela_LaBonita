@@ -7,24 +7,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 var cors = require('cors')
-
 app.use(cors())
-/*
-app.use(session({
-    secret: '123',
-    resave: true,
-    saveUninitialized: true
-}))
 
-app.get('/',(req, res)=>{
-    req.session.usuario = 'JULIAN';
-    req.session.vistas = req.session.vistas ? ++req.session.vistas : 1;
-
-    res.send(`El usuario <strong>${req.sesion.usuario}</strong> 
-    ha visitado esta pagina <strong>${req.sesion.vistas}</strong> veces`
-           );
-
-})*/
 //cargamos el archivo de rutas
 app.use(require('./services/encargadoEstuService'));
 app.use(require('./services/estudianteSevice'));

@@ -10,7 +10,8 @@ try {
         host: process.env.DBHOST,
         user: process.env.DBUSER,
         password: process.env.DBPASS,
-        database: process.env.DBNAME
+        database: process.env.DBNAME,
+        multipleStatements: true
     });
     console.log("conexión exitosa con la db");
 
