@@ -24,17 +24,17 @@ export  function agregarInfoPersonal(props){
       idNacio: 1
     }
     console.log(infop);
-    // try{
-    //   axios.post('http://localhost:3000/insertarPersona', infop).then(res =>{
-    //         //Swal.fire('Felicidades', 'la información personal se creo con éxito')
-    //         console.log("Se inserto correctamente la persona->>>" + res.data);
-    //        //return res.data;
-    // })
+     try{
+       axios.post('http://localhost:3000/insertarPersona', infop).then(res =>{
+            Swal.fire('Felicidades', 'la información personal se creo con éxito')
+            console.log("Se inserto correctamente la persona->>>" + res.data);
+            //return res.data;
+     })
 
-    // }catch(e){
-    //   console.log(e);
+     }catch(e){
+       console.log(e);
 
-    // }
+     }
     
   }
   
