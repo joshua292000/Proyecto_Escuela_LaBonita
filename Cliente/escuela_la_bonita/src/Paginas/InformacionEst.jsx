@@ -17,6 +17,7 @@ export function InfoEstudiante() {
                 <label>Grado:</label>
                 <br></br>
                 <select
+                  value={state.Grado}
                   name="Grado"
                   id="Grado"
                   onChange={(e) =>
@@ -39,16 +40,17 @@ export function InfoEstudiante() {
                 <label>Adecuación:</label>
                 <br></br>
                 <select
+                  value={state.adecuacion}
                   name="Adecuación"
                   id="Adecuación"
                   onChange={(e) =>
                     setState({ ...state, adecuacion: e.target.value })
                   }
                 >
-                  <option value="Notiene">No tiene</option>
+                  <option value="No tiene">No tiene</option>
                   <option value="Nosignificativa">No significativa</option>
                   <option value="Significativa">Significativa</option>
-                  <option value="Deacceso">De acceso</option>
+                  <option value="De acceso">De acceso</option>
                 </select>
               </div>
               <br></br>
@@ -63,6 +65,7 @@ export function InfoEstudiante() {
               <div className="Radio">
                 <input
                   type="radio"
+                  checked={state.viaja === "S"}
                   id="solo"
                   name="viaja"
                   onChange={(e) => setState({ ...state, viaja: "S" })}
@@ -73,6 +76,7 @@ export function InfoEstudiante() {
                 <br></br>
                 <input
                   type="radio"
+                  checked={state.viaja === "A"}
                   id="acompaniado"
                   name="viaja"
                   onChange={(e) => setState({ ...state, viaja: "A" })}
@@ -89,6 +93,7 @@ export function InfoEstudiante() {
                 Nombre de las personas que lo pueden acompañar:
               </label>
               <TXT_info
+                dfvalue={state.acompanante}
                 name="txt_acompanante"
                 id="txt_acompanante"
                 value="acompanante"
@@ -110,6 +115,7 @@ export function InfoEstudiante() {
               <div className="Radio">
                 <input
                   type="radio"
+                  checked={state.poliza === "N"}
                   id="no"
                   name="desestimada"
                   onChange={(e) => setState({ ...state, poliza: "N" })}
@@ -120,6 +126,7 @@ export function InfoEstudiante() {
                 <br></br>
                 <input
                   type="radio"
+                  checked={state.poliza === "S"}
                   id="si"
                   name="desestimada"
                   onChange={(e) => setState({ ...state, poliza: "S" })}

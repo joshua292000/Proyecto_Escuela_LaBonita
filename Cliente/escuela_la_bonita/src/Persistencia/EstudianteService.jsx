@@ -61,7 +61,11 @@ export  function agregarEst(props){
                         ...props.state, distrito: dep.Dis_Nombre,
                         ...props.state, sexo: dep.Per_Sexo,
                         ...props.state, lugarnacimiento: dep.Pais_Nombre,
-                        ...props.state, idEncargado: dep.Per_id
+                        ...props.state, idEncargado: dep.Per_id,
+                        ...props.state, Grado: dep.Sec_Grado,
+                        ...props.state, adecuacion: dep.Ade_Nombre,
+                        ...props.state, viaja: dep.Est_Viaja,
+                        ...props.state, poliza: dep.Est_Poliza,
                                       });
                                       console.log("State Data--> "+ props.state.pNombre);
       console.log("State Data--> "+ props.state.sNombre);
