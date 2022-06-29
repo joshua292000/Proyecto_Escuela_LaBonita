@@ -40,7 +40,7 @@ export function InfoPersonal(props){
             <tbody>
                     <tr>
                         <td><label>Cédula:</label> <TXT_info name="txt_cedula" id="txt_cedula" value="cedula" setState ={props.setState} state={props.state}></TXT_info><br></br></td><br></br>
-                        <tr><Button label="Buscar"  /><br></br></tr>
+                        <tr><button id="Buscar">Buscar</button><br></br></tr>
                         <td><label>Fecha nacimiento:</label><br></br> <input type="date" name="fnacimiento" id="fnacimiento" onChange={(e) => props.setState({ ...props.state ,"fechNac": e.target.value })}></input><br></br><br></br></td>
                     </tr>
                 </tbody>

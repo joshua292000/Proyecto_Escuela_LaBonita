@@ -14,8 +14,8 @@ body {
 }
 
 @font-face {
-  font-family:Lets Coffee ;
-  src: url("../src/Recursos/Lets Coffee.otf");
+  font-family:Vintage ;
+  src: url("../src/Recursos/Blueberry\ .ttf");
 }
 
 
@@ -23,7 +23,7 @@ body {
   margin-left: 1px;
   border-radius: 15px;
   background-color:  #efaffc;
-  font-family: Lets Coffee;
+  font-family: Vintage;
   font-weight: 900;
   font-size: 15px;
   height:50px;
@@ -34,12 +34,39 @@ body {
   background-color:#ce789b;
  color: black;
 }
-.Matricula{
+
+.button_Siguiente{
   margin-left: 1px;
-  border-radius: 2%;
-  background-color: #9064F5;
+  border-radius: 15px;
+  background-color:  #efaffc;
+  font-family: Vintage;
+  font-weight: 900;
+  font-size: 15px;
   height:50px;
   width: 150px;
+}
+
+
+.button_Siguiente:hover{
+  background-color:#ce789b;
+ color: black;
+}
+
+.Matricula{
+  margin-left: 1px;
+  border-radius: 15px;
+  background-color:  #efaffc;
+  font-family: Vintage;
+  font-weight: 900;
+  font-size: 15px;
+  height:50px;
+  width: 150px;
+}
+
+
+.Matricula:hover{
+  background-color:#ce789b;
+ color: black;
 }
 
 .Tabla{
@@ -50,4 +77,8 @@ body {
   padding: 0 1rem;
   height: auto;
   width: auto;
+}
+
+h1{
+  font-family: Vintage ;
 }
