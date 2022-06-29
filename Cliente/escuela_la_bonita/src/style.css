@@ -1,96 +1,179 @@
 body {
-    background-image: url("../src/Recursos/OIP.jfif");
-    background-size: 1500px 1000px;;
-   
-  }
+  background-image: url("../src/Recursos/OIP.jfif");
+  background-size: 1500px 1000px;;
+ 
+}
 
 
 .Div{
-  margin: 1rem;
-  padding: 1rem;
-  text-align: center;
-  opacity:1;
-    
+margin: 1rem;
+padding: 1rem;
+text-align: center;
+opacity:1;
+  
 }
 
 @font-face {
-  font-family:Vintage ;
-  src: url("../src/Recursos/Blueberry\ .ttf");
+font-family:Vintage ;
+src: url("../src/Recursos/Blueberry\ .ttf");
 }
 
 
 .button_Matricula{
-  margin-left: 1px;
-  border-radius: 15px;
-  background-color:  #efaffc;
-  font-family: Vintage;
-  font-weight: 900;
-  font-size: 15px;
-  height:50px;
-  width: 150px;
+margin-left: 1px;
+border-radius: 15px;
+background-color:  #efaffc;
+font-family: Vintage;
+font-weight: 900;
+font-size: 15px;
+height:50px;
+width: 150px;
 }
 
 .button_Matricula:hover{
-  background-color:#ce789b;
- color: black;
+background-color:#ce789b;
+color: black;
 }
 
 .button_Siguiente{
-  margin-left: 1px;
-  border-radius: 15px;
-  background-color:  #efaffc;
-  font-family: Vintage;
-  font-weight: 900;
-  font-size: 15px;
-  height:50px;
-  width: 150px;
+margin-left: 1px;
+border-radius: 15px;
+background-color:  #efaffc;
+font-family: Vintage;
+font-weight: 900;
+font-size: 15px;
+height:50px;
+width: 150px;
+margin-top: 10px;
 }
 
 
 .button_Siguiente:hover{
-  background-color:#ce789b;
- color: black;
+background-color:#ce789b;
+color: black;
 }
 
 .Matricula{
-  margin-left: 1px;
-  border-radius: 15px;
-  background-color:  #efaffc;
-  font-family: Vintage;
-  font-weight: 900;
-  font-size: 15px;
-  height:50px;
-  width: 150px;
+margin-left: 1px;
+border-radius: 15px;
+background-color:  #efaffc;
+font-family: Vintage;
+font-weight: 900;
+font-size: 15px;
+height:50px;
+width: 150px;
 }
 
 
 .Matricula:hover{
-  background-color:#ce789b;
- color: black;
+background-color:#ce789b;
+color: black;
 }
 
+#Buscar{
+margin-left: 1px;
+border-radius: 15px;
+background-color:  #efaffc;
+font-family: Vintage;
+font-weight: 900;
+font-size: 15px;
+height: 30px;
+width: 90px;
+margin-bottom: 20px;
+}
+
+#Buscar:hover{
+background-color:#ce789b;
+color: black;
+}
+
+
 .Tabla{
-  text-align: center;
-  padding: 1rem;
-  justify-content: center;
-  margin: auto;
-  padding: 0 1rem;
-  height: auto;
-  width: auto;
+text-align: center;
+padding: 1rem;
+justify-content: center;
+margin: auto;
+padding: 0 1rem;
+height: auto;
+width: auto;
 }
 
 h1{
-  font-family: Vintage ;
+font-family: Vintage ;
 }
 
-.toast-demo button {
-  min-width: 10rem;
-  margin-right: .5rem;
+label{
+font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-@media screen and (max-width: 960px) {
-  .toast-demo button {
-      width: 100%;
-      margin-bottom: .5rem;
-  }
+input{
+box-sizing: border-box;
+border-color: #ce789b;
+border-radius: 15px;
 }
+
+select{
+box-sizing: border-box;
+border-color: #ce789b;
+border-radius: 15px;
+}
+
+
+.Radio{
+width: 100px;
+height: 40px;
+display:flex;
+align-items:center;
+margin-top: 1.2em;
+padding: 0 0.5em;
+margin-left: 50px;
+}
+.Radio input{
+position: relative;
+cursor: pointer;
+appearance: none;
+-webkit-appearance: none;
+}
+.Radio input::before,
+.Radio input::after{
+content: '';
+position: absolute;
+width: 5px;
+height: 5px;
+border-radius: 50px;
+}
+
+.Radio input:checked::before{
+background: #ca4444;
+transform:translate(-50%,-50%);
+}
+
+.Radio input::after{
+width: 10px;
+height: 10px;
+background: none;
+border: 2px solid black;
+border-radius: 50px;
+transform: translate(-80%,-50%);
+transition: all .4s;
+}
+
+.Radio input:checked::after{
+width: 120px;
+height: 40px;
+border-radius: 10px;
+transform:translate(-15%,-50%);
+z-index: 10;
+}
+
+.Radio label {
+margin-left: 0.5em;
+cursor: pointer;
+}
+
+.Acompaniantes{
+margin-left: 20px;
+margin-top: 50px;
+}
+
+

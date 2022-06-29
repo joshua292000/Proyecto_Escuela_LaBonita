@@ -1,25 +1,28 @@
-import {TXT_info } from "../Componentes/Utils";
+import { TXT_info } from "../Componentes/Utils";
 import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
-import {Matricula} from "../Persistencia/Matricula";
+import { Matricula } from "../Persistencia/Matricula";
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
 
-
 export function InfoEstudiante() {
-     const [stateApp, setStateApp] = useContext(infoEncargado);
-     const [state, setState] = useContext(infoEstudiante);
+  const [stateApp, setStateApp] = useContext(infoEncargado);
+  const [state, setState] = useContext(infoEstudiante);
   return (
     <div className="Div">
       <h1>Información del estudiante</h1>
-      <fieldset>
         <table className="Tabla" width="40%">
           <tr>
             <td>
               <div>
                 <label>Grado:</label>
                 <br></br>
-                <select name="Grado" id="Grado"
-                 onChange={(e) => setState({ ...state, "Grado": e.target.value })}>
+                <select
+                  name="Grado"
+                  id="Grado"
+                  onChange={(e) =>
+                    setState({ ...state, Grado: e.target.value })
+                  }
+                >
                   <option value="Primero">Primero</option>
                   <option value="Segundo">Segundo</option>
                   <option value="Tercero">Tercero</option>
@@ -27,18 +30,21 @@ export function InfoEstudiante() {
                   <option value="Quinto">Quinto</option>
                   <option value="Sexto">Sexto</option>
                 </select>
-
               </div>
               <br></br>
-              
             </td>
-            
+
             <tr>
               <div>
                 <label>Adecuación:</label>
                 <br></br>
-                <select name="Adecuación" id="Adecuación"
-                   onChange={(e) => setState({...state, "adecuacion": e.target.value })}>
+                <select
+                  name="Adecuación"
+                  id="Adecuación"
+                  onChange={(e) =>
+                    setState({ ...state, adecuacion: e.target.value })
+                  }
+                >
                   <option value="Notiene">No tiene</option>
                   <option value="Nosignificativa">No significativa</option>
                   <option value="Significativa">Significativa</option>
@@ -54,12 +60,26 @@ export function InfoEstudiante() {
             <td>
               <label>Viaja:</label>
               <br></br>
-              <input type="radio" id="solo" name="viaja"  onChange={(e) => setState({...state,  "viaja": "S" })}></input>
-              <label for="solo">Solo</label>
-              <br></br>
-              <input type="radio" id="acompaniado" name="viaja"  onChange={(e) => setState({...state,  "viaja": "A" })}></input>
-              
-              <label for="acompaniado">Acompañado </label>
+              <div className="Radio">
+                <input
+                  type="radio"
+                  id="solo"
+                  name="viaja"
+                  onChange={(e) => setState({ ...state, viaja: "S" })}
+                ></input>
+                <label for="solo">Solo</label>
+              </div>
+              <div className="Radio">
+                <br></br>
+                <input
+                  type="radio"
+                  id="acompaniado"
+                  name="viaja"
+                  onChange={(e) => setState({ ...state, viaja: "A" })}
+                ></input>
+
+                <label for="acompaniado">Acompañado </label>
+              </div>
               <br></br>
               <br></br>
             </td>
@@ -68,7 +88,13 @@ export function InfoEstudiante() {
               <label for="Acompaniantes">
                 Nombre de las personas que lo pueden acompañar:
               </label>
-              <TXT_info name="txt_acompanante" id="txt_acompanante" value="acompanante" setState ={setState} state={state}></TXT_info>
+              <TXT_info
+                name="txt_acompanante"
+                id="txt_acompanante"
+                value="acompanante"
+                setState={setState}
+                state={state}
+              ></TXT_info>
               <br></br>
               <br></br>
             </td>
@@ -81,30 +107,42 @@ export function InfoEstudiante() {
             <td>
               <label>Posee póliza estudiantil:</label>
               <br></br>
-              <input type="radio" id="no" name="desestimada"     
-              onChange={(e) => setState({ ...state, "poliza": "N" })}></input>
-              <label for="no">No</label>
-              <br></br>
-              <input type="radio" id="si" name="desestimada"   
-              onChange={(e) => setState({ ...state, "poliza": "S" })}></input>
-              <label for="si">Sí </label>
+              <div className="Radio">
+                <input
+                  type="radio"
+                  id="no"
+                  name="desestimada"
+                  onChange={(e) => setState({ ...state, poliza: "N" })}
+                ></input>
+                <label for="no">No</label>
+              </div>
+              <div className="Radio">
+                <br></br>
+                <input
+                  type="radio"
+                  id="si"
+                  name="desestimada"
+                  onChange={(e) => setState({ ...state, poliza: "S" })}
+                ></input>
+                <label for="si">Sí </label>
+              </div>
+
               <br></br>
               <br></br>
             </td>
           </tr>
-        
+
           <td></td>
         </table>
-      </fieldset>
-     
-      <p>prueba2: {state.grado}<br/></p>
-      <p> prueba3: {state.adecuacion}<br/></p>
-      <p> prueba4: {state.viaja}<br/></p>
-      <p>  prueba5: {state.acompanante}<br/></p>
-      <p>  prueba6: {state.poliza}<br/></p>
-      <p> prueba6: {state.lugarnacimiento}<br/></p>
-  
-      <button type="button" className="Matricula" onClick={()=>Matricula({valueEst: state}, {valueEnc: stateApp})}>Matricula</button><br />
+      
+      <button
+        type="button"
+        className="Matricula"
+        onClick={() => Matricula({ valueEst: state }, { valueEnc: stateApp })}
+      >
+        Matricula
+      </button>
+      <br />
       {/*<ButtonSiguiente
         dir="informacionestudiante"
         nom="Matricula"
@@ -114,7 +152,6 @@ export function InfoEstudiante() {
       />*/}
     </div>
   );
-  
 }
 /*
 <p>prueba:{state1.Grado}<br></br>
