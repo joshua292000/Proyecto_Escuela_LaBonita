@@ -37,6 +37,8 @@ export  function agregarInfoPersonal(props){
      }
     
   }
+
+  
   
   /*var infop = {
     cedula: state.cedula,

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 
+
 export  function agregarEst(props){
         console.log(props.value);
  //falta ingresar unas varas en interfas.
@@ -42,47 +43,58 @@ export  function agregarEst(props){
   }
 
  
-   const ObtenerEstudiante =(props)=>{ 
-    var infop = {
-          cedula : props.state.cedula
-      }
-      console.log(infop)
-       try{
-         axios.post('http://localhost:3000/obtenerEstudiante', infop).then(res =>{
-         props.setState({...props.state, mapEstudiante: res.data});
-        console.log(res.data);
-        
-        
+  export function ObtenerEstudiante (props){ 
+    console.log(props.state.cedula)
+    // try{
+       axios.get('http://localhost:3000/obtenerEstudiante/'+props.state.cedula).then(res =>{
+       //props.setState({...props.state, mapEstudiante: res.data});
+      console.log(res.data);
+      res.data.map((dep)=>{
+        console.log("feccha "+ dep.fechaNaci);
+        props.setState({...props.state, fechNac: dep.fechaNaci,
+                        ...props.state, pNombre: dep.Per_PNombre,
+                        ...props.state, sNombre: dep.Per_SNombre,
+                        ...props.state, pApellido: dep.Per_PApellido,
+                        ...props.state, sApellido: dep.Per_SApellido,
+                        ...props.state, provincia: dep.Pro_Nombre,
+                        ...props.state, canton: dep.Can_Nombre,
+                        ...props.state, distrito: dep.Dis_Nombre,
+                        ...props.state, sexo: dep.Per_Sexo,
+                        ...props.state, lugarnacimiento: dep.Pais_Nombre
+                                      });
+                                      console.log("State Data--> "+ props.state.pNombre);
+      console.log("State Data--> "+ props.state.sNombre);
+      console.log("State Data--> "+ props.state.pApellido);
+      console.log("State Data--> "+ props.state.sApellido);
+      console.log("State Data--> "+ props.state.lugarnacimiento);
+                                    })
+      })//}catch(e){
+   //    console.log(e);
+  //   }
 
-        })}catch(e){
-         console.log(e);
-       }
+     //useEffect(()=>{  
+      //   ,[])
 
-       useEffect(()=>{  
-           MapEstudiante({state: props.state,
-                   setState: props.setState});
-         },[])
+    //  useEffect(()=>{
+    //   return()=>{
+    //     (async()=>{
+    //       axios.post('http://localhost:3000/obtenerEstudiante', infop).then(res =>{
+    //         props.setState({...props.state, mapEstudiante: res.data});
+    //         console.log(res.data);
+    //      // mapEstudiante({state: props.state,
+    //      //              setState: props.setState});
 
-      //  useEffect(()=>{
-      //   return()=>{
-      //     (async()=>{
-      //       axios.post('http://localhost:3000/obtenerEstudiante', infop).then(res =>{
-      //         props.setState({...props.state, mapEstudiante: res.data});
-      //         console.log(res.data);
-      //      // mapEstudiante({state: props.state,
-      //      //              setState: props.setState});
+    //     }).catch(({response}) => {
 
-      //     }).catch(({response}) => {
-  
-      //       })
+    //       })
 
-      //     }
-      //     )();
-      //   }
-      //  });
-            
-  }   
-  export default ObtenerEstudiante;   
+    //     }
+    //     )();
+    //   }
+    //  });
+          
+}   
+ // export default ObtenerEstudiante;   
        
     
   
@@ -90,9 +102,9 @@ export  function agregarEst(props){
   
   export function MapEstudiante(props){
   
-        console.log("fec1111 ");
+      console.log("fec1111 ");
       props.state.mapEstudiante.map((dep)=>{
-        console.log("fec "+ dep.Per_FechaNacimiento);
+        console.log("feccha "+ dep.Per_FechaNacimiento);
         props.setState({...props.state, fechNac: dep.Per_FechaNacimiento,
                         ...props.state, pNombre: dep.Per_PNombre,
                         ...props.state, sNombre: dep.Per_SNombre,
@@ -104,7 +116,11 @@ export  function agregarEst(props){
                         ...props.state, sexo: dep.Per_Sexo,
                         ...props.state, lugarnacimiento: dep.Pais_Nombre,
                                       });
-        console.log("State Data--> "+ props.state);
+        console.log("State Data--> "+ props.state.pNombre);
+        console.log("State Data--> "+ props.state.sNombre);
+        console.log("State Data--> "+ props.state.pApellido);
+        console.log("State Data--> "+ props.state.sApellido);
+        console.log("State Data--> "+ props.state.lugarnacimiento);
 
       })   
 

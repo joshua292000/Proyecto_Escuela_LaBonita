@@ -23,10 +23,10 @@ app.route("/insertarEstudiante").post(insertarEstudiante);
 
 
 const obtenerEstudiante = (request, response) => {
-    const {cedula} = request.body;
+   // const {cedula} = request.body;
     
     connection.query('SELECT p.Per_Identificacion, p.Per_PNombre, p.Per_SNombre, '+
-                            'p.Per_PApellido, p.Per_SApellido, p.Per_FechaNacimiento, '+
+                            'p.Per_PApellido, p.Per_SApellido,  DATE_FORMAT(p.Per_FechaNacimiento, "%Y-%m-%d")  as fechaNaci, '+
                             'p.Per_EstadoCivil, p.Per_Sexo, i.Pais_Nombre, d.Dir_Direccion, '+
                             'v.Pro_Nombre, t.Can_Nombre, o.Dis_Nombre, '+
                             'e.Est_Viaja, e.Est_Poliza, s.Sec_Grado, '+
@@ -42,7 +42,7 @@ const obtenerEstudiante = (request, response) => {
                             'd.Dis_Id = o.Dis_Id AND p.Per_Id = e.Per_Id AND '+
                         'e.Sec_Id = s.Sec_Id AND e.Est_Id = a.Est_Id AND a.Ade_Id = c.Ade_Id and '+
                             'e.Est_Id = h.Est_Id AND h.Enc_Id = g.Enc_Id  AND p.Per_Identificacion = ?', +
-    [cedula],
+    [request.params.cedula],
     (error, results) => {
         if(error)
             throw error;
@@ -51,7 +51,7 @@ const obtenerEstudiante = (request, response) => {
 };
 
 //ruta
-app.route("/obtenerEstudiante").post(obtenerEstudiante);
+app.get("/obtenerEstudiante/:cedula",obtenerEstudiante);
 
 
 
