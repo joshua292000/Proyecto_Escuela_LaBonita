@@ -29,16 +29,16 @@ const obtenerEncargado= (request, response) => {
 
    // console.log("Datos "+cd+"  "+ id);
     // const {cedulaPer, idPersona} = request.params;
-    connection.query('CALL PRC_ObtenerEncargado( ?, ?, @cedula, @pNombre, @sNombre, '+
-                                                '@pApellido, @sApellido, @fechNaci, @estCivil, '+
-                                                '@sexo, @nacionalidad, @direccion, @provincia, '+
-                                                '@canton, @distrito, @lugarTrabajo, @viveCEstu, '+ 
-                                                '@escolaridad, @ocupacion, @parentezco, @respuesta); ' +             
-                                        'SELECT  @cedula, @pNombre, @sNombre, '+
-                                                '@pApellido, @sApellido, @fechNaci, @estCivil, '+
-                                                '@sexo, @nacionalidad, @direccion, @provincia, '+
-                                                '@canton, @distrito, @lugarTrabajo, @viveCEstu, '+ 
-                                                '@escolaridad, @ocupacion, @parentezco,  @respuesta;',                                                   
+    connection.query('CALL PRC_ObtenerEncargado( ?, ?, @cedula, @pNombre , @sNombre , '+
+                                                '@pApellido , @sApellido , @fechNaci , @estCivil , '+
+                                                '@sexo , @nacionalidad, @direccion , @provincia , '+
+                                                '@canton, @distrito, @lugarTrabajo , @viveCEstu, '+ 
+                                                '@escolaridad , @ocupacion , @parentezco , @respuesta); ' +             
+                                        'SELECT  @cedula  as cedula, @pNombre as pNombre, @sNombre as sNombre, '+
+                                                '@ as pApellido, @sApellido as sApellido, @fechNaci as fechNaci, @estCivil as estCivil, '+
+                                                '@sexo as sexo, @nacionalidad  as nacionalidad, @direccion as direccion, @provincia as provincia, '+
+                                                '@canton  as canton, @distrito  as distrito, @lugarTrabajo as lugarTrabajo, @viveCEstu  as viveCEstu, '+ 
+                                                '@escolaridad as escolaridad, @ocupacion as ocupacion, @parentezco as parentezco,  @respuesta;',                                                   
     [request.params.cd, request.params.id],
     (error, results) => {
         if(error)
