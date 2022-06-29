@@ -62,10 +62,16 @@ export function InfoPersonal(props) {
               <button
                 id="Buscar"
                 onClick={() => {
-                  ObtenerEstudiante({
-                    state: props.state,
-                    setState: props.setState,
-                  });
+                    if(props.state.quien === "estudiante" ){
+                        ObtenerEstudiante({state: props.state, setState: props.setState});
+                        if(props.state.idEncargado != null){
+                            //se llama el metodo
+
+                        }
+                    }
+                    else if(props.state.quien === "encargado"){
+                         //se llama el metodo
+                    }
                 }}
               >
                 Buscar

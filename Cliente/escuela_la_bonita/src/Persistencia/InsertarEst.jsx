@@ -60,7 +60,8 @@ export  function agregarEst(props){
                         ...props.state, canton: dep.Can_Nombre,
                         ...props.state, distrito: dep.Dis_Nombre,
                         ...props.state, sexo: dep.Per_Sexo,
-                        ...props.state, lugarnacimiento: dep.Pais_Nombre
+                        ...props.state, lugarnacimiento: dep.Pais_Nombre,
+                        ...props.state, idEncargado: dep.Per_id
                                       });
                                       console.log("State Data--> "+ props.state.pNombre);
       console.log("State Data--> "+ props.state.sNombre);

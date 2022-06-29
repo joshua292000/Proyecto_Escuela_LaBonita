@@ -8,7 +8,7 @@ export default function Inicio() {
     return (
       <div className="Div">
         <h1>Información personal del estudiante</h1>
-        <InfoPersonal setState={setState} state ={state} />
+        <InfoPersonal setState={setState} state ={state} quien={'estududiante'}/>
         {/* <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br /> */}
          <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/> 
        
