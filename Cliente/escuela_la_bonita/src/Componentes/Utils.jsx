@@ -3,6 +3,10 @@ import { Button } from 'primereact/button';
 import { useContext } from "react";
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
 import AgregarInfoPersonal from "../Persistencia/InsertarInfoPer";
+import {MapEstudiante} from "../Persistencia/InsertarEst";
+import ObtenerEstudiante from "../Persistencia/InsertarEst";
+import { infoEstudiante } from "../AppContext/providerEstudiante";
+import { useEffect } from 'react';
 
 export function ButtonSiguiente(dir){
     const navegar = useNavigate();
@@ -33,6 +37,7 @@ export function TXT_info(props) {
     );
   }
 export function InfoPersonal(props){
+    const [state, setState] = useContext(infoEstudiante);
 
     return(
          <div>
@@ -40,7 +45,28 @@ export function InfoPersonal(props){
             <tbody>
                     <tr>
                         <td><label>Cédula:</label> <TXT_info name="txt_cedula" id="txt_cedula" value="cedula" setState ={props.setState} state={props.state}></TXT_info><br></br></td><br></br>
-                        <tr><button id="Buscar">Buscar</button><br></br></tr>
+                        <tr><button id="Buscar"
+                             onClick={()=>{
+                                ObtenerEstudiante({state: state, setState: setState});
+                             }
+                                // useEffect(()=>{  
+                                  
+                                // },[])
+                               
+                                 //mapEstudiante({state: state, setState: setState});
+                             } 
+                           >Buscar</button><br></br>
+                           </tr>
+                           <tr>
+
+                           <button id="Buscar"
+                             onClick={()=>{
+                             MapEstudiante({state: props.state, setState: props.setState});
+                             }} 
+                           >prueba</button><br></br>
+                           </tr>
+
+                          
                         <td><label>Fecha nacimiento:</label><br></br> <input type="date" name="fnacimiento" id="fnacimiento" onChange={(e) => props.setState({ ...props.state ,"fechNac": e.target.value })}></input><br></br><br></br></td>
                     </tr>
                 </tbody>
@@ -58,8 +84,8 @@ export function InfoPersonal(props){
                             <div>
                             <label>Provincia:</label>
                             <select name="Provincia" id="Provincia" 
-                            onChange={(e) => props.setState({ ...props.state,"Provincia": e.target.value })}>
-                                <option value="SanJose">San José</option>
+                            onChange={(e) => props.setState({ ...props.state,"provincia": e.target.value })}>
+                                <option value="San Jose">San José</option>
                                 <option value="Alajuela">Alajuela</option>
                                 <option value="Heredia">Heredia</option>
                                 <option value="Puntarenas">Puntarenas</option>
@@ -73,7 +99,7 @@ export function InfoPersonal(props){
                             <div>
                             <label>Cantón:</label>
                             <select name="Canton" id="Canton"
-                            onChange={(e) => props.setState({...props.state, "Canton": e.target.value })}>
+                            onChange={(e) => props.setState({...props.state, "canton": e.target.value })}>
                                 <option value="PZ">Pérez Zeledón</option>
                                 <option value="Escazu">Escazú</option>
                                 <option value="Heredia">Desamparados</option>
@@ -83,7 +109,7 @@ export function InfoPersonal(props){
                             <div>
                             <label>Distrito:</label>
                             <select name="Distrito" id="Distrito" 
-                            onChange={(e) => props.setState({...props.state,  "Distrito": e.target.value })} >
+                            onChange={(e) => props.setState({...props.state,  "distrito": e.target.value })} >
                                 <option value="SanIsidro">San Isidro de El General</option>
                                 <option value="ElGeneral">El General</option>
                                 <option value="DanielFlores">Daniel Flores</option>
@@ -112,7 +138,7 @@ export function InfoPersonal(props){
                             <label>Lugar nacimiento:</label>
                             <select name="lugarnacimiento" id="lugarnacimiento" 
                             onChange={(e) =>  props.setState({ ...props.state, "lugarnacimiento": e.target.value })}>
-                                <option value="CostaRica">Costa Rica</option>
+                                <option value="Costa Rica">Costa Rica</option>
                                 <option value="Panamá">Panamá</option>
                                 <option value="USA">Estados Unidos</option>
                             </select>
