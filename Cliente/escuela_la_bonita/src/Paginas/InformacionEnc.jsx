@@ -1,7 +1,7 @@
 import { ButtonSiguiente, TXT_info, InfoPersonal,InfoEncargado } from "../Componentes/Utils";
 import {useContext} from 'react';
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
-import { agregarInfoPersonal } from "../Persistencia/InsertarInfoPer";
+import { agregarInfoPersonal } from "../Persistencia/PersonaServive";
 
 export default function Inicio() {
   const [state, setState] = useContext(infoEncargado);

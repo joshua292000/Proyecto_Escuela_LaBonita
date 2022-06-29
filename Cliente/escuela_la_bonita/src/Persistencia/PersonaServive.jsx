@@ -37,19 +37,3 @@ export  function agregarInfoPersonal(props){
      }
     
   }
-
-  
-  
-  /*var infop = {
-    cedula: state.cedula,
-    pNombre: state.pNombre,
-    sNombre: state.sNombre,
-    pApellido: state.pApellido,
-    sApellido: state.sApellido,
-    fechNaci: state.fechNac,
-    estCivil: "S",
-    sexo: state.Sexo,
-    estado: "A",
-    idDirec: 1,
-    idNacio: 1
-  }*/

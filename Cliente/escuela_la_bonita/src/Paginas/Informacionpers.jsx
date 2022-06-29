@@ -1,7 +1,7 @@
 import { ButtonSiguiente,InfoPersonal } from "../Componentes/Utils";
 import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
-import { agregarInfoPersonal } from "../Persistencia/InsertarInfoPer";
+import { agregarInfoPersonal } from "../Persistencia/PersonaServive";
 
 export default function Inicio() {
   const [state, setState] = useContext(infoEstudiante);

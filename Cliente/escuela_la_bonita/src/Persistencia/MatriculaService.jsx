@@ -1,8 +1,8 @@
 
 import Swal from 'sweetalert2';
 
-import { agregarInfoPersonal } from './InsertarInfoPer';
-import { agregarEst } from './InsertarEst';
+import { agregarInfoPersonal } from './PersonaServive';
+import { agregarEst } from './EstudianteService';
 
 export  function Matricula(propstEst, propsEnc) {
     

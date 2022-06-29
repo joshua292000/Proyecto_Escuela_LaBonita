@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
 import { useContext } from "react";
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
-import AgregarInfoPersonal from "../Persistencia/InsertarInfoPer";
-import { MapEstudiante } from "../Persistencia/InsertarEst";
-import { ObtenerEstudiante } from "../Persistencia/InsertarEst";
+import AgregarInfoPersonal from "../Persistencia/PersonaServive";
+import { MapEstudiante } from "../Persistencia/EstudianteService";
+import { ObtenerEstudiante } from "../Persistencia/EstudianteService";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
 export function ButtonSiguiente(dir) {
   const navegar = useNavigate();

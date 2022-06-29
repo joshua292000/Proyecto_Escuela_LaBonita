@@ -1,7 +1,7 @@
 import { TXT_info } from "../Componentes/Utils";
 import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
-import { Matricula } from "../Persistencia/Matricula";
+import { Matricula } from "../Persistencia/MatriculaService";
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
 
 export function InfoEstudiante() {
