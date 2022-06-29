@@ -36,7 +36,7 @@ export function InfoPersonal(props){
 
     return(
          <div>
-            <table width="40%">
+            <table className="Tabla" width="40%">
             <tbody>
                     <tr>
                         <td><label>Cédula:</label> <TXT_info name="txt_cedula" id="txt_cedula" value="cedula" setState ={props.setState} state={props.state}></TXT_info><br></br></td><br></br>
@@ -130,11 +130,11 @@ export function InfoEncargado(){
     const [state, setState] = useContext(infoEncargado);
     return(
         <div>
-        <table  width="40%">
+        <table  className="Tabla" width="40%">
             <tbody>
                 <tr>
                     <td>
-                        <label >Informacion Laboral:</label>
+                        <label >Información Laboral:</label>
                     </td>
                 </tr>
             </tbody>
@@ -163,7 +163,7 @@ export function InfoEncargado(){
                 <tr>
                     <td></td>
                     <td>
-                        <label>Correo Electronico:</label><br></br>
+                        <label>Correo Electrónico:</label><br></br>
                         <TXT_info name="txt_CElectronico" id="txt_CElectronico" value="cElectronico"  setState ={setState} state ={state}></TXT_info><br></br>
                         <label>Número de Teléfono:</label>
                         <TXT_info name="txt_NumTelefono" id="txt_NumTelefono" value="numTelefono"  setState ={setState}  state ={state}></TXT_info>

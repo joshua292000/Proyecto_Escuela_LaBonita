@@ -1,7 +1,53 @@
-
 body {
-    --bs-body-font-family: var(--bs-font-monospace);
-    --bs-body-line-height: 1.4;
-    --bs-body-bg: var(--bs-gray-100);
-    background-color: blueviolet;
+    background-image: url("../src/Recursos/OIP.jfif");
+    background-size: 1500px 1000px;;
+   
   }
+
+
+.Div{
+  margin: 1rem;
+  padding: 1rem;
+  text-align: center;
+  opacity:1;
+    
+}
+
+@font-face {
+  font-family:Lets Coffee ;
+  src: url("../src/Recursos/Lets Coffee.otf");
+}
+
+
+.button_Matricula{
+  margin-left: 1px;
+  border-radius: 15px;
+  background-color:  #efaffc;
+  font-family: Lets Coffee;
+  font-weight: 900;
+  font-size: 15px;
+  height:50px;
+  width: 150px;
+}
+
+.button_Matricula:hover{
+  background-color:#ce789b;
+ color: black;
+}
+.Matricula{
+  margin-left: 1px;
+  border-radius: 2%;
+  background-color: #9064F5;
+  height:50px;
+  width: 150px;
+}
+
+.Tabla{
+  text-align: center;
+  padding: 1rem;
+  justify-content: center;
+  margin: auto;
+  padding: 0 1rem;
+  height: auto;
+  width: auto;
+}

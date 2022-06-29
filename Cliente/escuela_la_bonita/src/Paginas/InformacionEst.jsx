@@ -1,5 +1,4 @@
 import {TXT_info } from "../Componentes/Utils";
-import "primeicons/primeicons.css";
 import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
 import {Matricula} from "../Persistencia/Matricula";
@@ -10,10 +9,10 @@ export function InfoEstudiante() {
      const [stateApp, setStateApp] = useContext(infoEncargado);
      const [state, setState] = useContext(infoEstudiante);
   return (
-    <div>
+    <div className="Div">
       <h1>Información del estudiante</h1>
       <fieldset>
-        <table width="40%">
+        <table className="Tabla" width="40%">
           <tr>
             <td>
               <div>
@@ -105,7 +104,7 @@ export function InfoEstudiante() {
       <p>  prueba6: {state.poliza}<br/></p>
       <p> prueba6: {state.lugarnacimiento}<br/></p>
   
-      <button type="button" onClick={()=>Matricula({valueEst: state}, {valueEnc: stateApp})}>Matricula</button><br />
+      <button type="button" className="Matricula" onClick={()=>Matricula({valueEst: state}, {valueEnc: stateApp})}>Matricula</button><br />
       {/*<ButtonSiguiente
         dir="informacionestudiante"
         nom="Matricula"

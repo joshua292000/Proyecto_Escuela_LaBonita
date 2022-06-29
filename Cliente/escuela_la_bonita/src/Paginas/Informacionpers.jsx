@@ -6,7 +6,7 @@ import { agregarInfoPersonal } from "../Persistencia/InsertarInfoPer";
 export default function Inicio() {
   const [state, setState] = useContext(infoEstudiante);
     return (
-      <div>
+      <div className="Div">
         <h1>Información personal del estudiante</h1>
         <InfoPersonal setState={setState} state ={state} />
         {/* <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br /> */}
