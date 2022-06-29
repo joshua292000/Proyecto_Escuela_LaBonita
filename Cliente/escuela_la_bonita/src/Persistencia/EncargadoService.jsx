@@ -5,7 +5,7 @@ export function ObtenerEncargado (props){
   var cont = 1;
 
     try{
-        console.log("Datos en "+props.cedula+" "+props.idEncar)
+        console.log("Datos en "+props.cedula+" y "+props.idEncar)
         //+props.state.cedula+ +props.state.idEncar
         axios.get('http://localhost:3000/obtenerEncargado/'+props.cedula+'/'+props.idEncar).then(res =>{
         console.log(res.data);
@@ -44,4 +44,31 @@ export function ObtenerEncargado (props){
 
     
 
+}
+
+
+export function ObtenerContEncargado (props){ 
+  
+    try{
+        axios.get('http://localhost:3000/obtenerConEncargado/'+props.idEncar).then(res =>{
+        console.log("Datos en contacto " , res.data);
+            res.data.map((dep)=>{  
+
+              if(dep.Tipo === "Correo"){
+                console.log("Aqui hay Correo  "+dep.contacto);
+                props.setState({...props.state, cElectronico: dep.contacto});
+              }
+
+              if(dep.Tipo === "Telefono"){
+                console.log("Aqui hay telefono  "+dep.contacto);
+                props.setState({...props.state, numTelefono: dep.contacto});
+              }
+           
+            })
+        
+    
+        })
+    }catch(e){
+    console.log(e);
+    }
 }

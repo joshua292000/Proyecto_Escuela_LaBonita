@@ -2,13 +2,17 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
 import { ObtenerEstudiante } from "../Persistencia/EstudianteService";
-import { ObtenerEncargado } from "../Persistencia/EncargadoService";
+import { ObtenerEncargado, ObtenerContEncargado } from "../Persistencia/EncargadoService";
+
+
+
 export function ButtonSiguiente(props) {
   const [state, setState] = useContext(infoEncargado);
   const navegar = useNavigate();
   const acciones = () => {
     if("enc" in props && props.idEncar != null){
       ObtenerEncargado({state: state, setState: setState, cedula: 'null', idEncar: props.idEncar})
+      ObtenerContEncargado({state: state, setState: setState, idEncar: props.idEncar});
     }
     navegar("/" + props.dir);
   };
@@ -70,7 +74,8 @@ export function InfoPersonal(props) {
                         ObtenerEstudiante({state: props.state, setState: props.setState});
                     }
                     else if(props.quien === "encargado"){
-                       ObtenerEncargado({state: props.state, setState: props.setState, cedula: props.state.cedula, idEncar: 0})
+                       //ObtenerEncargado({state: props.state, setState: props.setState, cedula: props.state.cedula, idEncar: 0})
+                     
                     }
                 }}
               >
@@ -276,8 +281,9 @@ export function InfoPersonal(props) {
   );
 }
 
-export function InfoEncargado() {
+export function InfoEncargado(props) {
   const [state, setState] = useContext(infoEncargado);
+  
   return (
     <div>
       <table className="Tabla" width="40%">
@@ -341,22 +347,22 @@ export function InfoEncargado() {
               <label>Correo Electrónico:</label>
               <br></br>
               <TXT_info
-                dfvalue={state.cElectronico}
+                dfvalue={props.state.cElectronico}
                 name="txt_CElectronico"
                 id="txt_CElectronico"
                 value="cElectronico"
-                setState={setState}
-                state={state}
+                setState={props.setState}
+                state={props.state}
               ></TXT_info>
               <br></br>
               <label>Número de Teléfono:</label>
               <TXT_info
-              dfvalue={state.numTelefono}
+              dfvalue={props.state.numTelefono}
                 name="txt_NumTelefono"
                 id="txt_NumTelefono"
                 value="numTelefono"
-                setState={setState}
-                state={state}
+                setState={props.setState}
+                state={props.state}
               ></TXT_info>
             </td>
             <td>

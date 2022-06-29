@@ -11,6 +11,8 @@ export  function agregarInfoPersonal(props){
   }
 
    var infop = {
+
+    
       cedula: props.value.cedula,
       pNombre: props.value.pNombre,
       sNombre: props.value.sNombre,
@@ -22,8 +24,10 @@ export  function agregarInfoPersonal(props){
       estado: "A",
       idDirec: 1,
       idNacio: 1
+   
     }
-    console.log(infop);
+    console.log("Info personal " , infop);
+    console.log("estado civil", estadoCivil);
      try{
        axios.post('http://localhost:3000/insertarPersona', infop).then(res =>{
             Swal.fire('Felicidades', 'la información personal se creo con éxito')

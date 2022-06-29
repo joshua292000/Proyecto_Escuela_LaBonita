@@ -11,7 +11,7 @@ export default function Inicio() {
       <div className="Div">
         <h1>Información del Encargado</h1>
         <InfoPersonal setState = {setState} state = {state} quien="encargado"/> 
-        <InfoEncargado></InfoEncargado>
+        <InfoEncargado setState = {setState} state = {state} quien="encargado"/> 
         <ButtonSiguiente dir="informacionestudiante" nom="Siguiente" css="button_Siguiente" />
         {/* <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br /> */}
       </div>

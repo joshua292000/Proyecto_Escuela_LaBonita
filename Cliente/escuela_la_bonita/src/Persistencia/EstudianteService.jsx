@@ -9,7 +9,7 @@ export  function agregarEst(props){
         console.log(props.value);
  //falta ingresar unas varas en interfas.
    var infop = {
-    huellaDigi: "123456789",
+    huellaDigi: "123456589",
     viaja: props.value.viaja,
     poliza: props.value.poliza,
     fecVenPoliza: "2023-10-10",
