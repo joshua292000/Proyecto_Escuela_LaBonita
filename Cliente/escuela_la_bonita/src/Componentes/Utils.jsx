@@ -1,21 +1,22 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "primereact/button";
 import { useContext } from "react";
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
-import AgregarInfoPersonal from "../Persistencia/PersonaServive";
-import { MapEstudiante } from "../Persistencia/EstudianteService";
 import { ObtenerEstudiante } from "../Persistencia/EstudianteService";
-import { infoEstudiante } from "../AppContext/providerEstudiante";
-export function ButtonSiguiente(dir) {
+import { ObtenerEncargado } from "../Persistencia/EncargadoService";
+export function ButtonSiguiente(props) {
+  const [state, setState] = useContext(infoEncargado);
   const navegar = useNavigate();
-  const link = () => {
-    navegar("/" + dir.dir);
+  const acciones = () => {
+    if("enc" in props && props.idEncar != null){
+      ObtenerEncargado({state: state, setState: setState, cedula: 'null', idEncar: props.idEncar})
+    }
+    navegar("/" + props.dir);
   };
 
   return (
     <div>
-      <button type="button" className={dir.css} onClick={link}>
-        {dir.nom}
+      <button type="button" className={props.css} onClick={acciones}>
+        {props.nom}
       </button>
       <br />
     </div>
@@ -39,7 +40,8 @@ export function TXT_info(props) {
   );
 }
 export function InfoPersonal(props) {
-  // const [state, setState] = useContext(infoEstudiante);
+  console.log("Se abrio personal");
+   const [state, setState] = useContext(infoEncargado);
 
   return (
     <div>
@@ -52,6 +54,7 @@ export function InfoPersonal(props) {
                 name="txt_cedula"
                 id="txt_cedula"
                 value="cedula"
+                dfvalue={props.state.cedula}
                 setState={props.setState}
                 state={props.state}
               ></TXT_info>
@@ -65,13 +68,9 @@ export function InfoPersonal(props) {
                     console.log("QUIEN "+props.quien)
                     if(props.quien === "estudiante" ){
                         ObtenerEstudiante({state: props.state, setState: props.setState});
-                        if(props.state.idEncargado != null){
-                            //se llama el metodo
-
-                        }
                     }
                     else if(props.quien === "encargado"){
-                         //se llama el metodo
+                       ObtenerEncargado({state: props.state, setState: props.setState, cedula: props.state.cedula, idEncar: 0})
                     }
                 }}
               >
@@ -306,6 +305,7 @@ export function InfoEncargado() {
             <td>
               {" "}
               <TXT_info
+               dfvalue={state.ocupacion}
                 name="txt_Ocupación"
                 id="txt_Ocupación"
                 value="ocupacion"
@@ -315,6 +315,7 @@ export function InfoEncargado() {
             </td>
             <td>
               <TXT_info
+              dfvalue={state.lTrabajo}
                 name="txt_LTrabajo"
                 id="txt_LTrabajo"
                 value="lTrabajo"
@@ -340,6 +341,7 @@ export function InfoEncargado() {
               <label>Correo Electrónico:</label>
               <br></br>
               <TXT_info
+                dfvalue={state.cElectronico}
                 name="txt_CElectronico"
                 id="txt_CElectronico"
                 value="cElectronico"
@@ -349,6 +351,7 @@ export function InfoEncargado() {
               <br></br>
               <label>Número de Teléfono:</label>
               <TXT_info
+              dfvalue={state.numTelefono}
                 name="txt_NumTelefono"
                 id="txt_NumTelefono"
                 value="numTelefono"
@@ -363,6 +366,7 @@ export function InfoEncargado() {
                 <select
                   name="EstadoCivil"
                   id="EstadoCivil"
+                  value={state.estadoCivil}
                   onChange={(e) =>
                     setState({ ...state, estadoCivil: e.target.value })
                   }
@@ -397,6 +401,7 @@ export function InfoEncargado() {
                 <select
                   name="Parentesco"
                   id="Parentesco"
+                  value={state.parentesco}
                   onChange={(e) =>
                     setState({ ...state, parentesco: e.target.value })
                   }
@@ -418,6 +423,7 @@ export function InfoEncargado() {
                 <select
                   name="Escolaridad"
                   id="Escolaridad"
+                  value={state.escolaridad}
                   onChange={(e) =>
                     setState({ ...state, escolaridad: e.target.value })
                   }
@@ -459,6 +465,7 @@ export function InfoEncargado() {
                   type="radio"
                   id="SI"
                   name="viveest"
+                  checked={state.viveEST === 'S'}
                   onChange={(e) => setState({ ...state, viveEST: "S" })}
                 ></input>
                 <label htmlFor="Si">Si</label>
@@ -469,6 +476,7 @@ export function InfoEncargado() {
                   id="No"
                   name="viveest"
                   value="No"
+                  checked={state.viveEST === 'N'}
                   onChange={(e) => setState({ ...state, viveEST: "N" })}
                 ></input>
                 <label htmlFor="No">No</label>

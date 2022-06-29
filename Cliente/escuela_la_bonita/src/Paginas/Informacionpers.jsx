@@ -2,6 +2,7 @@ import { ButtonSiguiente,InfoPersonal } from "../Componentes/Utils";
 import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
 import { agregarInfoPersonal } from "../Persistencia/PersonaServive";
+import { infoEncargado } from "../AppContext/providerInfoEncargado";
 
 export default function Inicio() {
   const [state, setState] = useContext(infoEstudiante);
@@ -10,7 +11,7 @@ export default function Inicio() {
         <h1>Información personal del estudiante</h1>
         <InfoPersonal setState={setState} state ={state} quien="estudiante"/>
         {/* <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br /> */}
-         <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/> 
+         <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente" enc="" idEncar={state.idEncargado}/> 
        
       </div> 
     );

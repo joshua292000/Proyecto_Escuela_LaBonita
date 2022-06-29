@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ObtenerEncargado } from './EncargadoService';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 
@@ -61,19 +62,21 @@ export  function agregarEst(props){
                         ...props.state, distrito: dep.Dis_Nombre,
                         ...props.state, sexo: dep.Per_Sexo,
                         ...props.state, lugarnacimiento: dep.Pais_Nombre,
-                        ...props.state, idEncargado: dep.Per_id,
+                        ...props.state, idEncargado: dep.Per_Id,
                         ...props.state, Grado: dep.Sec_Grado,
                         ...props.state, adecuacion: dep.Ade_Nombre,
                         ...props.state, viaja: dep.Est_Viaja,
-                        ...props.state, poliza: dep.Est_Poliza,
+                        ...props.state, poliza: dep.Est_Poliza
                                       });
-                                      console.log("State Data--> "+ props.state.pNombre);
-      console.log("State Data--> "+ props.state.sNombre);
-      console.log("State Data--> "+ props.state.pApellido);
-      console.log("State Data--> "+ props.state.sApellido);
-      console.log("State Data--> "+ props.state.lugarnacimiento);
-                                    })
-      })//}catch(e){
+                        // if(dep.Per_id != null){
+                        //  ObtenerEncargado({cedula:'null', idEncar: dep.Per_Id});
+                        // }              
+
+                                   })
+      })
+      
+      
+      //}catch(e){
    //    console.log(e);
   //   }
 
