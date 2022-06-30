@@ -52,23 +52,13 @@ export function ObtenerContEncargado (props){
     try{
         axios.get('http://localhost:3000/obtenerConEncargado/'+props.idEncar).then(res =>{
         console.log("Datos en contacto " , res.data);
-            res.data.map((dep)=>{  
-
-              if(dep.Tipo === "Correo"){
-                console.log("Aqui hay Correo  "+dep.contacto);
-                props.setState({...props.state, cElectronico: dep.contacto});
-              }
-
-              if(dep.Tipo === "Telefono"){
-                console.log("Aqui hay telefono  "+dep.contacto);
-                props.setState({...props.state, numTelefono: dep.contacto});
-              }
-           
-            })
-        
-    
+            //res.data.map((dep)=>{  
+            props.setState({...props.state, numTelefono: res.data[0].contacto,
+            ...props.state, cElectronico: res.data[1].contacto})
+          //  })
         })
     }catch(e){
     console.log(e);
     }
 }
+

@@ -8,11 +8,13 @@ import { ObtenerEncargado, ObtenerContEncargado } from "../Persistencia/Encargad
 
 export function ButtonSiguiente(props) {
   const [state, setState] = useContext(infoEncargado);
+  const [state2, setState2] = useContext(infoEncargado);
   const navegar = useNavigate();
   const acciones = () => {
     if("enc" in props && props.idEncar != null){
       ObtenerEncargado({state: state, setState: setState, cedula: 'null', idEncar: props.idEncar})
       ObtenerContEncargado({state: state, setState: setState, idEncar: props.idEncar});
+   
     }
     navegar("/" + props.dir);
   };
@@ -282,8 +284,13 @@ export function InfoPersonal(props) {
 }
 
 export function InfoEncargado(props) {
+ 
   const [state, setState] = useContext(infoEncargado);
-  
+
+  console.log("En encargado correo" , props.state.cElectronico );
+
+
+
   return (
     <div>
       <table className="Tabla" width="40%">
@@ -347,22 +354,22 @@ export function InfoEncargado(props) {
               <label>Correo Electrónico:</label>
               <br></br>
               <TXT_info
-                dfvalue={props.state.cElectronico}
+                dfvalue={state.cElectronico}
                 name="txt_CElectronico"
                 id="txt_CElectronico"
                 value="cElectronico"
-                setState={props.setState}
-                state={props.state}
+                setState={setState}
+                state={state}
               ></TXT_info>
               <br></br>
               <label>Número de Teléfono:</label>
               <TXT_info
-              dfvalue={props.state.numTelefono}
+              dfvalue={state.numTelefono}
                 name="txt_NumTelefono"
                 id="txt_NumTelefono"
                 value="numTelefono"
-                setState={props.setState}
-                state={props.state}
+                setState={setState}
+                state={state}
               ></TXT_info>
             </td>
             <td>
