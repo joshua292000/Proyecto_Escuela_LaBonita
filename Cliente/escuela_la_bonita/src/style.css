@@ -1,5 +1,5 @@
 body {
-  background-image: url("../src/Recursos/OIP.jfif");
+  background-image: url("https://i0.wp.com/usuaria.org.ar/wp-content/uploads/2020/07/Fondo-Web-1920x1080-1.jpg");
   background-size: 1500px 1000px;;
  
 }
@@ -22,7 +22,7 @@ src: url("../src/Recursos/Blueberry\ .ttf");
 .button_Matricula{
 margin-left: 1px;
 border-radius: 15px;
-background-color:  #efaffc;
+background-color:  #66e9ee;
 font-family: Vintage;
 font-weight: 900;
 font-size: 15px;
@@ -31,14 +31,14 @@ width: 150px;
 }
 
 .button_Matricula:hover{
-background-color:#ce789b;
+background-color:#1aa1b3;
 color: black;
 }
 
 .button_Siguiente{
 margin-left: 1px;
 border-radius: 15px;
-background-color:  #efaffc;
+background-color:  #66e9ee;
 font-family: Vintage;
 font-weight: 900;
 font-size: 15px;
@@ -49,14 +49,14 @@ margin-top: 10px;
 
 
 .button_Siguiente:hover{
-background-color:#ce789b;
+background-color:#1aa1b3;
 color: black;
 }
 
 .Matricula{
 margin-left: 1px;
 border-radius: 15px;
-background-color:  #efaffc;
+background-color:  #66e9ee;
 font-family: Vintage;
 font-weight: 900;
 font-size: 15px;
@@ -66,14 +66,14 @@ width: 150px;
 
 
 .Matricula:hover{
-background-color:#ce789b;
+background-color:#1aa1b3;
 color: black;
 }
 
 #Buscar{
 margin-left: 1px;
 border-radius: 15px;
-background-color:  #efaffc;
+background-color:  #e2f1f1;
 font-family: Vintage;
 font-weight: 900;
 font-size: 15px;
@@ -83,7 +83,7 @@ margin-bottom: 20px;
 }
 
 #Buscar:hover{
-background-color:#ce789b;
+background-color:#1aa1b3;
 color: black;
 }
 
