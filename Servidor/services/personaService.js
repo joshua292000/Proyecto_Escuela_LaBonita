@@ -10,7 +10,7 @@ const {connection} = require("../config");
 
 const insertarPersona = (request, response) => {
     const {cedula, pNombre, sNombre, pApellido, sApellido, fechNaci, estCivil, sexo, estado, idDirec, idNacio} = request.body;
-    connection.query('CALL PRC_InsertarPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+    connection.query('CALL PRC_InsertarPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @msjError); SELECT @msjError AS error;', 
     [cedula, pNombre, sNombre, pApellido, sApellido, fechNaci, estCivil, sexo, estado, idDirec, idNacio],
     (error, results) => {
         if(error)

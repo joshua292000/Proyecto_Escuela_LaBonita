@@ -9,7 +9,7 @@ const {connection} = require("../config");
 
 const insertarEncargadoEstudiante = (request, response) => {
     const {cedulaEncar, cedulaEst} = request.body;
-    connection.query('CALL PRC_InsertarEncargado(?, ?)', 
+    connection.query('CALL PRC_InsertarEncargado(?, ?, @msjError); SELECT @msjError AS error;', 
     [cedulaEncar, cedulaEst],
     (error, results) => {
         if(error)
@@ -33,12 +33,12 @@ const obtenerEncargado= (request, response) => {
                                                 '@pApellido, @sApellido, @fechNaci, @estCivil, '+
                                                 '@sexo, @nacionalidad, @direccion, @provincia, '+
                                                 '@canton, @distrito, @lugarTrabajo, @viveCEstu, '+ 
-                                                '@escolaridad, @ocupacion, @parentezco); ' +             
+                                                '@escolaridad, @ocupacion, @parentezco, @msjError); ' +             
                                         'SELECT  @cedula  as cedula, @pNombre as pNombre, @sNombre as sNombre, '+
                                                 '@pApellido as pApellido, @sApellido as sApellido, @fechNaci as fechNaci, @estCivil as estCivil, '+
                                                 '@sexo as sexo, @nacionalidad  as nacionalidad, @direccion as direccion, @provincia as provincia, '+
                                                 '@canton  as canton, @distrito  as distrito, @lugarTrabajo as lugarTrabajo, @viveCEstu  as viveCEstu, '+ 
-                                                '@escolaridad as escolaridad, @ocupacion as ocupacion, @parentezco as parentezco;',                                                   
+                                                '@escolaridad as escolaridad, @ocupacion as ocupacion, @parentezco as parentezco, @msjError AS error;',                                                   
     [request.params.cd, request.params.id],
     (error, results) => {
         if(error)

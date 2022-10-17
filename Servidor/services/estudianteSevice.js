@@ -9,7 +9,7 @@ const {connection} = require("../config");
 
 const insertarEstudiante = (request, response) => {
     const {huellaDigi, viaja, poliza, fecVenPoliza, imas, cedulaPer, seccion} = request.body;
-    connection.query('CALL PRC_InsertarEstudiante(?, ?, ?, ?, ?, ?, ?)', 
+    connection.query('CALL PRC_InsertarEstudiante(?, ?, ?, ?, ?, ?, ?, @msjError); SELECT @msjError AS error;', 
     [huellaDigi, viaja, poliza, fecVenPoliza, imas, cedulaPer, seccion],
     (error, results) => {
         if(error)
