@@ -8,13 +8,11 @@ import { ObtenerEncargado, ObtenerContEncargado } from "../Persistencia/Encargad
 
 export function ButtonSiguiente(props) {
   const [state, setState] = useContext(infoEncargado);
-  const [state2, setState2] = useContext(infoEncargado);
   const navegar = useNavigate();
   const acciones = () => {
     if("enc" in props && props.idEncar != null){
-      ObtenerEncargado({state: state, setState: setState, cedula: 'null', idEncar: props.idEncar})
       ObtenerContEncargado({state: state, setState: setState, idEncar: props.idEncar});
-   
+      ObtenerEncargado({state: state, setState: setState, cedula: 'null', idEncar: props.idEncar})
     }
     navegar("/" + props.dir);
   };
@@ -47,7 +45,6 @@ export function TXT_info(props) {
 }
 export function InfoPersonal(props) {
   console.log("Se abrio personal");
-   const [state, setState] = useContext(infoEncargado);
 
   return (
     <div>
@@ -76,7 +73,7 @@ export function InfoPersonal(props) {
                         ObtenerEstudiante({state: props.state, setState: props.setState});
                     }
                     else if(props.quien === "encargado"){
-                       //ObtenerEncargado({state: props.state, setState: props.setState, cedula: props.state.cedula, idEncar: 0})
+                        ObtenerEncargado({state: props.state, setState: props.setState, cedula: props.state.cedula, idEncar: 0})
                      
                     }
                 }}
@@ -285,11 +282,9 @@ export function InfoPersonal(props) {
 
 export function InfoEncargado(props) {
  
-  const [state, setState] = useContext(infoEncargado);
+ // const [state, setState] = useContext(infoEncargado);
 
   console.log("En encargado correo" , props.state.cElectronico );
-
-
 
   return (
     <div>
@@ -316,24 +311,24 @@ export function InfoEncargado(props) {
           <tr>
             <td></td>
             <td>
-              {" "}
+              
               <TXT_info
-               dfvalue={state.ocupacion}
+               dfvalue={ props.state.ocupacion}
                 name="txt_Ocupación"
                 id="txt_Ocupación"
                 value="ocupacion"
-                setState={setState}
-                state={state}
+                setState={ props.setState}
+                state={ props.state}
               ></TXT_info>
             </td>
             <td>
               <TXT_info
-              dfvalue={state.lTrabajo}
+              dfvalue={ props.state.lTrabajo}
                 name="txt_LTrabajo"
                 id="txt_LTrabajo"
                 value="lTrabajo"
-                setState={setState}
-                state={state}
+                setState={ props.setState}
+                state={ props.state}
               ></TXT_info>
             </td>
           </tr>
@@ -354,22 +349,22 @@ export function InfoEncargado(props) {
               <label>Correo Electrónico:</label>
               <br></br>
               <TXT_info
-                dfvalue={state.cElectronico}
+                dfvalue={ props.state.cElectronico}
                 name="txt_CElectronico"
                 id="txt_CElectronico"
                 value="cElectronico"
-                setState={setState}
-                state={state}
+                setState={props.setState}
+                state={props.state}
               ></TXT_info>
               <br></br>
               <label>Número de Teléfono:</label>
               <TXT_info
-              dfvalue={state.numTelefono}
+              dfvalue={props.state.numTelefono}
                 name="txt_NumTelefono"
                 id="txt_NumTelefono"
                 value="numTelefono"
-                setState={setState}
-                state={state}
+                setState={props.setState}
+                state={props.state}
               ></TXT_info>
             </td>
             <td>
@@ -379,9 +374,9 @@ export function InfoEncargado(props) {
                 <select
                   name="EstadoCivil"
                   id="EstadoCivil"
-                  value={state.estadoCivil}
+                  value={props.state.estadoCivil}
                   onChange={(e) =>
-                    setState({ ...state, estadoCivil: e.target.value })
+                    props.setState({ ...props.state, estadoCivil: e.target.value })
                   }
                 >
                   <option value="S">Soltero(a)</option>
@@ -414,9 +409,9 @@ export function InfoEncargado(props) {
                 <select
                   name="Parentesco"
                   id="Parentesco"
-                  value={state.parentesco}
+                  value={props.state.parentesco}
                   onChange={(e) =>
-                    setState({ ...state, parentesco: e.target.value })
+                    props.setState({ ...props.state, parentesco: e.target.value })
                   }
                 >
                   <option value="Madre">Madre</option>
@@ -436,9 +431,9 @@ export function InfoEncargado(props) {
                 <select
                   name="Escolaridad"
                   id="Escolaridad"
-                  value={state.escolaridad}
+                  value={props.state.escolaridad}
                   onChange={(e) =>
-                    setState({ ...state, escolaridad: e.target.value })
+                    props.setState({ ...props.state, escolaridad: e.target.value })
                   }
                 >
                   <option value="Ninguna">Ninguna</option>
@@ -478,8 +473,8 @@ export function InfoEncargado(props) {
                   type="radio"
                   id="SI"
                   name="viveest"
-                  checked={state.viveEST === 'S'}
-                  onChange={(e) => setState({ ...state, viveEST: "S" })}
+                  checked={props.state.viveEST === 'S'}
+                  onChange={(e) => props.setState({ ...props.state, viveEST: "S" })}
                 ></input>
                 <label htmlFor="Si">Si</label>
               </div>
@@ -489,8 +484,8 @@ export function InfoEncargado(props) {
                   id="No"
                   name="viveest"
                   value="No"
-                  checked={state.viveEST === 'N'}
-                  onChange={(e) => setState({ ...state, viveEST: "N" })}
+                  checked={props.state.viveEST === 'N'}
+                  onChange={(e) => props.setState({ ...props.state, viveEST: "N" })}
                 ></input>
                 <label htmlFor="No">No</label>
               </div>

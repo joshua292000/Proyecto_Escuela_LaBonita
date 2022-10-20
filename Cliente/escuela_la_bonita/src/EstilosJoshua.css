@@ -1,0 +1,114 @@
+#RootLoggin {
+    height: 70;
+    width: 60%;
+    font-family: Circular,Helvetica,Arial,sans-serif;
+    margin: 10;
+    padding: 50px;
+    text-align: center;
+    box-sizing: border-box;
+    justify-content: center;
+    background: linear-gradient(145deg, rgb(195, 240, 200), rgb(80, 155, 245));
+   
+    border-radius: 1rem;
+    border-radius: 5px;
+    transform: translateX(250px);
+  }
+
+  
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+.menu{
+    transform: translateX(-20px);
+}
+ 
+  
+  .menu ul li { display: inline; }
+  
+  .menu ul {
+    list-style:none;
+  }
+  
+  .menu ul li a {
+    padding: 2px 10px;
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .menu ul li a:hover {
+    border-bottom: 2px solid #C0F0BE;
+  }
+  
+  .header { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .title {
+    color: #fff;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    font-weight: 900;
+    max-width: 100%;
+    width: auto;
+    display: inline-block;
+    font-size: 2rem;
+    padding-left: 6px;
+  }
+  
+  .input {
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 500px;
+    padding: 16px 48px 18px;
+    transition-property: background-color,border-color,color,box-shadow,filter;
+    transition-duration: .3s;
+    border-width: 0;
+    letter-spacing: 1px;
+    min-width: 160px;
+  }
+  
+  .input:focus {
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+  }
+  
+  .button {
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 500px;
+    padding: 16px 48px 18px;
+    transition-property: background-color,border-color,color,box-shadow,filter;
+    transition-duration: .3s;
+    border-width: 0;
+    letter-spacing: 1px;
+    min-width: 256px;
+    background-color: #F9A825;
+    color: #fff;
+  }
+  
+  .stay {
+    color: #fff;
+    font-size: 0.825rem;
+    
+  }
+  
+  .row {
+    margin: 16px 0;
+  }
+  
+  .forgot {
+    color: #939599;
+    text-align: center;
+    font-size: 0.825rem;
+    letter-spacing: 0.5px;
+    margin: 16px 0;
+  }

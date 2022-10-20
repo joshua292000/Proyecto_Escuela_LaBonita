@@ -14,7 +14,7 @@ const insertarEstudiante = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        response.status(201).json({"Estudiante ingresado correctamente": results.affectedRows});
+        response.status(201).json(results);
     });
 };
 
@@ -41,7 +41,7 @@ const obtenerEstudiante = (request, response) => {
                             'd.Pro_Id = v.Pro_Id AND d.Can_Id = t.Can_Id AND '+
                             'd.Dis_Id = o.Dis_Id AND p.Per_Id = e.Per_Id AND '+
                         'e.Sec_Id = s.Sec_Id AND e.Est_Id = a.Est_Id AND a.Ade_Id = c.Ade_Id and '+
-                            'e.Est_Id = h.Est_Id AND h.Enc_Id = g.Enc_Id  AND p.Per_Identificacion = ?', +
+                            'e.Est_Id = h.Est_Id AND h.Enc_Id = g.Enc_Id  AND p.Per_Identificacion = ?', 
     [request.params.cedula],
     (error, results) => {
         if(error)

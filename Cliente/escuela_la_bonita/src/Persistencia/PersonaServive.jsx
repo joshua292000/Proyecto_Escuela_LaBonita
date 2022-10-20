@@ -1,5 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Json from '../Componentes/Globales'
+const json = Json;
 
 export  function agregarInfoPersonal(props){
   console.log(props.value);
@@ -9,10 +11,7 @@ export  function agregarInfoPersonal(props){
   }else{
     estadoCivil = "S";
   }
-
    var infop = {
-
-    
       cedula: props.value.cedula,
       pNombre: props.value.pNombre,
       sNombre: props.value.sNombre,
@@ -24,15 +23,19 @@ export  function agregarInfoPersonal(props){
       estado: "A",
       idDirec: 1,
       idNacio: 1
-   
     }
     console.log("Info personal " , infop);
     console.log("estado civil", estadoCivil);
      try{
        axios.post('http://localhost:3000/insertarPersona', infop).then(res =>{
-            Swal.fire('Felicidades', 'la información personal se creo con éxito')
-            console.log("Se inserto correctamente la persona->>>" + res.data);
-            //return res.data;
+            console.log( res.data);
+            res.data[1].map((dep)=>{ //se mapea la respuesta del servidor
+              if(dep.error != null){//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
+                Swal.fire('Error', dep.error);//se muestra el error en pantalla
+              }
+              json.insertPersoError = dep.error;
+            })
+
      })
 
      }catch(e){

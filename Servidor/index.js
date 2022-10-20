@@ -13,6 +13,7 @@ app.use(cors())
 app.use(require('./services/encargadoEstuService'));
 app.use(require('./services/estudianteSevice'));
 app.use(require('./services/personaService'));
+app.use(require('./services/FuncionarioService'));
 
 app.listen(process.env.PORT||3300,() => {
     console.log("Servidor corriendo en el puerto 3000");

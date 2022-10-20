@@ -14,7 +14,7 @@ const insertarEncargadoEstudiante = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        response.status(201).json({"Encarga del estudiante ingresado correctamente": results.affectedRows});
+        response.status(201).json(results);
     });
 };
 

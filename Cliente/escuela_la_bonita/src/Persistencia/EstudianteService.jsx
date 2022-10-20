@@ -1,9 +1,7 @@
 import axios from 'axios';
-import { ObtenerEncargado } from './EncargadoService';
-import { useEffect } from 'react';
 import Swal from 'sweetalert2';
-
-
+import Json from '../Componentes/Globales'
+const json = Json;
 
 export  function agregarEst(props){
         console.log(props.value);
@@ -21,7 +19,14 @@ export  function agregarEst(props){
 
     try{
         axios.post('http://localhost:3000/insertarEstudiante', infop).then(res =>{
-                console.log("Estudiante insertado");  
+            console.log(res.data); 
+            res.data[1].map((dep)=>{ //se mapea la respuesta del servidor
+              if(dep.error != null){//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
+                Swal.fire('Error', dep.error);//se muestra el error en pantalla
+              }
+              json.insertEstError = dep.error;
+            })
+
         });
       
   
@@ -32,13 +37,22 @@ export  function agregarEst(props){
   }
 
   export  function agregarEncargadoEstudiante(propsEnc, propsEst){ 
+    //retornará error nulo cuando todo esta bien o el registro ya se encuentra registrado
     var infop = {
-          cedulaEncar : propsEnc.valueEnc.cedula,
-          cedulaEst : propsEst.valueEst.cedula
+          cedulaEncar : propsEnc.valueEnc,
+          cedulaEst : propsEst.valueEst
       }
       console.log(infop)
       axios.post('http://localhost:3000/insertarEncargado', infop).then(res =>{
           console.log(res.data);
+          res.data[1].map((dep)=>{ //se mapea la respuesta del servidor
+            console.log("encargado name "+dep.error);
+            console.log(json);
+            if(dep.error != null){//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
+              Swal.fire('Error', dep.error);//se muestra el error en pantalla
+            }
+            json.insertEncargError = dep.error;
+          })
       })
       .then(err=> {console.log(err)})
   }
@@ -50,65 +64,32 @@ export  function agregarEst(props){
        axios.get('http://localhost:3000/obtenerEstudiante/'+props.state.cedula).then(res =>{
        //props.setState({...props.state, mapEstudiante: res.data});
       console.log(res.data);
-      res.data.map((dep)=>{
-        console.log("feccha "+ dep.fechaNaci);
-        props.setState({...props.state, fechNac: dep.fechaNaci,
-                        ...props.state, pNombre: dep.Per_PNombre,
-                        ...props.state, sNombre: dep.Per_SNombre,
-                        ...props.state, pApellido: dep.Per_PApellido,
-                        ...props.state, sApellido: dep.Per_SApellido,
-                        ...props.state, provincia: dep.Pro_Nombre,
-                        ...props.state, canton: dep.Can_Nombre,
-                        ...props.state, distrito: dep.Dis_Nombre,
-                        ...props.state, sexo: dep.Per_Sexo,
-                        ...props.state, lugarnacimiento: dep.Pais_Nombre,
-                        ...props.state, idEncargado: dep.Per_Id,
-                        ...props.state, Grado: dep.Sec_Grado,
-                        ...props.state, adecuacion: dep.Ade_Nombre,
-                        ...props.state, viaja: dep.Est_Viaja,
-                        ...props.state, poliza: dep.Est_Poliza
-                                      });
-                        // if(dep.Per_id != null){
-                        //  ObtenerEncargado({cedula:'null', idEncar: dep.Per_Id});
-                        // }              
-
-                                   })
-      })
-      
-      
-      //}catch(e){
-   //    console.log(e);
-  //   }
-
-     //useEffect(()=>{  
-      //   ,[])
-
-    //  useEffect(()=>{
-    //   return()=>{
-    //     (async()=>{
-    //       axios.post('http://localhost:3000/obtenerEstudiante', infop).then(res =>{
-    //         props.setState({...props.state, mapEstudiante: res.data});
-    //         console.log(res.data);
-    //      // mapEstudiante({state: props.state,
-    //      //              setState: props.setState});
-
-    //     }).catch(({response}) => {
-
-    //       })
-
-    //     }
-    //     )();
-    //   }
-    //  });
-          
-}   
- // export default ObtenerEstudiante;   
+      if(res.data.length === 0){
+        Swal.fire('Error', 'El estudiante no se encuentra registrado');
+      }else{
+        res.data.map((dep)=>{
+          props.setState({...props.state, fechNac: dep.fechaNaci,
+                          ...props.state, pNombre: dep.Per_PNombre,
+                          ...props.state, sNombre: dep.Per_SNombre,
+                          ...props.state, pApellido: dep.Per_PApellido,
+                          ...props.state, sApellido: dep.Per_SApellido,
+                          ...props.state, provincia: dep.Pro_Nombre,
+                          ...props.state, canton: dep.Can_Nombre,
+                          ...props.state, distrito: dep.Dis_Nombre,
+                          ...props.state, sexo: dep.Per_Sexo,
+                          ...props.state, lugarnacimiento: dep.Pais_Nombre,
+                          ...props.state, idEncargado: dep.Per_Id,
+                          ...props.state, Grado: dep.Sec_Grado,
+                          ...props.state, adecuacion: dep.Ade_Nombre,
+                          ...props.state, viaja: dep.Est_Viaja,
+                          ...props.state, poliza: dep.Est_Poliza
+          });
+        })
+      }
+   })           
+}    
        
-    
-  
-    
-  
-  export function MapEstudiante(props){
+ /* export function MapEstudiante(props){
   
       console.log("fec1111 ");
       props.state.mapEstudiante.map((dep)=>{
@@ -132,4 +113,4 @@ export  function agregarEst(props){
 
       })   
 
-  }
+  }*/

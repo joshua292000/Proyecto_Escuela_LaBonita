@@ -15,7 +15,7 @@ const insertarPersona = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        response.status(201).json({"Persona ingresada correctamente": results.affectedRows});
+        response.status(201).json(results);
     });
 };
 
