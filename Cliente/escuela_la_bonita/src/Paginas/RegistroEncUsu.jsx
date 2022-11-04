@@ -1,51 +1,16 @@
-import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
-import React, { useState} from 'react';
-import { useContext } from "react";
-import {Navigate, useNavigate} from "react-router-dom";
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import { Button } from 'primereact/button';
-//import { AppContext } from '../AppContext/providerOrganizacion';
-//import Cookies from "universal-cookie";
-import logIn from '../Recursos/Escudo_escuela.png';
-import "../EstilosJoshua.css"
-import Logo from '../Recursos/Icon.png';
-import '../EstilosJoshua.css';
+import React, { useState } from "react";
+import {useNavigate } from "react-router-dom";
+import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
+import "primereact/resources/primereact.min.css"; //core css
+import "primeicons/primeicons.css";
 import { Header } from "../Componentes/Cabecera";
+import "../EstilosJoshua.css";
+import Logo from "../Recursos/Icon.png";
+import "../EstilosJoshua.css";
 
-export function Loggin() {
 
-  const [value1, setValue1] = useState('');
-  const [value2, setValue2] = useState('');
+ export function RegistroUsuEnc() {
   const navegar = useNavigate();
-
-function InicioSesion(){
-  try{
-    axios.get('http://localhost:3000/loggin/'+value1+'/'+ value2).then((res)=>{
-      console.log(res.data.Usu_Usuario);
-      res.data.map((dep)=>{
-        console.log("feccha "+ dep.Usu_Usuario);
-        
-      })
-      navegar("/Informacionpersonal");
-      //if(res.data[1].Password!=null){
-       // navegar("/Informacionpersonal");
-     // }else{
-       
-    
-      
-     
-     
-    });
-    
-    } catch(e){
-     console.log(e);
-    }
-  
-};
-
-
     return (
       <div>
         {" "}
@@ -54,12 +19,12 @@ function InicioSesion(){
           <div className="header">
             <img src={Logo} alt="Escuela Rodrigo Facio Brenes" width="200px" />
           </div>
-          <nav className="menu">
-            <span className="title">Inicio de sesión</span><br/>
-            <span className="title">Funcionarios</span>
+          <nav className="menu">             
+          <span className="title">Inicio de sesión </span><br/>
+          <span className="title">Encargados</span>
             <ul>
               <li>
-                <a href="#">Iniciar sesion</a>
+                <a href="#">Iniciar sesión</a>
               </li>
               <li>
                 <a href="#">Crear una cuenta</a>
@@ -74,8 +39,6 @@ function InicioSesion(){
                 name="username"
                 placeholder="Usuario"
                 required
-                value={value1}
-                onChange={(e) => setValue1(e.target.value)}
               />
             </div>
             <div className="row">
@@ -85,8 +48,6 @@ function InicioSesion(){
                 name="password"
                 placeholder="Contraseña"
                 required
-                value={value2}
-                onChange={(e) => setValue2(e.target.value)}
               />
             </div>
             <div className="stay">
@@ -110,5 +71,3 @@ function InicioSesion(){
       </div>
     );
   }
-  
-

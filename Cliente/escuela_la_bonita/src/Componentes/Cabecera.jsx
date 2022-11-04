@@ -31,6 +31,8 @@ import { Menubar } from 'primereact/menubar';
 import { Carousel } from "primereact/carousel";
 import { useNavigate } from "react-router-dom";
 import { withRouter } from 'react-router'
+import "../EstilosJoshua.css";
+import Logo from "../Recursos/Escudo_escuela.png";
 
 export function Header() {
 
@@ -40,7 +42,8 @@ export function Header() {
 const items = [
      {
        label:'Inicio',
-       icon:'pi pi-fw pi-power-off'
+       icon:'pi pi-fw pi-power-off',
+      command:(event)=>{navegar("/")}
     }, 
     {
        label:'Acerca de',
@@ -68,6 +71,7 @@ const items = [
     {
        label:'Encargados',
        icon:'pi pi-fw pi-user',
+       command:(event)=>{navegar("/RegistroEncargados");}
     },
     {
        label:'Funcionarios',
@@ -84,8 +88,9 @@ const items = [
 
   return (
     <div>
-    <h1>Escuela Rodrigo Facio Brenes</h1>
-      <Menubar model={items} /> 
+      <img src={Logo} alt="Escuela Rodrigo Facio Brenes" width="100px" />
+      <span className="TituloP">Escuela Rodrigo Facio Brenes</span>
+      <Menubar model={items} />
       <br></br>
     </div>
   );
