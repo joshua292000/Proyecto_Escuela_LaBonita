@@ -3,12 +3,12 @@ import {useContext} from 'react';
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
 import { agregarInfoPersonal } from "../Persistencia/PersonaServive";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
-
+import "../Estilos.css";
 export default function Inicio() {
   const [state, setState] = useContext(infoEncargado);
     return (
       <div className="Div">
-        <h1>Información del Encargado</h1>
+        <span className="titleBlack">Información del Encargado</span>
         <InfoPersonal setState = {setState} state = {state} quien="encargado"/> 
         <InfoEncargado setState = {setState} state = {state}/>
         <ButtonSiguiente dir="informacionestudiante" nom="Siguiente" css="button_Siguiente" />

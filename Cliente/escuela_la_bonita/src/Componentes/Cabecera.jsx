@@ -31,7 +31,7 @@ import { Menubar } from 'primereact/menubar';
 import { Carousel } from "primereact/carousel";
 import { useNavigate } from "react-router-dom";
 import { withRouter } from 'react-router'
-import "../EstilosJoshua.css";
+import "../Estilos.css";
 import Logo from "../Recursos/Escudo_escuela.png";
 
 export function Header() {

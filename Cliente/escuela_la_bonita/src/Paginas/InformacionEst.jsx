@@ -3,13 +3,13 @@ import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
 import { Matricula } from "../Persistencia/MatriculaService";
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
-
+import "../Estilos.css";
 export function InfoEstudiante() {
   const [stateApp, setStateApp] = useContext(infoEncargado);
   const [state, setState] = useContext(infoEstudiante);
   return (
     <div className="Div">
-      <h1>Información del estudiante</h1>
+      <span className="titleBlack">Información del estudiante</span>
         <table className="Tabla" width="40%">
           <tr>
             <td>

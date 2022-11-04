@@ -9,9 +9,8 @@ import { Button } from 'primereact/button';
 //import { AppContext } from '../AppContext/providerOrganizacion';
 //import Cookies from "universal-cookie";
 import logIn from '../Recursos/Escudo_escuela.png';
-import "../EstilosJoshua.css"
+import "../Estilos.css"
 import Logo from '../Recursos/Icon.png';
-import '../EstilosJoshua.css';
 import { Header } from "../Componentes/Cabecera";
 
 export function Loggin() {

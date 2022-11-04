@@ -76,6 +76,18 @@
       font-size: 3rem;
       padding-left: 6px;
   }
+    .titleBlack {
+      color: black;
+      line-height: 1.2;
+      margin: 0;
+      padding: 0;
+      font-weight: 900;
+      max-width: 100%;
+      width: auto;
+      display: inline-block;
+      font-size: 2rem;
+      padding-left: 6px;
+    }
 
   
   .input {
