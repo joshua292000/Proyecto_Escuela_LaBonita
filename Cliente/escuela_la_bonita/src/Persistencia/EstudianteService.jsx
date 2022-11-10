@@ -1,9 +1,10 @@
+/* eslint-disable array-callback-return */
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Json from '../Componentes/Globales'
 const json = Json;
 
-export  function agregarEst(props){
+export const agregarEst = async (props)=>{
         console.log(props.value);
  //falta ingresar unas varas en interfas.
    var infop = {
@@ -18,7 +19,7 @@ export  function agregarEst(props){
     console.log(infop)
 
     try{
-        axios.post('http://localhost:3000/insertarEstudiante', infop).then(res =>{
+       await axios.post('http://localhost:3000/insertarEstudiante', infop).then(res =>{
             console.log(res.data); 
             res.data[1].map((dep)=>{ //se mapea la respuesta del servidor
               if(dep.error != null){//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
@@ -36,14 +37,14 @@ export  function agregarEst(props){
       }
   }
 
-  export  function agregarEncargadoEstudiante(propsEnc, propsEst){ 
+  export const agregarEncargadoEstudiante = async (propsEnc, propsEst) =>{ 
     //retornará error nulo cuando todo esta bien o el registro ya se encuentra registrado
     var infop = {
           cedulaEncar : propsEnc.valueEnc,
           cedulaEst : propsEst.valueEst
       }
       console.log(infop)
-      axios.post('http://localhost:3000/insertarEncargado', infop).then(res =>{
+      await axios.post('http://localhost:3000/insertarEncargado', infop).then(res =>{
           console.log(res.data);
           res.data[1].map((dep)=>{ //se mapea la respuesta del servidor
             console.log("encargado name "+dep.error);
@@ -58,15 +59,16 @@ export  function agregarEst(props){
   }
 
  
-  export function ObtenerEstudiante (props){ 
+  export const ObtenerEstudiante= async (props) => { 
     console.log(props.state.cedula)
     // try{
-       axios.get('http://localhost:3000/obtenerEstudiante/'+props.state.cedula).then(res =>{
+       await axios.get('http://localhost:3000/obtenerEstudiante/'+props.state.cedula).then(res =>{
        //props.setState({...props.state, mapEstudiante: res.data});
       console.log(res.data);
       if(res.data.length === 0){
         Swal.fire('Error', 'El estudiante no se encuentra registrado');
       }else{
+        // eslint-disable-next-line array-callback-return
         res.data.map((dep)=>{
           props.setState({...props.state, fechNac: dep.fechaNaci,
                           ...props.state, pNombre: dep.Per_PNombre,
@@ -89,28 +91,3 @@ export  function agregarEst(props){
    })           
 }    
        
- /* export function MapEstudiante(props){
-  
-      console.log("fec1111 ");
-      props.state.mapEstudiante.map((dep)=>{
-        console.log("feccha "+ dep.Per_FechaNacimiento);
-        props.setState({...props.state, fechNac: dep.Per_FechaNacimiento,
-                        ...props.state, pNombre: dep.Per_PNombre,
-                        ...props.state, sNombre: dep.Per_SNombre,
-                        ...props.state, pApellido: dep.Per_PApellido,
-                        ...props.state, sApellido: dep.Solis,
-                        ...props.state, provincia: dep.Pro_Nombre,
-                        ...props.state, canton: dep.Can_Nombre,
-                        ...props.state, distrito: dep.Dis_Nombre,
-                        ...props.state, sexo: dep.Per_Sexo,
-                        ...props.state, lugarnacimiento: dep.Pais_Nombre,
-                                      });
-        console.log("State Data--> "+ props.state.pNombre);
-        console.log("State Data--> "+ props.state.sNombre);
-        console.log("State Data--> "+ props.state.pApellido);
-        console.log("State Data--> "+ props.state.sApellido);
-        console.log("State Data--> "+ props.state.lugarnacimiento);
-
-      })   
-
-  }*/

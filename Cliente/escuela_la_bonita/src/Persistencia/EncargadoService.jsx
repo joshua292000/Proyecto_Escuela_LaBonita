@@ -1,16 +1,17 @@
+/* eslint-disable array-callback-return */
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 
-export function ObtenerEncargado (props){ 
+export const ObtenerEncargado = async(props)=>{ 
     try{
         console.log("Datos en "+props.cedula+" y "+props.idEncar)
         //+props.state.cedula+ +props.state.idEncar
-        axios.get('http://localhost:3000/obtenerEncargado/'+props.cedula+'/'+props.idEncar).then(res =>{
-        console.log(res.data);
+       await axios.get('http://localhost:3000/obtenerEncargado/'+props.cedula+'/'+props.idEncar).then(res =>{
+        console.log("Datos en Encargado");
+        console.log(res.data[1]);
 
-            res.data[1].map((dep)=>{ 
-                console.log("encargado name "+dep.pNombre);
+            res.data[1].map(dep => { 
                 if(dep.cedula === null){
                     Swal.fire('Error', 'El encargado no se encuentra registrado');
                 }else{
@@ -41,15 +42,15 @@ export function ObtenerEncargado (props){
 }
 
 
-export function ObtenerContEncargado (props){ 
+export const ObtenerContEncargado = async (props)=>{ 
   
     try{
-        axios.get('http://localhost:3000/obtenerConEncargado/'+props.idEncar).then(res =>{
-        console.log("Datos en contacto " , res.data);
-            //res.data.map((dep)=>{  
-            props.setState({...props.state, numTelefono: res.data[0].contacto,
-            ...props.state, cElectronico: res.data[1].contacto})
-          //  })
+        await axios.get('http://localhost:3000/obtenerConEncargado/'+props.idEncar).then(res =>{
+            console.log("Datos en contacto ");
+        console.log( res.data);
+             props.setState({...props.state, numTelefono: res.data[0].contacto,
+                             ...props.state, cElectronico: res.data[1].contacto})
+       
         })
     }catch(e){
     console.log(e);

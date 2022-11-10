@@ -27,5 +27,4 @@ const Loggin = (request, response) => {
 app.get("/loggin/:usuario/:clave",Loggin);
 
 
-
 module.exports = app;

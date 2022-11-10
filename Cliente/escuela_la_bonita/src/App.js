@@ -1,5 +1,5 @@
 import Inicio from "./Paginas/Inicio";   
-import Informacionpers from "./Paginas/Informacionpers";  
+import InfoPersEstu from "./Paginas/InfoPersEstu"; 
 import {InfoEstudiante} from "./Paginas/InformacionEst";  
 import InformacionEnc from "./Paginas/InformacionEnc";  
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -17,7 +17,8 @@ return (
     <Routes>
       <Route path="/" element={<PaginaInicial />} />
       <Route path="/Loggin" element={<Loggin />} />
-      <Route path="/Informacionpersonal" element={<Informacionpers />} />
+      <Route path="/Inicio" element={<Inicio/>}/>
+      <Route path="/Informacionpersonal" element={<InfoPersEstu />} />
       <Route path="/Informacionestudiante" element={<InfoEstudiante />} />
       <Route path="/Informacionencargado" element={<InformacionEnc />} />
       <Route path="/RegistroEncargados" element={<RegistroUsuEnc />} />

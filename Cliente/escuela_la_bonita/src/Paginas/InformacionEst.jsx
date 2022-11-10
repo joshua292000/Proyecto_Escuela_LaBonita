@@ -1,4 +1,3 @@
-import { TXT_info } from "../Componentes/Utils";
 import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
 import { Matricula } from "../Persistencia/MatriculaService";
@@ -9,7 +8,7 @@ export function InfoEstudiante() {
   const [state, setState] = useContext(infoEstudiante);
   return (
     <div className="Div">
-      <span className="titleBlack">Información del estudiante</span>
+      <h1>Información del estudiante</h1>
         <table className="Tabla" width="40%">
           <tr>
             <td>
@@ -92,14 +91,17 @@ export function InfoEstudiante() {
               <label for="Acompaniantes">
                 Nombre de las personas que lo pueden acompañar:
               </label>
-              <TXT_info
-                dfvalue={state.acompanante}
-                name="txt_acompanante"
-                id="txt_acompanante"
-                value="acompanante"
-                setState={setState}
-                state={state}
-              ></TXT_info>
+              <input
+                type="text"
+                value={""}
+                onChange={(e) =>
+                  setState({
+                    ...state,
+                    pApellido: e.target.value,
+                  })
+                }
+                required
+              ></input>
               <br></br>
               <br></br>
             </td>
@@ -160,12 +162,4 @@ export function InfoEstudiante() {
     </div>
   );
 }
-/*
-<p>prueba:{state1.Grado}<br></br>
-prueba2: {state.Grado}<br></br>
-prueba3: {state.Adecuacion}<br></br>
-prueba4: {state.viaje}<br></br>
-prueba5: {state.Acompanante}<br></br>
-prueba6: {state.poliza}<br></br>
-prueba6: {state.lugarnacimiento}<br></br></p>
-*/
+

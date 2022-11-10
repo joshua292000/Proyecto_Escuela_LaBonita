@@ -1,6 +1,7 @@
-import { ButtonSiguiente,InfoPersonal } from "../Componentes/Utils";
+import { ButtonSiguiente} from "../Componentes/Utils";
 import { useContext } from "react";
 import { infoEstudiante } from "../AppContext/providerEstudiante";
+import { InfoPersonal } from "../Componentes/InfoPersEstu";
 import "../Estilos.css";
 
 export default function Inicio() {
@@ -15,6 +16,3 @@ export default function Inicio() {
       </div> 
     );
   }
-
-  //<ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente"/>
-  // <button type="button" onClick={()=>AgregarInfoPersonal({value : state})}></button><br />

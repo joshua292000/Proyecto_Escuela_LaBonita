@@ -19,31 +19,23 @@ export function Loggin() {
   const [value2, setValue2] = useState('');
   const navegar = useNavigate();
 
-function InicioSesion(){
-  try{
-    axios.get('http://localhost:3000/loggin/'+value1+'/'+ value2).then((res)=>{
-      console.log(res.data.Usu_Usuario);
-      res.data.map((dep)=>{
-        console.log("feccha "+ dep.Usu_Usuario);
-        
-      })
-      navegar("/Informacionpersonal");
-      //if(res.data[1].Password!=null){
-       // navegar("/Informacionpersonal");
-     // }else{
-       
-    
-      
-     
-     
-    });
-    
-    } catch(e){
-     console.log(e);
+  const InicioSesion = async () => {
+    try {
+      await axios
+        .get("http://localhost:3000/loggin/" + value1 + "/" + value2)
+        .then((res) => {
+          console.log(res.data);
+         
+          if (res.data.length >0) {
+            navegar("/Inicio");
+          } else {
+            Swal.fire('Error', 'Usuario o contraseña incorrectas');
+          }
+        });
+    } catch (e) {
+      console.log(e);
     }
-  
-};
-
+  };
 
     return (
       <div>
@@ -65,7 +57,6 @@ function InicioSesion(){
               </li>
             </ul>
           </nav>
-          <form>
             <div className="row">
               <input
                 className="input"
@@ -95,8 +86,7 @@ function InicioSesion(){
             <div className="row">
               <button
                 className="button"
-                type="submit"
-                onClick={() => navegar("/Informacionpersonal")}
+                onClick={() => InicioSesion()}
               >
                 Iniciar sesion
               </button>
@@ -104,7 +94,6 @@ function InicioSesion(){
             <div className="forgot">
               <a href="#">¿Olvidó su contraseña?</a>
             </div>
-          </form>
         </div>
       </div>
     );
