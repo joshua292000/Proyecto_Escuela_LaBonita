@@ -7,12 +7,11 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Button } from 'primereact/button';
 //import { AppContext } from '../AppContext/providerOrganizacion';
-//import Cookies from "universal-cookie";
 import logIn from '../Recursos/Escudo_escuela.png';
 import "../Estilos.css"
 import Logo from '../Recursos/Icon.png';
 import { Header } from "../Componentes/Cabecera";
-
+import Cookies from "universal-cookie";
 export function Loggin() {
 
   const [value1, setValue1] = useState('');
@@ -24,8 +23,9 @@ export function Loggin() {
       await axios
         .get("http://localhost:3000/loggin/" + value1 + "/" + value2)
         .then((res) => {
-          console.log(res.data);
-         
+          console.log("tiene ",res.data[0].Func_Id);
+          const cookies = new Cookies();
+          cookies.set('Func_Id', res.data[0].Func_Id, {path: '/'});
           if (res.data.length >0) {
             navegar("/Inicio");
           } else {

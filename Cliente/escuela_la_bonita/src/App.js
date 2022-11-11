@@ -10,6 +10,7 @@ import "primeicons/primeicons.css";
 import { RegistroUsuEnc } from "./Paginas/RegistroEncUsu";
 import {Loggin} from "./Paginas/Loggin";
 import PaginaInicial from "./Paginas/PaginaInicial";
+import {Constancias} from "./Paginas/Constancia";
 
 export function App() {
 return (
@@ -22,6 +23,7 @@ return (
       <Route path="/Informacionestudiante" element={<InfoEstudiante />} />
       <Route path="/Informacionencargado" element={<InformacionEnc />} />
       <Route path="/RegistroEncargados" element={<RegistroUsuEnc />} />
+      <Route path="/Constancias" element={<Constancias />} />
     </Routes>
   </BrowserRouter>
 );

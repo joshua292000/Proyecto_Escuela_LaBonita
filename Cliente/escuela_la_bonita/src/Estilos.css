@@ -139,3 +139,10 @@
     letter-spacing: 0.5px;
     margin: 16px 0;
   }
+
+  #Constancia{
+    background-color: #F9A825;
+    height: 350px;
+    width: 240px;
+    border-radius: 30px;
+  }
