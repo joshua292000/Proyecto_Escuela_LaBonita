@@ -26,7 +26,6 @@ app.route("/insertarEncargado")
 const obtenerEncargado= (request, response) => {
     // const cd = request.params.cd;
     //  const id = request.params.id;
-
    // console.log("Datos "+cd+"  "+ id);
     // const {cedulaPer, idPersona} = request.params;
     connection.query('CALL PRC_ObtenerEncargado( ?, ?, @cedula, @pNombre, @sNombre, '+

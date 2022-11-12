@@ -14,7 +14,6 @@ try {
         multipleStatements: true
     });
     console.log("conexión exitosa con la db");
-
 } catch (error) {
     console.log("Error al conectar con la base de datos");
 }
