@@ -15,10 +15,37 @@
   }
 
   
-  a {
-    color: inherit;
-    text-decoration: inherit;
-  }
+ #RootAsistencia {
+   height: 80;
+   width: 90%;
+   font-family: Circular, Helvetica, Arial, sans-serif;
+   padding: 50px;
+   text-align: center;
+   box-sizing: border-box;
+   justify-content: center;
+   background: linear-gradient(145deg, rgb(195, 240, 200), rgb(80, 155, 245));
+
+   border-radius: 1rem;
+   border-radius: 5px;
+   transform: translateX(50px);
+ }
+
+ #cargarlista {
+   background-color: #00939C;
+ }
+
+ #label {
+   margin-right: 50px;
+ }
+
+ .Usuario {
+   transform: translateX(-50px);
+ }
+
+ a {
+   color: inherit;
+   text-decoration: inherit;
+ }
 
 .menu{
     transform: translateX(-20px);
@@ -142,6 +169,22 @@
 
   #Constancia{
     background-color: #F9A825;
+    height: 350px;
+    width: 240px;
+    border-radius: 30px;
+  transform: translateX(700px) translateY(-350px);
+  }
+  
+  #Asistencia {
+    background-color: #00EBF7;
+    height: 350px;
+    width: 240px;
+    border-radius: 30px;
+    transform: translateX(350px) translateY(-700px);
+  }
+  
+  #Matricula {
+    background-color: #7FEB94;
     height: 350px;
     width: 240px;
     border-radius: 30px;

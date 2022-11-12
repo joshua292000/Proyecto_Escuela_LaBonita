@@ -12,6 +12,7 @@ import { RegistroUsuEnc } from "./Paginas/RegistroEncUsu";
 import {Loggin} from "./Paginas/Loggin";
 import PaginaInicial from "./Paginas/PaginaInicial";
 import {Constancias} from "./Paginas/Constancia";
+import { Asistencia } from "./Paginas/Asistencia";
 
 export function App() {
 return (
@@ -19,12 +20,13 @@ return (
     <Routes>
       <Route path="/" element={<PaginaInicial />} />
       <Route path="/Loggin" element={<Loggin />} />
-      <Route path="/Inicio" element={<Inicio/>}/>
+      <Route path="/Inicio" element={<Inicio />} />
       <Route path="/Informacionpersonal" element={<InfoPersEstu />} />
       <Route path="/Informacionestudiante" element={<InfoEstudiante />} />
       <Route path="/Informacionencargado" element={<InformacionEnc />} />
       <Route path="/RegistroEncargados" element={<RegistroUsuEnc />} />
       <Route path="/Constancias" element={<Constancias />} />
+      <Route path="/AsistenciaEstudiantes" element={<Asistencia />} />
       <Route path="/RegistroProfesor" element={<InformacionPro />} />
     </Routes>
   </BrowserRouter>
