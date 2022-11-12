@@ -5,15 +5,18 @@ import {App} from "./App"
 import ProviderInfoEncargado from './AppContext/providerInfoEncargado';
 import ProviderInfoEstudiante from './AppContext/providerEstudiante';
 import ProviderDocumentos from './AppContext/providerDocumentos';
+import ProviderInfoProfesor from './AppContext/providerProfesores'; 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
   root.render(
     <ProviderInfoEstudiante>
       <ProviderInfoEncargado>
         <ProviderDocumentos>
-          <React.StrictMode>
-            <App />
-          </React.StrictMode> 
+          <ProviderInfoProfesor>
+            <React.StrictMode>
+              <App />
+            </React.StrictMode> 
+          </ProviderInfoProfesor>
         </ProviderDocumentos>
       </ProviderInfoEncargado>
     </ProviderInfoEstudiante>

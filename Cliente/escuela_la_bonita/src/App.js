@@ -2,6 +2,7 @@ import Inicio from "./Paginas/Inicio";
 import InfoPersEstu from "./Paginas/InfoPersEstu"; 
 import {InfoEstudiante} from "./Paginas/InformacionEst";  
 import InformacionEnc from "./Paginas/InformacionEnc";  
+import InformacionPro from "./Paginas/InfoPersProf";  
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from 'react';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
@@ -24,6 +25,7 @@ return (
       <Route path="/Informacionencargado" element={<InformacionEnc />} />
       <Route path="/RegistroEncargados" element={<RegistroUsuEnc />} />
       <Route path="/Constancias" element={<Constancias />} />
+      <Route path="/RegistroProfesor" element={<InformacionPro />} />
     </Routes>
   </BrowserRouter>
 );

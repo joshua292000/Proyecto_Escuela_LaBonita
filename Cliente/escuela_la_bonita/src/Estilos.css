@@ -146,3 +146,54 @@
     width: 240px;
     border-radius: 30px;
   }
+
+  #inputtext,#fnacimiento{
+    width: 150px;
+  }
+  #divisor{
+    width: 58%;
+    transform: translateX(220px);
+  }
+
+  #rootprofesores{
+    height: auto;
+    width:70%;
+    font-family: Circular,Helvetica,Arial,sans-serif;
+    margin: 10;
+    padding: 50px;
+    text-align: center;
+    box-sizing: border-box;
+    justify-content: center;
+    background: linear-gradient(145deg, rgba(195, 240, 200, 0.598), rgba(80, 154, 245, 0.511));
+    border-radius: 1rem;
+    border-radius: 5px;
+    transform: translateX(250px);
+  }
+
+  #demo-button .template {
+    
+    background-color:transparent;
+    border-color: transparent;
+  }
+  #demo-button{
+    border-color: transparent;
+  }
+  #Buscar2 {
+    height: 45px;
+    background: linear-gradient(to left, var(--blue-200) 50%, var(--blue-300) 50%);
+    background-size: 200% 100%;
+    font-family: Circular, Helvetica, Arial, sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    background-position: right bottom;
+    transition: background-position 0.5s ease-out;
+    color: #000;
+    border-color: var(--blue-300);
+    
+}
+#Buscar2:hover {
+    background-position: left bottom;
+}
+#Buscar2:focus {
+    box-shadow: 0 0 0 1px var(--blue-400);
+}

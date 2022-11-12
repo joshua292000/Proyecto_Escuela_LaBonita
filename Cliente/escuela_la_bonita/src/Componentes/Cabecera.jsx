@@ -76,7 +76,8 @@ const items = [
     {
        label:'Funcionarios',
        icon:'pi pi-fw pi-calendar',
-       command:(event)=>{navegar("/Loggin")}
+       command:(event)=>{navegar("/RegistroProfesor")}
+       //command:(event)=>{navegar("/Loggin")}
        //onclick: ()=>navegar("/Loggin")
        
     

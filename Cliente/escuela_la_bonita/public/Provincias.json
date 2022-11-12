@@ -1,0 +1,10 @@
+{
+    "data": [
+        { "name": "San José", "code": "SanJose" },
+        { "name": "Alajuela", "code": "Alajuela" },
+        { "name": "Heredia", "code": "Heredia" },
+        { "name": "Puntarenas", "code": "Puntarenas" },
+        { "name": "Cartago", "code": "Cartago" },
+        { "name": "Limón", "code": "Limon" },
+        { "name": "Guanacaste", "code": "Guanacaste" }
+    ]}

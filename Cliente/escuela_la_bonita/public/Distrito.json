@@ -1,0 +1,650 @@
+{
+    "data": [
+        {"name": "Carmen", "code": "Carmen","pro":"San José"},
+        {"name": "Merced", "code": "Merced","pro":"San José"},
+        {"name": "Hospital", "code": "Hospital","pro":"San José"},
+        {"name": " Catedral", "code": " Catedral","pro":"San José"},
+        {"name": " Zapote", "code": " Zapote","pro":"San José"},
+        {"name": "San Francisco de Dos Ríos", "code": "San Francisco de Dos Ríos","pro":"San José"},
+        {"name": "La Uruca", "code": "La Uruca","pro":"San José"},
+        {"name": "Mata Redonda", "code": "Mata Redonda","pro":"San José"},
+        {"name": "Pavas", "code": "Pavas","pro":"San José"},
+        {"name": "Hatillo", "code": "Hatillo","pro":"San José"},
+        {"name": "San Sebastián", "code": "San Sebastián","pro":"San José"},
+
+        {"name": "Escazú", "code": "Escazú","pro":"Escazú"},
+        {"name": "San Antonio", "code": "San Antonio","pro":"Escazú"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"Escazú"},
+
+
+        {"name": "Desamparados", "code": "Desamparados","pro":"Desamparados"},
+        {"name": "San Miguel", "code": "San Miguel","pro":"Desamparados"},
+        {"name": "San Juan de Dios", "code": "San Juan de Dios","pro":"Desamparados"},
+        {"name": "San Rafael Arriba", "code": "San Rafael Arriba","pro":"Desamparados"},
+        {"name": "San Antonio", "code": "San Antonio","pro":"Desamparados"},
+        {"name": "Frailes", "code": "Frailes","pro":"Desamparados"},
+        {"name": "Patarrá", "code": "Patarrá","pro":"Desamparados"},
+        {"name": "San Cristóbal", "code": "San Cristóbal","pro":"Desamparados"},
+        {"name": "Rosario", "code": "Rosario","pro":"Desamparados"},
+        {"name": "Damas", "code": "Damas","pro":"Desamparados"},
+        {"name": "San Rafael Abajo", "code": "San Rafael Abajo","pro":"Desamparados"},
+        {"name": "Gravilias", "code": "Gravilias","pro":"Desamparados"},
+        {"name": "Los Guido", "code": "Los Guido","pro":"Desamparados"},
+
+
+        {"name": "Santiago", "code": "Santiago","pro":"Puriscal"},
+        {"name": "Mercedes Sur", "code": "Mercedes Sur","pro":"Purisca"},
+        {"name": "Barbacoas", "code": "Barbacoas","pro":"Purisca"},
+        {"name": "Grifo Alto", "code": "Grifo Alto","pro":"Purisca"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"Purisca"},
+        {"name": "Candelarita", "code": "Candelarita","pro":"Purisca"},
+        {"name": "Desamparaditos", "code": "Desamparaditos","pro":"Purisca"},
+        {"name": "San Antonio", "code": "San Antonio","pro":"Purisca"},
+        {"name": "Chires", "code": "Chires","pro":"Purisca"},
+
+
+        {"name": "San Marcos", "code": "San Marcos","pro":"Tarrazú"},
+        {"name": "San Lorenzo", "code": "San Lorenzo","pro":"Tarrazú"},
+        {"name": "San Carlos", "code": "San Carlos","pro":"Tarrazú"},
+
+        {"name": "Aserrí", "code": "Aserrí","pro":"Aserrí"},
+        {"name": "Tarbaca", "code": "Tarbaca","pro":"Aserrí"},
+        {"name": "Vuelta de Jorco", "code": "Vuelta de Jorco","pro":"Aserrí"},
+        {"name": "San Gabriel", "code": "San Gabriel","pro":"Aserrí"},
+        {"name": "Legua", "code": "Legua","pro":"Aserrí"},
+        {"name": "Monterrey", "code": "Monterrey","pro":"Aserrí"},
+        {"name": "Salitrillos", "code": "Salitrillos","pro":"Aserrí"},
+
+
+        {"name": "Colón", "code": "Colón","pro":"Mora"},
+        {"name": "Guayabo", "code": "Guayabo","pro":"Mora"},
+        {"name": "Tabarcia", "code": "Tabarcia","pro":"Mora"},
+        {"name": "Piedras Negras", "code": "Piedras Negras","pro":"Mora"},
+        {"name": "Picagres", "code": "Picagres","pro":"Mora"},
+        {"name": "Jaris", "code": "Jaris","pro":"Mora"},
+        {"name": "Quitirrisí", "code": "Quitirrisí","pro":"Mora"},
+
+
+        {"name": "Guadalupe", "code": "Guadalupe","pro":"Goicoechea"},
+        {"name": "San Francisco", "code": "San Francisco","pro":"Goicoechea"},
+        {"name": "Calle Blancos", "code": "Calle Blancos","pro":"Goicoechea"},
+        {"name": "Mata de Plátano", "code": "Mata de Plátano","pro":"Goicoechea"},
+        {"name": "Ipís", "code": "Ipís","pro":"Goicoechea"},
+        {"name": "Rancho Redondo", "code": "Rancho Redondo","pro":"Goicoechea"},
+        {"name": "Purral", "code": "Purral","pro":"Goicoechea"},
+
+
+
+        {"name": "Santa Ana", "code": "Santa Ana","pro":"Santa Ana"},
+        {"name": "Salitral", "code": "Salitral","pro":"Santa Ana"},
+        {"name": "Pozos", "code": "Pozos","pro":"Santa Ana"},
+        {"name": "Uruca", "code": "Uruca","pro":"Santa Ana"},
+        {"name": "Piedades", "code": "Piedades","pro":"Santa Ana"},
+        {"name": "Brasil", "code": "Brasil","pro":"Santa Ana"},
+
+
+        {"name": "Alajuelita", "code": "Alajuelita","pro":"Alajuelita"},
+        {"name": "San Josecito", "code": "San Josecito","pro":"Alajuelita"},
+        {"name": "San Antonio", "code": "San Antonio","pro":"Alajuelita"},
+        {"name": "Concepción", "code": "Concepción","pro":"Alajuelita"},
+        {"name": "San Felipe", "code": "San Felipe","pro":"Alajuelita"},
+
+
+        {"name": "San Isidro", "code": "San Isidro","pro":"Vázquez de Coronado"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"Vázquez de Coronado"},
+        {"name": "Dulce Nombre de Jesús", "code": "Dulce Nombre de Jesús","pro":"Vázquez de Coronado"},
+        {"name": "Patalillo", "code": "Patalillo","pro":"Vázquez de Coronado"},
+        {"name": "Cascajal", "code": "Cascajal","pro":"Vázquez de Coronado"},
+
+
+        {"name": "San Ignacio", "code": "San Ignacio","pro":"Acosta"},
+        {"name": "Guaitil", "code": "Guaitil","pro":"Acosta"},
+        {"name": "Palmichal", "code": "Palmichal","pro":"Acosta"},
+        {"name": "Cangrejal", "code": "Cangrejal","pro":"Acosta"},
+        {"name": "Sabanillas", "code": "Sabanillas","pro":"Acosta"},
+
+
+        {"name": "San Juan", "code": "San Juan","pro":"Tibás"},
+        {"name": "Cinco Esquinas", "code": "Cinco Esquinas","pro":"Tibás"},
+        {"name": "Anselmo llorente", "code": "Anselmo llorente","pro":"Tibás"},
+        {"name": "León XIII", "code": "León XIII","pro":"Tibás"},
+        {"name": "Colima", "code": "Colima","pro":"Tibás"},
+
+
+        {"name": "San Vicente", "code": "San Vicente","pro":"Moravia"},
+        {"name": "San Jerónimo", "code": "San Jerónimo","pro":"Moravia"},
+        {"name": "La Trinidad", "code": "La Trinidad","pro":"Moravia"},
+
+        {"name": "San Pedro", "code": "San Pedro","pro":"Montes de Oca"},
+        {"name": "Sabanilla", "code": "Sabanilla","pro":"Montes de Oca"},
+        {"name": "Mercedes", "code": "Mercedes","pro":"Montes de Oca"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"Montes de Oca"},
+
+        {"name": "San Pablo", "code": "San Pablo","pro":"Turrubares"},
+        {"name": "San Pedro", "code": "San Pedro","pro":"Turrubares"},
+        {"name": "San Juan de Mata", "code": "San Juan de Mata","pro":"Turrubares"},
+        {"name": "San Luis", "code": "San Luis","pro":"Turrubares"},
+        {"name": "Carara", "code": "Carara","pro":"Turrubares"},
+
+        {"name": "Santa María", "code": "Santa María","pro":"Dota"},
+        {"name": "Jardín", "code": "Jardín","pro":"Dota"},
+        {"name": "Copey", "code": "Copey","pro":"Dota"},
+
+        {"name": "Curridabat", "code": "Curridabat","pro":"Curridabat"},
+        {"name": "Granadilla", "code": "Granadilla","pro":"Curridabat"},
+        {"name": "Sánchez", "code": "Sánchez","pro":"Curridabat"},
+        {"name": "Tirrases", "code": "Tirrases","pro":"Curridabat"},
+
+        {"name": "San Isidro de El General", "code": "San Isidro de El General","pro":"Pérez Zeledón"},
+        {"name": "El General", "code": "El General","pro":"Pérez Zeledón"},
+        {"name": "Daniel Flores", "code": "Daniel Flores","pro":"Pérez Zeledón"},
+        {"name": "Rivas", "code": "Rivas","pro":"Pérez Zeledón"},
+        {"name": "San Pedro", "code": "San Pedro","pro":"Pérez Zeledón"},
+        {"name": "Platanares", "code": "Platanares","pro":"Pérez Zeledón"},
+        {"name": "Pejibaye", "code": "Pejibaye","pro":"Pérez Zeledón"},
+        {"name": "Cajón", "code": "Cajón","pro":"Pérez Zeledón"},
+        {"name": "Barú", "code": "Barú","pro":"Pérez Zeledón"},
+        {"name": "Río Nuevo", "code": "Río Nuevo","pro":"Pérez Zeledón"},
+        {"name": "Páramo", "code": "Páramo","pro":"Pérez Zeledón"},
+        {"name": "La Amistad", "code": "La Amistad","pro":"Pérez Zeledón"},
+
+
+        {"name": "San Pablo", "code": "San Pablo","pro":"León Cortés Castro"},
+        {"name": "San Andrés", "code": "San Andrés","pro":"León Cortés Castro"},
+        {"name": "Llano Bonito", "code": "Llano Bonito","pro":"León Cortés Castro"},
+        {"name": "San Isidro", "code": "San Isidro","pro":"León Cortés Castro"},
+        {"name": "Santa Cruz", "code": "Santa Cruz","pro":"León Cortés Castro"},
+
+
+
+        {"name": "Alajuela", "code": "Alajuela","pro":"Alajuela"},
+        {"name": "San José", "code": "San José","pro":"Alajuela"},
+        {"name": "Carrizal", "code": "Carrizal","pro":"Alajuela"},
+        {"name": "San Antonio", "code": "San Antonio","pro":"Alajuela"},
+        {"name": "Guácima", "code": "Guácima","pro":"Alajuela"},
+        {"name": "San Isidro", "code": "San Isidro","pro":"Alajuela"},
+        {"name": "Sabanilla", "code": "Sabanilla","pro":"Alajuela"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"Alajuela"},
+        {"name": "Río Segundo", "code": "Río Segundo","pro":"Alajuela"},
+        {"name": "Desamparados", "code": "Desamparados","pro":"Alajuela"},
+        {"name": "Turrúcares", "code": "Turrúcares","pro":"Alajuela"},
+        {"name": "Tambor", "code": "Tambor","pro":"Alajuela"},
+        {"name": "La Garita", "code": "La Garita","pro":"Alajuela"},
+        {"name": "Sarapiquí", "code": "Sarapiquí","pro":"Alajuela"},
+
+
+        {"name": "San Ramón", "code": "San Ramón","pro":"San Ramón"},
+        {"name": "Santiago", "code": "Santiago","pro":"San Ramón"},
+        {"name": "San Juan", "code": "San Juan","pro":"San Ramón"},
+        {"name": "Piedades Norte", "code": "Piedades Norte","pro":"San Ramón"},
+        {"name": "Piedades Sur", "code": "Piedades Sur","pro":"San Ramón"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"San Ramón"},
+        {"name": "San Isidro", "code": "San Isidro","pro":"SSan RamónR"},
+        {"name": "Ángeles", "code": "Ángeles","pro":"San Ramón"},
+        {"name": "Alfaro", "code": "Alfaro","pro":"San Ramón"},
+        {"name": "Volio", "code": "Volio","pro":"San Ramón"},
+        {"name": "Concepción", "code": "Concepción","pro":"San Ramón"},
+        {"name": "Zapotal", "code": "Zapotal","pro":"San Ramón"},
+        {"name": "Peñas Blancas", "code": "Peñas Blancas","pro":"San Ramón"},
+        {"name": "San Lorenzo", "code": "San Lorenzo","pro":"San Ramón"},
+
+
+        {"name": "Grecia", "code": "Grecia","pro":"Grecia"},
+        {"name": "San Isidro", "code": "San Isidro","pro":"Grecia"},
+        {"name": "San José", "code": "San José","pro":"Grecia"},
+        {"name": "San Roque", "code": "San Roque","pro":"Grecia"},
+        {"name": "Tacares", "code": "Tacares","pro":"Grecia"},
+        {"name": "Puente de Piedra", "code": "Puente de Piedra","pro":"GGreciaR"},
+        {"name": "Bolívar", "code": "Bolívar","pro":"Grecia"},
+
+
+        {"name": "San Mateo", "code": "San Mateo","pro":"San Mateo"},
+        {"name": "Desmonte", "code": "Desmonte","pro":"San Mateo"},
+        {"name": "Jesús María", "code": "Jesús María","pro":"San Mateo"},
+        {"name": "Labrador", "code": "Labrador","pro":"San Mateo"},
+
+
+        {"name": "Atenas", "code": "Atenas","pro":"Atenas"},
+        {"name": "Jesús", "code": "Jesús","pro":"Atenas"},
+        {"name": "Mercedes", "code": "Mercedes","pro":"Atenas"},
+        {"name": "San Isidro", "code": "San Isidro","pro":"Atenas"},
+        {"name": "Concepción", "code": "Concepción","pro":"Atenas"},
+        {"name": "San José", "code": "San José","pro":"Atenas"},
+        {"name": "Santa Eulalia", "code": "Santa Eulalia","pro":"Atenas"},
+        {"name": "Escobal", "code": "Escobal","pro":"Atenas"},
+
+
+        {"name": "Naranjo", "code": "Naranjo","pro":"Naranjo"},
+        {"name": "San Miguel", "code": "San Miguel","pro":"Naranjo"},
+        {"name": "San José", "code": "San José","pro":"Naranjo"},
+        {"name": "Cirrí Sur", "code": "Cirrí Sur","pro":"Naranjo"},
+        {"name": "San Jerónimo", "code": "San Jerónimo","pro":"Naranjo"},
+        {"name": "San Juan", "code": "San Juan","pro":"Naranjo"},
+        {"name": "El Rosario", "code": "El Rosario","pro":"Naranjo"},
+        {"name": "Palmitos", "code": "Palmitos","pro":"Naranjo"},
+
+
+
+        {"name": "Palmares", "code": "Palmares","pro":"Palmares"},
+        {"name": "Zaragoza", "code": "Zaragoza","pro":"Palmares"},
+        {"name": "Buenos Aires", "code": "Buenos Aires","pro":"Palmares"},
+        {"name": "Santiago", "code": "Santiago","pro":"Palmares"},
+        {"name": "Candelaria", "code": "Candelaria","pro":"Palmares"},
+        {"name": "Esquipulas", "code": "Esquipulas","pro":"Palmares"},
+        {"name": "La Granja", "code": "La Granja","pro":"Palmares"},
+
+
+        {"name": "San Pedro", "code": "San Pedro","pro":"Poás"},
+        {"name": "San Juan", "code": "San Juan","pro":"Poás"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"Poás"},
+        {"name": "Carrillos", "code": "Carrillos","pro":"Poás"},
+        {"name": "Sabana Redonda", "code": "Sabana Redonda","pro":"Poás"},
+
+
+
+        {"name": "Orotina", "code": "Orotina","pro":"Orotina"},
+        {"name": "El Mastate", "code": "El Mastate","pro":"Orotina"},
+        {"name": "Hacienda Vieja", "code": "Hacienda Vieja","pro":"Orotina"},
+        {"name": "Coyolar", "code": "Coyolar","pro":"Orotina"},
+        {"name": "La Ceiba", "code": "La Ceiba","pro":"Orotina"},
+
+
+        {"name": "Quesada", "code": "Quesada","pro":"San Carlos"},
+        {"name": "Florencia", "code": "Florencia","pro":"San Carlos"},
+        {"name": "Buenavista", "code": "Buenavista","pro":"San Carlos"},
+        {"name": "Aguas Zarcas", "code": "Aguas Zarcas","pro":"San Carlos"},
+        {"name": "Venecia", "code": "Venecia","pro":"San Carlos"},
+        {"name": "Pital", "code": "Pital","pro":"San Carlos"},
+        {"name": "La Fortuna", "code": "La Fortuna","pro":"San Carlos"},
+        {"name": "La Tigra", "code": "La Tigra","pro":"San Carlos"},
+        {"name": "La Palmera", "code": "La Palmera","pro":"San Carlos"},
+        {"name": "Venado", "code": "Venado","pro":"San Carlos"},
+        {"name": "Cutris", "code": "Cutris","pro":"San Carlos"},
+        {"name": "Monterrey", "code": "Monterrey","pro":"San Carlos"},
+        {"name": "Pocosol", "code": "Pocosol","pro":"San Carlos"},
+
+
+
+        {"name": "Zarcero", "code": "Zarcero","pro":"Zarcero"},
+        {"name": "Laguna", "code": "Laguna","pro":"Zarcero"},
+        {"name": "Tapesco", "code": "Tapesco","pro":"Zarcero"},
+        {"name": "Guadalupe", "code": "Guadalupe","pro":"Zarcero"},
+        {"name": "Palmira", "code": "Palmira","pro":"Zarcero"},
+        {"name": "Zapote", "code": "Zapote","pro":"Zarcero"},
+        {"name": "Brisas", "code": "Brisas","pro":"Zarcero"},
+
+        {"name": "Sarchí Norte", "code": "Sarchí Norte","pro":"Sarchí"},
+        {"name": "Sarchí Sur", "code": "Sarchí Sur","pro":"Sarchí"},
+        {"name": "Toro Amarillo", "code": "Toro Amarillo","pro":"Sarchí"},
+        {"name": "San Pedro", "code": "San Pedro","pro":"Sarchí"},
+        {"name": "Rodríguez", "code": "Rodríguez","pro":"Sarchí"},
+
+
+        {"name": "Upala", "code": "Upala","pro":"Upala"},
+        {"name": "Aguas Claras", "code": "Aguas Claras","pro":"Upala"},
+        {"name": "San José (Pizote)", "code": "San José (Pizote)","pro":"Upala"},
+        {"name": "Bijagua", "code": "Bijagua","pro":"Upala"},
+        {"name": "Delicias", "code": "Delicias","pro":"Upala"},
+        {"name": "Dos Ríos", "code": "Dos Ríos","pro":"Upala"},
+        {"name": "Yolillal", "code": "Yolillal","pro":"Upala"},
+        {"name": "Canalete", "code": "Canalete","pro":"Upala"},
+
+
+        {"name": "Los Chiles", "code": "Los Chiles","pro":"Los Chiles"},
+        {"name": "Caño Negro", "code": "Caño Negro","pro":"Los Chiles"},
+        {"name": "El Amparo", "code": "El Amparo","pro":"Los Chiles"},
+        {"name": "San Jorge", "code": "San Jorge","pro":"LLos ChilesH"},
+
+
+        {"name": "San Rafael", "code": "San Rafael","pro":"Guatuso"},
+        {"name": "Buenavista", "code": "Buenavista","pro":"Guatuso"},
+        {"name": "Cote", "code": "Cote","pro":"Guatuso"},
+        {"name": "Katira", "code": "Katira","pro":"Guatuso"},
+
+
+        {"name": "Río Cuarto", "code": "Río Cuarto","pro":"Río Cuarto"},
+        {"name": "Santa Rita", "code": "Santa Rita","pro":"Río Cuarto"},
+        {"name": "Santa Isabel", "code": "Santa Isabel","pro":"Río Cuarto"},
+
+
+
+        {"name": "Heredia", "code": "Heredia","pro":"Heredia"},
+        {"name": "Mercedes", "code": "Mercedes","pro":"Heredia"},
+        {"name": "San Francisco", "code": "San Francisco","pro":"Heredia"},
+        {"name": "Ulloa", "code": "Ulloa","pro":"Heredia"},
+        {"name": "Varablanca", "code": "Varablanca","pro":"Heredia"},
+
+
+        {"name": "Barva", "code": "Barva","pro":"Barva"},
+        {"name": "San Pedro", "code": "San Pedro","pro":"Barva"},
+        {"name": "San Pablo", "code": "San Pablo","pro":"Barva"},
+        {"name": "San Roque", "code": "San Roque","pro":"Barva"},
+        {"name": "Santa Lucía", "code": "Santa Lucía","pro":"Barva"},
+        {"name": "San José de la Montaña", "code": "San José de la Montaña","pro":"Barva"},
+
+        {"name": "Santo Domingo", "code": "Santo Domingo","pro":"Santo Domingo"},
+        {"name": "San Vicente", "code": "San Vicente","pro":"Santo Domingo"},
+        {"name": "San Miguel", "code": "San Miguel","pro":"Santo Domingo"},
+        {"name": "Paracito", "code": "Paracito","pro":"Santo Domingo"},
+        {"name": "Santo Tomás", "code": "Santo Tomás","pro":"Santo Domingo"},
+        {"name": "Santa Rosa", "code": "Santa Rosa","pro":"Santo Domingo"},
+        {"name": "Tures", "code": "Tures","pro":"Santo Domingo"},
+        {"name": "Pará", "code": "Pará","pro":"Santo Domingo"},
+
+
+        {"name": "Santa Bárbara", "code": "Santa Bárbara","pro":"Santa Bárbara"},
+        {"name": "San Pedro", "code": "San Pedro","pro":"Santa Bárbara"},
+        {"name": "San Juan", "code": "San Juan","pro":"Santa Bárbara"},
+        {"name": "Jesús", "code": "Jesús","pro":"Santa Bárbara"},
+        {"name": "Santo Domingo", "code": "Santo Domingo","pro":"Santa Bárbara"},
+        {"name": "Purabá", "code": "Purabá","pro":"Santa Bárbara"},
+
+
+        {"name": "San Rafael", "code": "San Rafael","pro":"San Rafael"},
+        {"name": "San Josecito", "code": "San Josecito","pro":"San Rafael"},
+        {"name": "Santiago", "code": "Santiago","pro":"San Rafael"},
+        {"name": "Ángeles", "code": "Ángeles","pro":"San Rafael"},
+        {"name": "Concepción", "code": "Concepción","pro":"San Rafael"},
+
+
+        {"name": "San Isidro", "code": "San Isidro","pro":"San Isidro"},
+        {"name": "San José", "code": "San José","pro":"San Isidro"},
+        {"name": "Concepción", "code": "Concepción","pro":"San Isidro"},
+        {"name": "San Francisco", "code": "San Francisco","pro":"San Isidro"},
+
+        {"name": "San Antonio", "code": "San Antonio","pro":"Belén"},
+        {"name": "La Ribera", "code": "La Ribera","pro":"Belén"},
+        {"name": "La Asunción", "code": "La Asunción","pro":"Belén"},
+
+        {"name": "San Joaquín", "code": "San Joaquín","pro":"Flores"},
+        {"name": "Barrantes", "code": "Barrantes","pro":"Flores"},
+        {"name": "Llorente", "code": "Llorente","pro":"Flores"},
+
+
+        {"name": "San Pablo", "code": "San Pablo","pro":"San Pablo"},
+        {"name": "Rincón de Sabanilla", "code": "Rincón de Sabanilla","pro":"San Pablo"},
+
+        {"name": "Puerto Viejo", "code": "Puerto Viejo","pro":"Sarapiquí"},
+        {"name": "La Virgen", "code": "La Virgen","pro":"Sarapiquí"},
+        {"name": "Horquetas", "code": "Horquetas","pro":"Sarapiquí"},
+        {"name": "Llanuras del Gaspar", "code": "Llanuras del Gaspar","pro":"Sarapiquí"},
+        {"name": "Cureña", "code": "Cureña","pro":"Sarapiquí"},
+
+
+
+        {"name": "Puntarenas", "code": "Puntarenas","pro":"Puntarenas"},
+        {"name": "Pitahaya", "code": "Pitahaya","pro":"Puntarenas"},
+        {"name": "Chomes", "code": "Chomes","pro":"Puntarenas"},
+        {"name": "Lepanto", "code": "Lepanto","pro":"Puntarenas"},
+        {"name": "Paquera", "code": "Paquera","pro":"Puntarenas"},
+        {"name": "Manzanillo", "code": "Manzanillo","pro":"Puntarenas"},
+        {"name": "Guacimal", "code": "Guacimal","pro":"Puntarenas"},
+        {"name": "Barranca", "code": "Barranca","pro":"Puntarenas"},
+        {"name": "Isla del Coco", "code": "Isla del Coco","pro":"Puntarenas"},
+        {"name": "Cóbano", "code": "Cóbano","pro":"Puntarenas"},
+        {"name": "Chacarita", "code": "Chacarita","pro":"Puntarenas"},
+        {"name": "Chira", "code": "Chira","pro":"Puntarenas"},
+        {"name": "Acapulco", "code": "Acapulco","pro":"Puntarenas"},
+        {"name": "El Roble", "code": "El Roble","pro":"Puntarenas"},
+        {"name": "Arancibia", "code": "Arancibia","pro":"Puntarenas"},
+
+
+        {"name": "Espíritu Santo", "code": "Espíritu Santo","pro":"Esparza"},
+        {"name": "San Juan Grande", "code": "San Juan Grande","pro":"Esparza"},
+        {"name": "Macacona", "code": "Macacona","pro":"Esparza"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"Esparza"},
+        {"name": "San Jerónimo", "code": "San Jerónimo","pro":"Esparza"},
+        {"name": "Caldera", "code": "Caldera","pro":"Esparza"},
+
+
+        {"name": "Buenos Aires", "code": "Buenos Aires","pro":"Buenos Aires"},
+        {"name": "Volcán", "code": "Volcán","pro":"Buenos Aires"},
+        {"name": "Potrero Grande", "code": "Potrero Grande","pro":"Buenos Aires"},
+        {"name": "Boruca", "code": "Boruca","pro":"Buenos Aires"},
+        {"name": "Pilas", "code": "Pilas","pro":"Buenos Aires"},
+        {"name": "Colinas", "code": "Colinas","pro":"Buenos Aires"},
+        {"name": "Chánguena", "code": "Chánguena","pro":"Buenos Aires"},
+        {"name": "Biolley", "code": "Biolley","pro":"Buenos Aires"},
+        {"name": "Brunka", "code": "Brunka","pro":"Buenos Aires"},
+
+
+        {"name": "Miramar", "code": "Miramar","pro":"Montes de Oro"},
+        {"name": "La Unión", "code": "La Unión","pro":"Montes de Oro"},
+        {"name": "San Isidro", "code": "San Isidro","pro":"Montes de Oro"},
+
+
+        {"name": "Puerto Cortés", "code": "Puerto Cortés","pro":"Osa"},
+        {"name": "Palmar", "code": "Palmar","pro":"Osa"},
+        {"name": "Sierpe", "code": "Sierpe","pro":"Osa"},
+        {"name": "Bahía Ballena", "code": "Bahía Ballena","pro":"Osa"},
+        {"name": "Piedras Blancas", "code": "Piedras Blancas","pro":"Osa"},
+        {"name": "Bahía Drake", "code": "Bahía Drake","pro":"Osa"},
+
+
+        {"name": "Quepos", "code": "Quepos","pro":"Quepos"},
+        {"name": "Savegre", "code": "Savegre","pro":"Quepos"},
+        {"name": "Naranjito", "code": "Naranjito","pro":"Quepos"},
+
+
+        {"name": "Golfito", "code": "Golfito","pro":"Golfito"},
+        {"name": "Guaycará", "code": "Guaycará","pro":"Golfito"},
+        {"name": "Pavón", "code": "Pavón","pro":"Golfito"},
+
+
+        {"name": "San Vito", "code": "San Vito","pro":"Coto Brus"},
+        {"name": "Sabalito", "code": "Sabalito","pro":"Coto Brus"},
+        {"name": "Aguabuena", "code": "Aguabuena","pro":"Coto Brus"},
+        {"name": "Limoncito", "code": "Limoncito","pro":"Coto Brus"},
+        {"name": "Pittier", "code": "Pittier","pro":"Coto Brus"},
+        {"name": "Gutiérrez Braun", "code": "Gutiérrez Braun","pro":"Coto Brus"},
+
+
+        {"name": "Parrita", "code": "Parrita","pro":"Parrita"},
+
+
+        {"name": "Corredor", "code": "Corredor","pro":"Corredores"},
+        {"name": "La Cuesta", "code": "La Cuesta","pro":"Corredores"},
+        {"name": "Canoas", "code": "Canoas","pro":"Corredores"},
+        {"name": "Laurel", "code": "Laurel","pro":"Corredores"},
+
+
+        {"name": "Jacó", "code": "Jacó","pro":"Garabito"},
+        {"name": "Tárcoles", "code": "Tárcoles","pro":"Garabito"},
+        {"name": "Lagunillas", "code": "Lagunillas","pro":"Garabito"},
+
+        {"name": "Monteverde", "code": "Monteverde","pro":"Monteverde"},
+
+        {"name": "Puerto Jiménez", "code": "Puerto Jiménez","pro":"Puerto Jiménez"},
+
+
+
+        {"name": "Oriental", "code": "Oriental","pro":"Cartago"},
+        {"name": "Occidental", "code": "Occidental","pro":"Cartago"},
+        {"name": "Carmen", "code": "Carmen","pro":"Cartago"},
+        {"name": "San Nicolás", "code": "San Nicolás","pro":"Cartago"},
+        {"name": "Aguacaliente", "code": "Aguacaliente","pro":"Cartago"},
+        {"name": "Guadalupe", "code": "Guadalupe","pro":"Cartago"},
+        {"name": "Corralillo", "code": "Corralillo","pro":"Cartago"},
+        {"name": "Tierra Blanca", "code": "Tierra Blanca","pro":"Cartago"},
+        {"name": "Dulce Nombre", "code": "Dulce Nombre","pro":"Cartago"},
+        {"name": "Llano Grande", "code": "Llano Grande","pro":"Cartago"},
+        {"name": "Quebradilla", "code": "Quebradilla","pro":"Cartago"},
+
+
+        {"name": "Paraíso", "code": "Paraíso","pro":"Paraíso"},
+        {"name": "Santiago", "code": "Santiago","pro":"Paraíso"},
+        {"name": "Orosi", "code": "Orosi","pro":"Paraíso"},
+        {"name": "Cachí", "code": "Cachí","pro":"Paraíso"},
+        {"name": "Llanos de Santa Lucía", "code": "Llanos de Santa Lucía","pro":"PParaísoS"},
+
+
+        {"name": "Tres Ríos", "code": "Tres Ríos","pro":"La Unión"},
+        {"name": "San Diego", "code": "San Diego","pro":"La Unión"},
+        {"name": "San Juan", "code": "San Juan","pro":"La Unión"},
+        {"name": "San Rafael", "code": "San Rafael","pro":"La Unión"},
+        {"name": "Concepción", "code": "Concepción","pro":"La Unión"},
+        {"name": "Dulce Nombre", "code": "Dulce Nombre","pro":"La Unión"},
+        {"name": "San Ramón", "code": "San Ramón","pro":"La Unión"},
+        {"name": "Río Azul", "code": "Río Azul","pro":"La Unión"},
+
+
+        {"name": "Juan Viñas", "code": "Juan Viñas","pro":"Jiménez"},
+        {"name": "Tucurrique", "code": "Tucurrique","pro":"Jiménez"},
+        {"name": "Pejibaye", "code": "Pejibaye","pro":"Jiménez"},
+        {"name": "La Victoria", "code": "La Victoria","pro":"Jiménez"},
+
+        {"name": "Turrialba", "code": "Turrialba","pro":"Turrialba"},
+        {"name": "La Suiza", "code": "La Suiza","pro":"Turrialba"},
+        {"name": "Peralta", "code": "Peralta","pro":"Turrialba"},
+        {"name": "Santa Cruz", "code": "Santa Cruz","pro":"Turrialba"},
+        {"name": "Santa Teresita", "code": "Santa Teresita","pro":"Turrialba"},
+        {"name": "Pavones", "code": "Pavones","pro":"Turrialba"},
+        {"name": "Tuis", "code": "Tuis","pro":"Turrialba"},
+        {"name": "Tayutic", "code": "Tayutic","pro":"Turrialba"},
+        {"name": "Santa Rosa", "code": "Santa Rosa","pro":"Turrialba"},
+        {"name": "Tres Equis", "code": "Tres Equis","pro":"Turrialba"},
+        {"name": "La Isabel", "code": "La Isabel","pro":"Turrialba"},
+        {"name": "Chirripó", "code": "Chirripó","pro":"Turrialba"},
+
+
+        {"name": "Pacayas", "code": "Pacayas","pro":"Alvarado"},
+        {"name": "Cervantes", "code": "Cervantes","pro":"Alvarado"},
+        {"name": "Capellades", "code": "Capellades","pro":"Alvarado"},
+
+
+        {"name": "San Rafael", "code": "San Rafael","pro":"Oreamuno"},
+        {"name": "Cot", "code": "Cot","pro":"Oreamuno"},
+        {"name": "Potrero Cerrado", "code": "Potrero Cerrado","pro":"Oreamuno"},
+        {"name": "Cipreses", "code": "Cipreses","pro":"Oreamuno"},
+        {"name": "Santa Rosa", "code": "Santa Rosa","pro":"Oreamuno"},
+
+
+        {"name": "El Tejar", "code": "El Tejar","pro":"El Guarco"},
+        {"name": "San Isidro", "code": "San Isidro","pro":"El Guarco"},
+        {"name": "Tobosi", "code": "Tobosi","pro":"El Guarco"},
+        {"name": "Patio de Agua", "code": "Patio de Agua","pro":"El Guarco"},
+
+
+        {"name": "Limón", "code": "Limón","pro":"Limón"},
+        {"name": "Valle La Estrella", "code": "Valle La Estrella","pro":"Limón"},
+        {"name": "Río Blanco", "code": "Río Blanco","pro":"Limón"},
+        {"name": "Matama", "code": "Matama","pro":"Limón"},
+
+
+        {"name": "Guápiles", "code": "Guápiles","pro":"Pococí"},
+        {"name": "Jiménez", "code": "Jiménez","pro":"Pococí"},
+        {"name": "La Rita", "code": "La Rita","pro":"Pococí"},
+        {"name": "Roxana", "code": "Roxana","pro":"Pococí"},
+        {"name": "Cariari", "code": "Cariari","pro":"Pococí"},
+        {"name": "Colorado", "code": "Colorado","pro":"Pococí"},
+        {"name": "La Colonia", "code": "La Colonia","pro":"Pococí"},
+
+
+        {"name": "Siquirres", "code": "Siquirres","pro":"Siquirres"},
+        {"name": "Pacuarito", "code": "Pacuarito","pro":"Siquirres"},
+        {"name": "Florida", "code": "Florida","pro":"Siquirres"},
+        {"name": "Germania", "code": "Germania","pro":"Siquirres"},
+        {"name": "El Cairo", "code": "El Cairo","pro":"Siquirres"},
+        {"name": "Alegría", "code": "Alegría","pro":"Siquirres"},
+        {"name": "Reventazón", "code": "Reventazón","pro":"Siquirres"},
+
+
+        {"name": "Bratsi", "code": "Bratsi","pro":"Talamanca"},
+        {"name": "Sixaola", "code": "Sixaola","pro":"Talamanca"},
+        {"name": "Cahuita", "code": "Cahuita","pro":"Talamanca"},
+        {"name": "Telire", "code": "Telire","pro":"Talamanca"},
+
+
+        {"name": "Matina", "code": "Matina","pro":"Matina"},
+        {"name": "Batán", "code": "Batán","pro":"Matina"},
+        {"name": "Carrandi", "code": "Carrandi","pro":"Matina"},
+
+        {"name": "Guácimo", "code": "Guácimo","pro":"Guácimo"},
+        {"name": "Mercedes", "code": "Mercedes","pro":"Guácimo"},
+        {"name": "Pocora", "code": "Pocora","pro":"Guácimo"},
+        {"name": "Río Jiménez", "code": "Río Jiménez","pro":"Guácimo"},
+        {"name": "Duacarí", "code": "Duacarí","pro":"Guácimo"},
+
+
+        {"name": "Liberia", "code": "Liberia","pro":"Liberia"},
+        {"name": "Cañas Dulces", "code": "Cañas Dulces","pro":"Liberia"},
+        {"name": "Mayorga", "code": "Mayorga","pro":"Liberia"},
+        {"name": "Nacascolo", "code": "Nacascolo","pro":"Liberia"},
+        {"name": "Curubandé", "code": "Curubandé","pro":"Liberia"},
+
+
+        {"name": "Nicoya", "code": "Nicoya","pro":"Nicoya"},
+        {"name": "Mansión", "code": "Mansión","pro":"Nicoya"},
+        {"name": "San Antonio", "code": "San Antonio","pro":"Nicoya"},
+        {"name": "Quebrada Honda", "code": "Quebrada Honda","pro":"Nicoya"},
+        {"name": "Sámara", "code": "Sámara","pro":"Nicoya"},
+        {"name": "Nosara", "code": "Nosara","pro":"Nicoya"},
+        {"name": "Belén de Nosarita", "code": "Belén de Nosarita","pro":"Nicoya"},
+
+
+        {"name": "Santa Cruz", "code": "Santa Cruz","pro":"Santa Cruz"},
+        {"name": "Bolsón", "code": "Bolsón","pro":"Santa Cruz"},
+        {"name": "Veintisiete de Abril", "code": "Veintisiete de Abril","pro":"Santa Cruz"},
+        {"name": "Tempate", "code": "Tempate","pro":"Santa Cruz"},
+        {"name": "Cartagena", "code": "Cartagena","pro":"Santa Cruz"},
+        {"name": "Cuajiniquil", "code": "Cuajiniquil","pro":"Santa Cruz"},
+        {"name": "Diriá", "code": "Diriá","pro":"Santa Cruz"},
+        {"name": "Cabo Velas", "code": "Cabo Velas","pro":"Santa Cruz"},
+        {"name": "Tamarindo", "code": "Tamarindo","pro":"Santa Cruz"},
+
+
+        {"name": "Bagaces", "code": "Bagaces","pro":"Bagaces"},
+        {"name": "La Fortuna", "code": "La Fortuna","pro":"Bagaces"},
+        {"name": "Mogote", "code": "Mogote","pro":"Bagaces"},
+        {"name": "Río Naranjo", "code": "Río Naranjo","pro":"Bagaces"},
+
+
+        {"name": "Filadelfia", "code": "Filadelfia","pro":"Carrillo"},
+        {"name": "Palmira", "code": "Palmira","pro":"Carrillo"},
+        {"name": "Sardinal", "code": "Sardinal","pro":"Carrillo"},
+        {"name": "Belén", "code": "Belén","pro":"Carrillo"},
+
+        {"name": "Cañas", "code": "Cañas","pro":"Cañas"},
+        {"name": "Palmira", "code": "Palmira","pro":"Cañas"},
+        {"name": "San Miguel", "code": "San Miguel","pro":"Cañas"},
+        {"name": "Bebedero", "code": "Bebedero","pro":"Cañas"},
+        {"name": "Porozal", "code": "Porozal","pro":"Cañas"},
+
+
+        
+        {"name": "Las Juntas", "code": "Las Juntas","pro":"Abangares"},
+        {"name": "Sierra", "code": "Sierra","pro":"Abangares"},
+        {"name": "San Juan", "code": "San Juan","pro":"Abangares"},
+        {"name": "Colorado", "code": "Colorado","pro":"Abangares"},
+
+
+        {"name": "Tilarán", "code": "Tilarán","pro":"Tilarán"},
+        {"name": "Quebrada Grande", "code": "Quebrada Grande","pro":"Tilarán"},
+        {"name": "Tronadora", "code": "Tronadora","pro":"Tilarán"},
+        {"name": "Santa Rosa", "code": "Santa Rosa","pro":"Tilarán"},
+        {"name": "Líbano", "code": "Líbano","pro":"Tilarán"},
+        {"name": "Tierras Morenas", "code": "Tierras Morenas","pro":"Tilarán"},
+        {"name": "Arenal", "code": "Arenal","pro":"Tilarán"},
+        {"name": "Cabeceras", "code": "Cabeceras","pro":"Tilarán"},
+
+
+        {"name": "Carmona", "code": "Carmona","pro":"Nandayure"},
+        {"name": "Santa Rita", "code": "Santa Rita","pro":"Nandayure"},
+        {"name": "Zapotal", "code": "Zapotal","pro":"Nandayure"},
+        {"name": "San Pablo", "code": "San Pablo","pro":"Nandayure"},
+        {"name": "Porvenir", "code": "Porvenir","pro":"Nandayure"},
+        {"name": "Bejuco", "code": "Bejuco","pro":"Nandayure"},
+
+
+        {"name": "La Cruz", "code": "La Cruz","pro":"La Cruz"},
+        {"name": "Santa Cecilia", "code": "Santa Cecilia","pro":"La Cruz"},
+        {"name": "La Garita", "code": "La Garita","pro":"La Cruz"},
+        {"name": "Santa Elena", "code": "Santa Elena","pro":"La Cruz"},
+
+
+        {"name": "Hojancha", "code": "Hojancha","pro":"Hojancha"},
+        {"name": "Monte Romo", "code": "Monte Romo","pro":"Hojancha"},
+        {"name": "Puerto Carrillo", "code": "Puerto Carrillo","pro":"Hojancha"},
+        {"name": "Huacas", "code": "Huacas","pro":"Hojancha"},
+        {"name": "Matambú", "code": "Matambú","pro":"Hojancha"}
+    ]}
