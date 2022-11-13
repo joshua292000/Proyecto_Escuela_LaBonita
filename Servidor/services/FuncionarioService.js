@@ -42,4 +42,41 @@ const Obtener_Secciones = (request, response) => {
 app.get("/loggin/:usuario/:clave",Loggin);
 app.get("/Constancia/:Func_Id",Obtener_Secciones);
 
+const obtenerFuncionario = (request, response) => {
+    // const {cedula} = request.body;
+     
+     connection.query('SELECT p.Per_Identificacion AS cedula, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, '+ 
+                      'p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido, DATE_FORMAT(p.Per_FechaNacimiento, "%Y-%m-%d")  as fechaNaci, '+ 
+                      'p.Per_EstadoCivil AS EstadoCivil, p.Per_Sexo AS Sexo, i.Pais_Nombre AS Pais, d.Dir_Direccion AS Direccion, '+ 
+                      'v.Pro_Nombre AS Provincia, t.Can_Nombre AS Canton, o.Dis_Nombre AS Distrito, f.Func_Escolaridad AS Escolaridad, '+
+                      'f.Func_AniosLaborados AS Experiencia,DATE_FORMAT(f.Fun_FechaIngreso, "%Y-%m-%d")  as fechaIngre,f.Fun_Foto AS Foto, '+
+                      'f.Fun_Descripcion AS Descripcion, n.Ins_Nombre AS Institucion '+ 
+                      'FROM esc_personas p, esc_pais i, esc_direccion d, '+ 
+                      'esc_provincia v, esc_canton t, esc_distrito o, '+ 
+                      'esc_funcionarios f, esc_institucion n '+ 
+                      'WHERE p.Esc_Nacionalidad = i.Pais_Id AND p.Per_Id =d.Per_id AND '+ 
+                      'd.Pro_Id = v.Pro_Id AND d.Can_Id = t.Can_Id AND '+ 
+                      'd.Dis_Id = o.Dis_Id AND p.Per_Id = f.Per_Id AND f.Ins_Id= n.Ins_Id '+ 
+                      'AND p.Per_Identificacion = ?;', 
+     [request.params.cedula],
+     (error, results) => {
+         if(error)
+             throw error;
+         response.status(201).json(results);
+     });
+ };
+ 
+ //ruta
+ app.get("/obtenerFuncionario/:cedula",obtenerFuncionario);
+  
+
+ const obtenerisntitucion = (request, response) => {
+    connection.query('SELECT i.Ins_Id AS id ,i.Ins_Nombre AS Institucion FROM esc_institucion i;', 
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+app.get("/obtenerisntitucion",obtenerisntitucion);
 module.exports = app;

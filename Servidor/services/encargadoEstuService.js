@@ -48,20 +48,7 @@ const obtenerEncargado= (request, response) => {
 app.get("/obtenerEncargado/:cd/:id", obtenerEncargado)
 
 
-const obtenerContactoEncargado = (request, response) => {
-    const id = request.params.id;
-    connection.query('SELECT c.Cont_Contacto AS contacto, t.Tco_Descripcion AS Tipo '+
-                     'FROM esc_contactoper c, esc_tipocontacto t, esc_personas p '+
-                     'WHERE c.Tco_Id =t.Tco_Id AND c.Per_Id=p.Per_Id AND p.Per_Id= ?', 
-    [id],
-    (error, results) => {
-        if(error)
-            throw error;
-        response.status(201).json(results);
-    });
-};
 
-app.get("/obtenerConEncargado/:id", obtenerContactoEncargado);
 
 
 module.exports = app;
