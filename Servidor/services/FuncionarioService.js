@@ -79,4 +79,19 @@ const obtenerFuncionario = (request, response) => {
     });
 };
 app.get("/obtenerisntitucion",obtenerisntitucion);
+
+const insertarFuncionario = (request, response) => {
+    const {cedula, institucion, escolaridad,experiencia,fechaIngreso,foto,descripcion} = request.body;
+    connection.query('CALL PRC_InsertarFuncionario(?, ?, ?, ?,?, ?, ?, @msjError); SELECT @msjError As error;', 
+    [cedula, institucion, escolaridad,experiencia,fechaIngreso,foto,descripcion],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+//ruta
+app.route("/insertarFuncionario").post(insertarFuncionario);
+
 module.exports = app;

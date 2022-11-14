@@ -1,20 +1,26 @@
 import { useRef, useContext, useState, useEffect } from "react";
-import { infoEncargado, infoContacto } from "../AppContext/providerInfoEncargado";
-import { ObtenerEstudiante } from "../Persistencia/EstudianteService";
+import {ObtenerProfesor,
+        ObtenerCont,
+        ObtenerInstitucion,
+        agregarFun,
+        agregarPersona,
+        agregarContacto } from "../Persistencia/FuncionarioService";
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
-import { PaisService, ProvinciaService, CantonService, DistritoService } from '../AppContext/Getdireccion';
+import {PaisService, 
+        ProvinciaService, 
+        CantonService, 
+        DistritoService } from '../AppContext/Getdireccion';
 import { Dropdown } from 'primereact/dropdown';
 import { RadioButton } from 'primereact/radiobutton';
 import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { FileUpload } from 'primereact/fileupload';
-
-import {infoProfesores} from "../AppContext/providerProfesores";
-
+import {infoProfesores,infoContacto} from "../AppContext/providerProfesores";
+import { ConfirmDialog,confirmDialog } from 'primereact/confirmdialog';
 import { Tag } from 'primereact/tag';
-
+import { Toast } from 'primereact/toast';
 
 
 export function InfoPersonal() {
@@ -31,32 +37,48 @@ export function InfoPersonal() {
     useEffect(() => {
         Pais.getPais().then(data => setCountries(data));
         Provincia.getProvincia().then(data => setProvincia(data));
+        
     }, []);
+    const Estado = [
+        { name: 'Soltero',code:'S' },
+        { name: 'Casado',code:'C' },
+        { name: 'Unión libre',code:'U' },
+        { name: 'Divorciado(a)',code:'D' },
+        { name: 'Viudo(a)',code:'V' },
+        { name: 'Separado(a)',code:'E'}
+    ];
     return (
         <div className="form-demo" style={{ height: 'auto' }}>
             <span className="titleBlack">Información Personal</span>
             <br />
-            <div class="container" style={{ borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}>
-                <div class="row ">
-                    <div class="col-sm offset-md-2">
+            <div className="container" style={{ borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}>
+                <div className="row ">
+                    <div className="col-sm offset-md-2">
                         <div className="field">
                             <label><b>Cédula:</b></label>{" "}
-                            <div className="p-inputgroup" style={{ width: '70%', backgroundPosition: 'center' }}>
+                            <div className="p-inputgroup" style={{ width: '70%', transform: 'translateX(23%)' }}>
                                 <InputText
                                     style={{ width: '30px' }}
-                                    id="inputtext"
+                                    id="cedula"
                                     keyfilter="num"
                                     className="p-inputtext-sm block mb-2"
                                     value={state.cedula}
                                     onChange={(e) =>
                                         setState({ ...state, cedula: e.target.value })}
-                                    required />
+                                     />
                                 <Button
                                     icon="pi pi-search"
                                     id="Buscar2"
                                     className="p-button-warning"
+                                    onMouseMove={()=>{
+                                        Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia)));
+                                        Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)));
+                                    }}
                                     onClick={() => {
-                                        ObtenerEstudiante({ state: state, setState: setState });
+                                        console.log("Fecha ", state.fechNac)
+                                        ObtenerProfesor({ state: state, setState: setState });
+                                        ObtenerCont({ state: stateCon, setState: setStateCon, idFun: state.cedula })
+                                        console.log("IdEncargado ", state.cedula)
                                     }} />
                             </div>
                             <div>
@@ -64,7 +86,7 @@ export function InfoPersonal() {
                         </div>
                     </div>
 
-                    <div class="col-sm  ">
+                    <div className="col-sm  ">
                         <div className="field">
                             <label><b>Fecha nacimiento:</b></label>{" "}
                             <div className="field col-12 md:col-4 p-float-label">
@@ -73,20 +95,20 @@ export function InfoPersonal() {
                                     inputId="calendar" id="fnacimiento"
                                     value={state.fechNac}
                                     onChange={(e) =>
-                                        setState({ ...state, fechNac: e.target.value })}
+                                        setState({ ...state, fechNac:e.target.value })}
                                     touchUI />
                             </div>
                         </div>
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class=" col-sm">
+                <div className="row">
+                    <div className=" col-sm">
                         <div className="field">
                             <label><b>Primer nombre:</b></label>{" "}
                             <div>
                                 <InputText
-                                    id="inputtext"
+                                    id="pnombre"
                                     className="p-inputtext-sm block mb-2"
                                     value={state.pNombre}
                                     onChange={(e) =>
@@ -96,12 +118,12 @@ export function InfoPersonal() {
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm">
+                    <div className="col-sm">
                         <div className="field">
                             <label><b>Segundo nombre:</b></label>
                             <div>
                                 <InputText
-                                    id="inputtext"
+                                    id="snombre"
                                     className="p-inputtext-sm block mb-2"
                                     value={state.sNombre}
                                     style={{ width: '90%' }}
@@ -111,12 +133,12 @@ export function InfoPersonal() {
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm ">
+                    <div className="col-sm ">
                         <div className="field">
                             <label><b>Primer apellido:</b></label>
                             <div>
                                 <InputText
-                                    id="inputtext"
+                                    id="papellido"
                                     className="p-inputtext-sm block mb-2"
                                     value={state.pApellido}
                                     style={{ width: '90%' }}
@@ -126,12 +148,12 @@ export function InfoPersonal() {
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm">
+                    <div className="col-sm">
                         <div className="field">
                             <label><b>Segundo apellido:</b></label>
                             <div>
                                 <InputText
-                                    id="inputtext"
+                                    id="sapellido"
                                     className="p-inputtext-sm block mb-2"
                                     value={state.sApellido}
                                     style={{ width: '90%' }}
@@ -143,8 +165,8 @@ export function InfoPersonal() {
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class="col-sm">
+                <div className="row">
+                    <div className="col-sm">
                         <div className="field">
                             <label><b>Provincia:</b></label>
                             <div>
@@ -159,11 +181,12 @@ export function InfoPersonal() {
                                     onChange={(e) =>
                                         setState({ ...state, provincia: e.target.value, })}
                                     optionLabel="name"
+                                    optionValue="code"
                                     style={{ width: 'auto' }} />
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm">
+                    <div className="col-sm">
                         <div className="field">
                             <label><b>Cantón:</b></label>
                             <div>
@@ -176,16 +199,17 @@ export function InfoPersonal() {
                                     placeholder="Cantón"
                                     options={Can}
                                     onClickCapture={(e) =>
-                                        Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia.code)))}
+                                        Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia)))}
                                     onChange={(e) =>
                                         setState({ ...state, canton: e.target.value })
                                     }
                                     optionLabel="name" 
+                                    optionValue="code"
                                     style={{ width: 'auto' }}/>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm">
+                    <div className="col-sm">
                         <div className="field">
                             <label><b>Distrito:</b></label>
                             <div>
@@ -197,42 +221,43 @@ export function InfoPersonal() {
                                     className="p-inputtext-sm block mb-2"
                                     options={Dis}
                                     onClickCapture={(e) =>
-                                        Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton.code)))}
+                                        Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)))}
                                     placeholder="Distrito"
                                     onChange={(e) =>
                                         setState({ ...state, distrito: e.target.value })
                                     }
                                     optionLabel="name" 
+                                    optionValue="code"
                                     style={{ width: 'auto' }}/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4">
+                <div className="row">
+                    <div className="col-md-4">
                         <label><b>Dirección exacta:</b></label>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm ">
+                <div className="row">
+                    <div className="col-sm ">
                         <InputTextarea
+                            id="direccion"
                             className="p-inputtext-sm block mb-2"
                             value={state.direccion}
                             onChange={(e) =>
                                 setState({ ...state, direccion: e.target.value })}
                             rows={1}
-                            autoResize
                             style={{ transform: 'translateX(5px)', width: '98%' }} />
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class="col-sm-2">
+                <div className="row">
+                    <div className="col-sm-2">
                         <label className="sexo"><b>Sexo:</b></label>
                     </div>
                 </div>
-                <div class="row ">
-                    <div class="col-sm-auto col-sm-5">
+                <div className="row ">
+                    <div className="col-sm-auto col-sm-5">
                         <RadioButton
                             inputId="city1"
                             value="true"
@@ -247,7 +272,7 @@ export function InfoPersonal() {
                             <b>Hombre</b> 
                         </label>
                     </div>
-                    <div class="col-sm-auto">
+                    <div className="col-sm-auto">
                         <RadioButton
                             inputId="city2"
                             value="true"
@@ -264,8 +289,8 @@ export function InfoPersonal() {
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class="col-auto">
+                <div className="row">
+                    <div className="col-sm">
                         <label><b>Lugar de nacimiento:</b></label>
                         <div>
                             <Dropdown
@@ -280,24 +305,47 @@ export function InfoPersonal() {
                                 style={{ width: '100%' }}
                                 onChange={(e) =>
                                     setState({ ...state, lugarnacimiento: e.target.value, })}
-                                optionLabel="name" />
+                                optionLabel="name"
+                                optionValue="name" />
+                        </div>
+                    </div>
+                    <div className="col-sm">
+                        <label><b>Estado Civil:</b></label>
+                        <div>
+                            <Dropdown
+                                inputId="dropdown"
+                                className="p-inputtext-sm block mb-2"
+                                name="EstadoCivil"
+                                id="EstadoCivil"
+                                value={state.estadoCivil}
+                                options={Estado}
+                                placeholder="Estado Civil"
+                                style={{ width: '100%' }}
+                                onChange={(e) =>
+                                    setState({
+                                    ...state,
+                                    estadoCivil: e.target.value,
+                                    })
+                                }
+                                optionLabel="name"
+                                optionValue="code" />
                         </div>
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                         <label><b>Contacto:</b></label>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm">
+                <div className="row">
+                    <div className="col-sm">
                         <label><b>Correo Electrónico:</b></label>
                         <div>
                             <InputText
-                                id="inputtext"
+                                id="Correo"
                                 className="p-inputtext-sm block mb-2"
-                                style={{ width:'70%' }}
+                                style={{ width:'75%' }}
                                 value={stateCon.cElectronico}
                                 keyfilter={/[^\s]/}
                                 onChange={(e) =>
@@ -307,11 +355,11 @@ export function InfoPersonal() {
                                 required />
                         </div>
                     </div>
-                    <div class="col-sm">
+                    <div className="col-sm">
                         <label><b>Número de Teléfono:</b></label>
                         <div>
                             <InputText
-                                id="inputtext"
+                                id="telefono"
                                 className="p-inputtext-sm block mb-2"
                                 value={stateCon.numTelefono}
                                 keyfilter="num"
@@ -330,12 +378,25 @@ export function InfoPersonal() {
 }
 export function InfoProfesor() {
     const [state, setState] = useContext(infoProfesores);
+    const [stateCon, setStateCon] = useContext(infoContacto);
     const [value2, setValue2] = useState('');
     const toast = useRef(null);
     const [totalSize, setTotalSize] = useState(0);
     const fileUploadRef = useRef(null);
-
-    const chooseOptions = { icon: 'pi pi-fw pi-images', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined' };
+    const [Institucion, setInstitucion] = useState([]);
+    const chooseOptions = {icon: 'pi pi-fw pi-images', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined' };
+    const toast1 = useRef(null);
+    const [loading2, setLoading2] = useState(false);
+    useEffect(() => {
+        console.log("Hola " )
+       const obtenerIns = async () =>{
+        console.log("Hola 2 " )
+        const res=await ObtenerInstitucion();
+        console.log("Hola 3 ", res )
+        setInstitucion(res);
+       }
+       obtenerIns();
+      },[]);
 
     const onTemplateUpload = (e) => {
         let _totalSize = 0;
@@ -356,10 +417,8 @@ export function InfoProfesor() {
     }
     const headerTemplate = (options) => {
         const { className, chooseButton } = options;
-
-
         return (
-            <div className={className} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
+            <div className={className} onMouseLeave={()=>setState({...state,Perfil: value2})} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
                 {chooseButton}
                 {/* {"Hola mundo"}*/}
             </div>
@@ -369,13 +428,8 @@ export function InfoProfesor() {
         setValue2( file.objectURL )
         return (
             <div className="flex align-items-center flex-wrap">
-                <div className="flex align-items-center" style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundPosition: '50%', backgroundSize: '100% auto', backgroundRepeat: 'no-repeat' }}>
-                    <img alt={file.name} role="presentation" onBeforeInput={(e) =>
-                                    setState({
-                                        ...state,
-                                        Perfil: e.target.src,
-                                    })
-                                } src={file.objectURL} width={200} />
+                <div className="flex align-items-center" style={{ width: '30%', height: '50%', borderRadius: '50%', backgroundPosition: '50%', backgroundSize: '100% auto', backgroundRepeat: 'no-repeat' }}>
+                    <img alt={file.name} role="presentation" src={state.Perfil}  width={'100%'} />
                 </div>
                 <Tag value={props.formatSize} severity="warning" className="px-3 py-2" />
                 <Button type="button" icon="pi pi-times" className="p-button-outlined p-button-rounded p-button-danger ml-auto" onClick={() => onTemplateRemove(file, props.onRemove)} />
@@ -395,20 +449,51 @@ export function InfoProfesor() {
         { name: 'Bachillerato' },
         { name: 'Bachillerato Universitario' },
         { name: 'Licenciatura' },
-        { name: 'Maestría' },
+        { name: 'Maestría', code:'Maestría' },
         { name: 'Doctorado' }
     ];
+
+    //Mensaje de confirmacion y efecto de carga del boton de guardar
+    const accept = () => {
+        toast1.current.show({ severity: 'info', summary: 'Confirmación', detail: 'Usted a aceptado', life: 3000 });
+        agregarPersona({ state: state, setState: setState });
+        agregarFun({ state: state, setState: setState });
+        agregarContacto({ cedula: state.cedula, tCotacto: "Teléfono" , contacto: stateCon.numTelefono })
+        agregarContacto({ cedula: state.cedula, tCotacto: "Correo", contacto: stateCon.cElectronico })
+        onLoadingClick2();
+    }
+
+    const reject = () => {
+        toast1.current.show({ severity: 'warn', summary: 'Rechazado', detail: 'Usted no a aceptado', life: 3000 });
+    }
+    const confirm1 = () => {
+        confirmDialog({
+            message: 'Estas seguro que deseas continuar?',
+            header: 'Confirmación',
+            icon: 'pi pi-exclamation-triangle',
+            accept,
+            reject
+        });
+    };
+    const onLoadingClick2 = () => {
+        setLoading2(true);
+
+        setTimeout(() => {
+            setLoading2(false);
+        }, 2000);
+    }
     return (
         <div className="form-demo">
+            <Toast ref={toast1} />
             <span className="titleBlack">Información Profesional y Laboral</span>
-            <div class="container" style={{ borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}  >
-                
+            <div className="container" style={{ borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}  >
                 <br />
-                <div class="row" >
-                    <div class="col-sm">
+                <div className="row" >
+                    <div className="col-sm">
                         <label><b>Nivel escolar:</b></label>
                         <div>
                             <Dropdown inputId="dropdown"
+                                className="p-inputtext-sm block mb-2"
                                 name="Nivel escolar"
                                 id="Nivelescolar"
                                 value={state.Nescolar}
@@ -421,27 +506,30 @@ export function InfoProfesor() {
                                         Nescolar: e.target.value,
                                     })
                                 }
-                                optionLabel="name" />
+                                optionLabel="name"
+                                optionValue="name"/>
                         </div>
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class="col-sm">
+                <div className="row">
+                    <div className="col-sm">
                         <label><b>Fecha de ingreso a la institución:</b></label>{" "}
                         <div className="field col-12 md:col-4 p-float-label">
                             <Calendar
+                                className="p-inputtext-sm block mb-2"
                                 inputId="calendar"
                                 id="fingreso"
                                 value={state.fechIng}
                                 onChange={(e) =>
                                     setState({ ...state, fechIng: e.target.value })} touchUI />
+                                
                         </div>
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class="col-sm">
+                <div className="row">
+                    <div className="col-sm">
                         <label>Lugar de Trabajo:</label>
                         <div>
                             <Dropdown
@@ -451,18 +539,19 @@ export function InfoProfesor() {
                                 className="p-inputtext-sm block mb-2"
                                 value={state.lugarTrabajo}
                                 placeholder="Lugar de Trabajo"
-                                autoResize
+                                options={Institucion}
                                 onChange={(e) =>
                                     setState({ ...state, lugarTrabajo: e.target.value, })}
-                                optionLabel="name" />
+                                optionLabel="Institucion"
+                                optionValue="Institucion" />
                         </div>
                     </div>
-                    <div class="col-sm">
+                    <div className="col-sm">
                         <div className="field">
                             <label><b>Experiencia laboral:</b></label>{" "}
                             <div>
                                 <InputText
-                                    id="inputtext"
+                                    id="experiencia"
                                     keyfilter="num"
                                     value={state.Atrabajo}
                                     placeholder="Años laborados"
@@ -475,23 +564,23 @@ export function InfoProfesor() {
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class="col-sm">
+                <div className="row">
+                    <div className="col-sm">
                         <label><b>Información adicional (pasatiempos, gustos, etc):</b></label>{" "}
                         <div>
                             <InputTextarea
+                                id="descrpcion"
                                 value={state.descrip}
                                 onChange={(e) =>
                                     setState({ ...state, descrip: e.target.value })}
                                 rows={5}
-                                style={{ transform: 'translateX(5px)', width: '98%' }}
-                                autoResize />
+                                style={{ transform: 'translateX(5px)', width: '98%' }} />
                         </div>
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
-                <div class="row">
-                    <div class="col-sm">
+                <div className="row">
+                    <div className="col-sm">
                         <label><b>Foto de perfil:</b></label>{" "}
                         <div>
                             <FileUpload
@@ -507,12 +596,18 @@ export function InfoProfesor() {
                                 emptyTemplate={emptyTemplate}
                                 chooseOptions={chooseOptions}
                             />
-                            <Button 
+                           {/* <Button 
                             type="button" 
                             icon="pi pi-times" 
-                            className="p-button-outlined p-button-rounded p-button-danger ml-auto" 
-                            onClick={() => console.log("Imagen ", value2,"  hola  ",state.Perfil)} />
+                            className="p-button-outlined p-button-rounded p-button-danger ml-auto"
+                            onClick={() => console.log("I " ,Institucion)} /> */}
                         </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm">
+                    <ConfirmDialog />
+                        <Button label="Guardar" loading={loading2} onClick={confirm1} className="mr-2"/>
                     </div>
                 </div>
             </div>

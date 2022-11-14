@@ -12,16 +12,16 @@ export default function Inicio() {
       <span className="titleBlack">Información personal del profesor</span>
       <TabView   scrollable style={{ textAlign: 'center' }} >
         <TabPanel header="Información Personal" leftIcon="pi pi-user">
-          <InfoPersonal setState={setState} state={state} quien="estudiante" />
+          <InfoPersonal setState={setState} state={state} />
         </TabPanel>
         <TabPanel header="Información Profesional y Laboral" leftIcon="pi pi-building">
-          <InfoProfesor setState={setState} state={state} quien="estudiante" />
+          <InfoProfesor setState={setState} state={state} />
         </TabPanel>
       </TabView>
 
 
       {/* <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br /> */}
-      <ButtonSiguiente dir="informacionencargado" nom="Siguiente" css="button_Siguiente" enc="" idEncar={state.idEncargado} />
+      
     </div>
   );
 }

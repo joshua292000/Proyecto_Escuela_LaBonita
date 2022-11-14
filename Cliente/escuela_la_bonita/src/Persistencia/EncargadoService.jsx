@@ -45,7 +45,7 @@ export const ObtenerEncargado = async(props)=>{
 export const ObtenerContEncargado = async (props)=>{ 
   
     try{
-        await axios.get('http://localhost:3000/obtenerConEncargado/'+props.idEncar).then(res =>{
+        await axios.get('http://localhost:3000/obtenerContacto/'+props.idEncar).then(res =>{
             console.log("Datos en contacto ");
         console.log( res.data);
              props.setState({...props.state, numTelefono: res.data[0].contacto,

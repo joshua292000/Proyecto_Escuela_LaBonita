@@ -78,6 +78,7 @@ export const agregarEst = async (props)=>{
                           ...props.state, provincia: dep.Pro_Nombre,
                           ...props.state, canton: dep.Can_Nombre,
                           ...props.state, distrito: dep.Dis_Nombre,
+                          ...props.state, direccion: dep.Dir_Direccion,
                           ...props.state, sexo: dep.Per_Sexo,
                           ...props.state, lugarnacimiento: dep.Pais_Nombre,
                           ...props.state, idEncargado: dep.Per_Id,

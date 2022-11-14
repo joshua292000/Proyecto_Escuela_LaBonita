@@ -3,7 +3,7 @@ import {useContext} from 'react';
 import { infoEncargado } from "../AppContext/providerInfoEncargado";
 import { InfoEncargado, InfoPersonal } from "../Componentes/InfomacionEnc";
 import "../Estilos.css";
-
+ 
 export default function Inicio() {
   const [state, setState] = useContext(infoEncargado);
     return (

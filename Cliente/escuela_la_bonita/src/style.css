@@ -1,16 +1,14 @@
 body {
   background-image: url("https://i0.wp.com/usuaria.org.ar/wp-content/uploads/2020/07/Fondo-Web-1920x1080-1.jpg");
-  background-size: 1500px 1000px;;
- 
+  background-size: 1500px 1000px;
 }
 
 
 .Div{
-margin: 1rem;
-padding: 1rem;
-text-align: center;
-opacity:1;
-  
+  margin: 1rem;
+  padding: 1rem;
+  text-align: center;
+  opacity:1;
 }
 
 @font-face {
