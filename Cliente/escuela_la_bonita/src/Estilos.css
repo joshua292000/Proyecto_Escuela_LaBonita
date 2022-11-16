@@ -239,3 +239,254 @@
 #Buscar2:focus {
     box-shadow: 0 0 0 1px var(--blue-400);
 }
+
+
+
+
+/*----------------------------CSS de la pagina constancia----------------------------------*/
+  
+.CedulaConstancia{
+  transform: translatex(300px) translateY(-6px);
+}
+
+
+  
+.content-select{
+	max-width: 250px;
+	margin-left: 70%;
+  margin-top: -4%;
+  transform: translateX(-870px) translateY(-50px);
+
+}
+ 
+.content-select select{
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+  	padding: 7px 10px;
+  	height: 42px;
+  	outline: 0; 
+  	border: 0;
+	border-radius: 0;
+	background: #f0f0f0;
+	color: #7b7b7b;
+	font-size: 1em;
+	color: #999;
+	font-family: 
+	'Quicksand', sans-serif;
+	border:2px solid rgba(0,0,0,0.2);
+    border-radius: 12px;
+    
+    transition: all 0.25s ease;
+}
+ 
+.content-select select:hover{
+	background: #B1E8CD;
+}
+ 
+
+
+
+.NombreCompleto{
+  font-size: 20px;
+  margin-left: 320px;
+  margin-top: -3%;
+  transform: translateX(300px);
+}
+
+.NombreEscuela{
+  margin-top: 6%;
+}
+
+.CargarPDF{
+  margin-top: 10%;
+  margin-left: 36%;
+  
+}
+
+.inputE{
+  border-radius: 7px;
+  border-color: #f0f0f0;
+  height: 50px;
+  width: 20%;
+}
+
+.lbl_Escuela{
+  margin-left: 3px;
+  font-size: 20px;
+}
+
+.Regional{
+  margin-left: 36%;
+  margin-top: -5.5%;
+
+}
+
+.inputR{
+  border-radius: 7px;
+  border-color: #f0f0f0;
+  height: 50px;
+  width: 30%;
+}
+
+.Circuito{
+  margin-left: 70%;
+  margin-top: -5.5%;
+
+}
+
+.inputC{
+  border-radius: 7px;
+  border-color: #f0f0f0;
+  height: 50px;
+  width: 60%;
+}
+
+/*---------------------------CSS reportes-------------------------------*/
+
+
+
+
+#Reporte{
+  background-color: #F1948A;
+  height: 350px;
+  width: 240px;
+  border-radius: 30px;
+  transform: translateY(-650px);
+}
+
+.content-select2{
+	max-width: 250px;
+	margin-left: 2%;
+  margin-top: 6%;
+
+}
+ 
+.content-select2 select{
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+  	padding: 7px 10px;
+  	height: 42px;
+  	outline: 0; 
+  	border: 0;
+	border-radius: 0;
+	background: #f0f0f0;
+	color: #7b7b7b;
+	font-size: 1em;
+	color: #999;
+	font-family: 
+	'Quicksand', sans-serif;
+	border:2px solid rgba(0,0,0,0.2);
+    border-radius: 12px;
+    
+    transition: all 0.25s ease;
+}
+ 
+.content-select2 select:hover{
+	background: #B1E8CD;
+}
+
+
+.FechaInicio{
+  margin-left: 43%;
+  margin-top: -4.8%;
+}
+
+.FechaFinal{
+  margin-left: 61%;
+  margin-top: -4.6%;
+}
+
+.content-select3{
+	max-width: 250px;
+	margin-left: 22%;
+  margin-top: -5%;
+
+}
+ 
+.content-select3 select{
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+  	padding: 7px 10px;
+  	height: 42px;
+  	outline: 0; 
+  	border: 0;
+	border-radius: 0;
+	background: #f0f0f0;
+	color: #7b7b7b;
+	font-size: 1em;
+	color: #999;
+	font-family: 
+	'Quicksand', sans-serif;
+	border:2px solid rgba(0,0,0,0.2);
+    border-radius: 12px;
+    
+    transition: all 0.25s ease;
+}
+ 
+.content-select3 select:hover{
+	background: #B1E8CD;
+}
+
+
+
+
+
+
+
+
+
+.content-select4{
+	max-width: 250px;
+	margin-left: 78%;
+  margin-top: -4.5%;
+
+}
+ 
+.content-select4 select{
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+  	padding: 7px 10px;
+  	height: 42px;
+  	outline: 0; 
+  	border: 0;
+	border-radius: 0;
+	background: #f0f0f0;
+	color: #7b7b7b;
+	font-size: 1em;
+	color: #999;
+	font-family: 
+	'Quicksand', sans-serif;
+	border:2px solid rgba(0,0,0,0.2);
+    border-radius: 12px;
+    
+    transition: all 0.25s ease;
+}
+ 
+.content-select4 select:hover{
+	background: #B1E8CD;
+}
+
+.CargarDatos{
+  margin-left: 20%;
+  margin-top: 10%;
+}
+
+.CargarReportePDF{
+  margin-left: 50%;
+  margin-top: -3.5%;
+}
+
+/*---------------------------CSS reportes comedor-------------------------------*/
+#ReporteComedor{
+  background-color: #21618c;
+  height: 350px;
+  width: 240px;
+  border-radius: 30px;
+  margin-top: -27%;
+  font-size: 15px;
+  transform: translateY(-650px) translateX(350px);
+}

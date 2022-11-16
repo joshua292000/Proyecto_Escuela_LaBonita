@@ -36,7 +36,7 @@ import Logo from "../Recursos/Escudo_escuela.png";
 
 export function Header() {
 
-   const navegar = useNavigate();
+   const navegar = useNavigate(); 
    
 
 const items = [
@@ -76,8 +76,8 @@ const items = [
     {
        label:'Funcionarios',
        icon:'pi pi-fw pi-calendar',
-       command:(event)=>{navegar("/RegistroProfesor")}
-       //command:(event)=>{navegar("/Loggin")}
+       //command:(event)=>{navegar("/RegistroProfesor")}
+       command:(event)=>{navegar("/Loggin")}
        //onclick: ()=>navegar("/Loggin")
        
     

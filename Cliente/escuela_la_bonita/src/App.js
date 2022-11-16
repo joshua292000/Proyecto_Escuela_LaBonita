@@ -13,6 +13,7 @@ import {Loggin} from "./Paginas/Loggin";
 import PaginaInicial from "./Paginas/PaginaInicial";
 import {Constancias} from "./Paginas/Constancia";
 import { Asistencia } from "./Paginas/Asistencia";
+import { Reporte } from "./Paginas/Reporte";
 
 export function App() {
 return (
@@ -26,6 +27,7 @@ return (
       <Route path="/Informacionencargado" element={<InformacionEnc />} />
       <Route path="/RegistroEncargados" element={<RegistroUsuEnc />} />
       <Route path="/Constancias" element={<Constancias />} />
+      <Route path="/Reporte" element={<Reporte />} />
       <Route path="/AsistenciaEstudiantes" element={<Asistencia />} />
       <Route path="/RegistroProfesor" element={<InformacionPro />} />
     </Routes>

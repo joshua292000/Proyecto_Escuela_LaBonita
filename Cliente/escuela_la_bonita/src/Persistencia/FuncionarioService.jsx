@@ -5,18 +5,17 @@ import Cookies from "universal-cookie";
 const json = Json;
 const cookies = new Cookies();
 
-export const Obtener_Secciones = async (props) => {
+export const Obtener_Secciones = async () => {
   try {
-    await axios
+    const res = await axios
       .get("http://localhost:3000/Constancia/" + cookies.get('Func_Id'))
-      .then((res) => {
-        if (res.data.length > 0) {
-          console.log("metodo ", res.data)
+      
+        if (res.data.length >0) {
           return res.data;
         } else {
-          Swal.fire('Error', 'Usuario o contraseña incorrectas');
+          Swal.fire('Error', 'Seccion no encontrada');
         }
-      });
+      
   } catch (e) {
     console.log(e);
   }
@@ -188,3 +187,87 @@ export const agregarContacto = async (props) => {
     console.log(e);
   }
 }
+
+export const Obtener_Persona_Rol = async () => {
+  try {
+       const res = await axios
+      .get("http://localhost:3000/Constancia/BusquedaRol/Directora")
+        if (res.data.length >0) {
+         
+          return res.data;
+        } else {
+          Swal.fire('Error', 'El funcionario no fue encontrado');
+        }
+      
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+
+export const BusquedaCedula = async (cedula) => {
+  try {
+       const res = await axios
+      .get("http://localhost:3000/Constancia/BusquedaId/" + cedula)
+        if (res.data.length >0) {
+          
+          return res.data;
+        } else {
+          Swal.fire('Error', 'El estudiante no fue encontrado, digite nuevamente el numero de cedula');
+        }
+      
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+
+export const ObtenerAusencias = async (props) => {
+ 
+  try {
+       const res = await axios
+      .get("http://localhost:3000/Reporte/"+props.FechaIni+"/"+props.FechaFin+"/"+props.Grado+"/"+props.Seccion+"/"+props.Materia)
+        if (res.data.length >0) {
+        
+          return res.data;
+        } else {
+          Swal.fire('Error', 'El estudiante no fue encontrado, digite nuevamente el numero de cedula');
+        }
+      
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const ObtenerAsistenciaIndividual = async (props) => {
+  console.log("La asi individual ", props)
+  try {
+       const res = await axios
+      .get("http://localhost:3000/ReporteIndividual/"+props.FechaIni+"/"+props.FechaFin+"/"+props.Identificacion+"/"+props.Grado+"/"+props.Seccion+"/"+props.Materia)
+        if (res.data.length >0) {
+         
+          return res.data;
+        } else {
+          Swal.fire('Error', 'Asistencia no generada');
+        }
+      
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const Obtener_Materias = async () => {
+  try {
+    const res = await axios
+      .get("http://localhost:3000/ObtenerMaterias/" + cookies.get('Func_Id'))
+      
+        if (res.data.length >0) {
+          return res.data;
+        } else {
+          Swal.fire('Error', 'materias no encontradas');
+        }
+      
+  } catch (e) {
+    console.log(e);
+  }
+};

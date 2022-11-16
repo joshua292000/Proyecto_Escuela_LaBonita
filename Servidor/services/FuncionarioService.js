@@ -94,4 +94,94 @@ const insertarFuncionario = (request, response) => {
 //ruta
 app.route("/insertarFuncionario").post(insertarFuncionario);
 
+const Obtener_estudiante = (request, response) => {
+ 
+    connection.query('SELECT p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido, s.Sec_Grado AS Grado, s.Sec_Seccion AS Seccion '+
+                    'FROM esc_personas p, esc_seccion s, esc_estudiantes e '+
+                    'WHERE e.Per_Id=p.Per_Id AND e.Sec_Id=s.Sec_Id AND p.Per_Identificacion=?',
+    [request.params.Per_Identificacion],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+
+const Obtener_Funcionario_Rol = (request, response) => {
+ 
+    connection.query('SELECT p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido '+
+                    'FROM esc_personas p, esc_usuarios u, esc_funcionarios f, esc_roles r '+
+                    'WHERE f.Per_Id=p.Per_Id AND f.Usu_Id=u.Usu_Id AND u.Rol_Id = r.Rol_Id AND r.Rol_Nombre=?',
+    [request.params.Rol_Nombre],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+
+const Obtener_Ausencias = (request, response) => {
+    const FechaIni = request.params.FechaIni;
+    const FechaFin = request.params.FechaFin;
+    const Grado = request.params.Grado;
+    const Seccion = request.params.Seccion;
+    const Materia = request.params.Materia;
+ 
+
+    connection.query('SELECT SUM(IF(a.TAsi_Id=1,1,0)) AS Asistencia , SUM(IF(a.TAsi_Id=2,1,0)) AS Ausencia, SUM(IF(a.TAsi_Id=3,1,0)) AS Ausencia_Justificada, p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido '+
+                    'FROM esc_asistencia a, esc_tipoasistencia t, esc_estudiantes e, esc_personas p, esc_seccion s, esc_materias m '+
+                    'WHERE a.Asi_FechaActual BETWEEN ? AND ? AND t.TAsi_Id = a.TAsi_Id AND a.Est_Id = e.Est_Id AND e.Sec_Id = s.Sec_Id AND e.Per_Id = p.Per_Id AND a.Mat_Id= m.Mat_Id AND s.Sec_Grado=? AND s.Sec_Seccion=? AND m.Mat_Nombre=? GROUP BY  p.Per_PNombre ',
+    [FechaIni, FechaFin, Grado, Seccion, Materia],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+const Obtener_Asistencia_Individual = (request, response) => {
+    const FechaIni = request.params.FechaIni;
+    const FechaFin = request.params.FechaFin;
+    const Grado = request.params.Grado;
+    const Seccion = request.params.Seccion;
+    const Materia = request.params.Materia;
+    const Identificacion = request.params.Identificacion;
+
+    connection.query('SELECT SUM(IF(a.TAsi_Id=1,1,0)) AS Asistencia , SUM(IF(a.TAsi_Id=2,1,0)) AS Ausencia, SUM(IF(a.TAsi_Id=3,1,0)) AS Ausencia_Justificada, p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido '+
+                    'FROM esc_asistencia a, esc_tipoasistencia t, esc_estudiantes e, esc_personas p, esc_seccion s, esc_materias m '+
+                    'WHERE a.Asi_FechaActual BETWEEN ? AND ? AND t.TAsi_Id = a.TAsi_Id AND a.Est_Id = e.Est_Id AND e.Sec_Id = s.Sec_Id AND e.Per_Id = p.Per_Id AND a.Mat_Id= m.Mat_Id AND p.Per_Identificacion=? AND s.Sec_Grado=? AND s.Sec_Seccion=? AND m.Mat_Nombre=? GROUP BY  p.Per_PNombre ',
+    [FechaIni, FechaFin,Identificacion, Grado, Seccion, Materia],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+
+const Obtener_Materias = (request, response) => {
+ 
+    connection.query('SELECT m.Mat_Nombre AS materia '+
+                    'FROM esc_funcionarios f,  esc_materias m '+
+                    'WHERE f.Func_Id=m.Func_Id AND m.Func_Id=?',
+    [request.params.Func_Id],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+
+app.get("/Constancia/BusquedaId/:Per_Identificacion",Obtener_estudiante);
+app.get("/Constancia/BusquedaRol/:Rol_Nombre",Obtener_Funcionario_Rol);
+
+app.get("/ObtenerMaterias/:Func_Id",Obtener_Materias);
+
+app.get("/Reporte/:FechaIni/:FechaFin/:Grado/:Seccion/:Materia",Obtener_Ausencias);
+
+app.get("/ReporteIndividual/:FechaIni/:FechaFin/:Identificacion/:Grado/:Seccion/:Materia",Obtener_Asistencia_Individual);
+
 module.exports = app;

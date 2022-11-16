@@ -9,7 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {Table} from "reactstrap";
 import { RadioButton } from "primereact/radiobutton";
  
-
+ 
 export function Asistencia() {;
     const [loading1, setLoading1] = useState(false);
       const actionBodyTemplate = (rowData) => {

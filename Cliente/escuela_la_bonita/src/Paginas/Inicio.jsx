@@ -6,6 +6,8 @@ import Cookies from "universal-cookie";
 import Constancia from '../Recursos/Constancia.png';
 import Asistencia from "../Recursos/Asistencia.png";
 import Matricula from "../Recursos/Matricula.png";
+import Reporte from '../Recursos/reporte.png'
+import ReporteComedor from '../Recursos/reporteComedor.png'
 
 export default function Inicio() {
   const navegar = useNavigate();
@@ -40,6 +42,19 @@ export default function Inicio() {
             onClick={() => navegar("/AsistenciaEstudiantes")}
           />
           <h1>Control de asistencia</h1>
+        </div>
+        <div id = "Reporte">
+          <img src={Reporte} alt="Escuela Rodrigo Facio Brenes" width="200px" 
+             onClick={()=> navegar("/Reporte")}
+          />
+          <h1>Generar reporte</h1>
+        </div>
+
+        <div id = "ReporteComedor">
+          <img src={ReporteComedor} alt="Escuela Rodrigo Facio Brenes" width="200px" 
+             onClick={()=> navegar("/ReporteComedor")}
+          />
+          <h1>Generar reporte de comedor</h1>
         </div>
       </div>
     );
