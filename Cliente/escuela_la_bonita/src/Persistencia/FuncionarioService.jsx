@@ -271,3 +271,23 @@ export const Obtener_Materias = async () => {
     console.log(e);
   }
 };
+
+  export const obtenerAlumnos = async (props) => {
+    //Obtiene todos los alumnos
+    try {
+      const res = await axios.get(
+        "http://localhost:3000/obtenerAlumnos/" +
+          props.grado +
+          "/" +
+          props.seccion
+      );
+      if (res.data.length > 0) {
+        console.log("metodo ", res.data);
+        return res.data;
+      } else {
+        Swal.fire("Error", "Ocurrió un error al obtener la lista");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };

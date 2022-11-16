@@ -108,6 +108,8 @@ const Obtener_estudiante = (request, response) => {
 };
 
 
+app.get("/Constancia/BusquedaId/:Per_Identificacion", Obtener_estudiante);
+
 const Obtener_Funcionario_Rol = (request, response) => {
  
     connection.query('SELECT p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido '+
@@ -121,6 +123,8 @@ const Obtener_Funcionario_Rol = (request, response) => {
     });
 };
 
+
+app.get("/Constancia/BusquedaRol/:Rol_Nombre", Obtener_Funcionario_Rol);
 
 const Obtener_Ausencias = (request, response) => {
     const FechaIni = request.params.FechaIni;
@@ -141,6 +145,9 @@ const Obtener_Ausencias = (request, response) => {
     });
 };
 
+
+app.get("/Reporte/:FechaIni/:FechaFin/:Grado/:Seccion/:Materia",Obtener_Ausencias);
+
 const Obtener_Asistencia_Individual = (request, response) => {
     const FechaIni = request.params.FechaIni;
     const FechaFin = request.params.FechaFin;
@@ -160,6 +167,7 @@ const Obtener_Asistencia_Individual = (request, response) => {
     });
 };
 
+app.get("/ReporteIndividual/:FechaIni/:FechaFin/:Identificacion/:Grado/:Seccion/:Materia",Obtener_Asistencia_Individual);
 
 const Obtener_Materias = (request, response) => {
  
@@ -174,14 +182,22 @@ const Obtener_Materias = (request, response) => {
     });
 };
 
+app.get("/ObtenerMaterias/:Func_Id", Obtener_Materias);
 
-app.get("/Constancia/BusquedaId/:Per_Identificacion",Obtener_estudiante);
-app.get("/Constancia/BusquedaRol/:Rol_Nombre",Obtener_Funcionario_Rol);
+const obtenerAlumnos = (request, response) => {
+  connection.query(
+    "SELECT e.Est_Id AS estId,p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre,p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido " +
+      "FROM esc_estudiantes e, esc_seccion s, esc_personas p " +
+      "WHERE s.Sec_Id=e.Sec_Id AND e.Per_Id=p.Per_Id AND s.Sec_Grado=?  AND s.Sec_Seccion=?",
+    [request.params.Sec_Grado, request.params.Sec_Seccion],
+    (error, results) => {
+      if (error) throw error;
+      response.status(201).json(results);
+    }
+  );
+};
 
-app.get("/ObtenerMaterias/:Func_Id",Obtener_Materias);
-
-app.get("/Reporte/:FechaIni/:FechaFin/:Grado/:Seccion/:Materia",Obtener_Ausencias);
-
-app.get("/ReporteIndividual/:FechaIni/:FechaFin/:Identificacion/:Grado/:Seccion/:Materia",Obtener_Asistencia_Individual);
+//ruta
+app.get("/obtenerAlumnos/:Sec_Grado/:Sec_Seccion", obtenerAlumnos);
 
 module.exports = app;
