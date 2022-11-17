@@ -162,7 +162,7 @@ export const agregarPersona = async (props) => {
 
 export const agregarContacto = async (props) => {
   console.log(props.state);
-  //falta ingresar unas varas en interfas.
+  //falta ingresar unas varas en interfaz.
   var infop = {
     cedulaPer: props.cedula,
     tipoContacto: props.tCotacto,
@@ -303,3 +303,31 @@ export const Obtener_Materias = async () => {
       console.log(e);
     }
   };
+
+export const insertarAsistencia = async (props) => {
+  console.log("date: ", props.fechaA.toLocaleDateString("zh-Hans-CN"));
+   var infoA = {
+     estid: props.estId,
+     fechaA: props.fechaA.toLocaleDateString("zh-Hans-CN"),
+     justificacion: props.justificacion,
+     materia: props.materia,
+     tipoAsistencia: props.asistencia,
+   };
+    console.log("Vector de datos a guardar: ", infoA);
+  try {
+    await axios
+      .post("http://localhost:3000/insertarAsistencia", infoA)
+      .then((res) => {
+        console.log(res.data);
+        res.data[1].map((dep) => {
+          //se mapea la respuesta del servidor
+          if (dep.error != null) {
+                Swal.fire("Felicidades", "Asistencia guardada con éxito");   
+          }
+          json.insertEstError = dep.error;
+        });
+      });
+  } catch (e) {
+    console.log(e);
+  }
+}

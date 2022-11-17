@@ -9,7 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {Table} from "reactstrap";
 import { RadioButton } from "primereact/radiobutton";
 import { async } from "q";
-import { obtenerAlumnos, Obtener_Materias, Obtener_Secciones } from "../Persistencia/FuncionarioService";
+import {obtenerAlumnos,Obtener_Materias,Obtener_Secciones,insertarAsistencia} from "../Persistencia/FuncionarioService";
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
 
@@ -20,16 +20,6 @@ import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 
 export function Asistencia() {
-  let datosBasidos ={
-    cedula : "",
-    estId: "",
-    papellido: "",
-    pnombre: "",
-    sapellido: "",
-    snombre: "",
-    asistencia: "",
-    materia: ""
-   }
 
   const [materia,setMateria]=useState([]);
   const [materiaS, setMateriaS] = useState();
@@ -53,7 +43,7 @@ export function Asistencia() {
       const res = await Obtener_Materias();
       const res1 = await Obtener_Secciones();
       //console.log("res:", res);
-      //console.log("res1:", res1);
+
       setMateria(res);
       setSeccion(res1);
     }
@@ -98,18 +88,19 @@ export function Asistencia() {
         let alum = [...alumnos];
         let data = {...datos};
         if (data.cedula) {
-            const index = findIndexById(data.cedula);
-            if(props.justi != null){
-              alum[index].asistencia = "Ausencia justificada";
-              alum[index].justificacion = jus;
-              setProductDialog(false);
-            }
-            if(props.estado != null){
-              alum[index].asistencia = props.estado;
-            } 
-            alum[index].materia = materiaS;
-            toast.current.show({ severity: 'success', summary: 'Actualización', detail: 'Encargado actualizado', life: 3000 });
-        }
+          const index = findIndexById(data.cedula);
+          if (props.justi != null) {
+            alum[index].asistencia = "Ausencia justificada";
+            alum[index].justificacion = jus;
+            setProductDialog(false);
+          }
+          if (props.estado != null) {
+            alum[index].asistencia = props.estado;
+          }
+          alum[index].materia = materiaS;
+          console.log("date:", date);
+          alum[index].fechaA = date;
+          toast.current.show({severity: "success",summary: "Actualización",detail: "Encargado actualizado",life: 3000, });}
         setAlumnos(alum);
     }
   }
@@ -218,10 +209,11 @@ console.log("edit", alumnos);
             <label>Fecha:</label>
             <Calendar
               id="icon"
-              value={date}
+              value={date} 
+              dateFormat="yy-mm-dd"
               onChange={(e) => setDate(e.value)}
               showIcon
-              dateFormat="yy-mm-dd"
+             
             />
             {"  "}
           </div>
@@ -264,32 +256,81 @@ console.log("edit", alumnos);
         <br />
         <br />
         <Toast ref={toast} />
-        <DataTable ref={dt} value={alumnos} responsiveLayout="scroll" >  
-            <Column field={"cedula"} header="Cedula" sortable style={{ minWidth: '12rem' }}></Column>
-            <Column field={"pnombre"} header="Nombre" sortable style={{ minWidth: '12rem' }}></Column>
-            <Column header="Presente" body={buttonPresente} style={{ minWidth: '12rem' }}></Column>
-            <Column header="Ausencia injustificada" body={buttonAusenInjus}  exportable={false} style={{ minWidth: '12rem' }}></Column>
-            <Column header="Ausencia justificada"  body={buttonAusenJusti} exportable={false} style={{ minWidth: '12rem' }}></Column>
-            <Column header="Motivo de la ausencia"  body={inputJustificacion} exportable={false} style={{ minWidth: '12rem' }}></Column>
+        <DataTable ref={dt} value={alumnos} responsiveLayout="scroll">
+          <Column
+            field={"cedula"}
+            header="Cedula"
+            sortable
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            field={"pnombre"}
+            header="Nombre"
+            sortable
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            header="Presente"
+            body={buttonPresente}
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            header="Ausencia injustificada"
+            body={buttonAusenInjus}
+            exportable={false}
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            header="Ausencia justificada"
+            body={buttonAusenJusti}
+            exportable={false}
+            style={{ minWidth: "12rem" }}
+          ></Column>
+          <Column
+            header="Motivo de la ausencia"
+            body={inputJustificacion}
+            exportable={false}
+            style={{ minWidth: "12rem" }}
+          ></Column>
         </DataTable>
-
-        <Dialog visible={productDialog} style={{ width: '800px' }} header="Justificación" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog} >
-          <div className="form-demo" style={{ height: 'auto' }}>
-          <div className=" col-sm">
+        <Button
+          label="Guardar"
+          id="cargarlista"
+          className="p-button-sm"
+          icon="pi pi-check"
+          onClick={()=>{alumnos.map(async (dt)=>{
+            await insertarAsistencia(dt);
+          })}}
+        />
+        <Dialog
+          visible={productDialog}
+          style={{ width: "800px" }}
+          header="Justificación"
+          modal
+          className="p-fluid"
+          footer={productDialogFooter}
+          onHide={hideDialog}
+        >
+          <div className="form-demo" style={{ height: "auto" }}>
+            <div className=" col-sm">
               <div className="field">
-                  <label><b>Justificación:</b></label>{" "}
-                  <div>
-                      <InputText
-                          id="inputtext"
-                          className="p-inputtext-sm block mb-2"
-                          onChange={(e)=>{setJus( e.target.value)}}
-                          style={{ width: '90%' }} />
-                  </div>
+                <label>
+                  <b>Justificación:</b>
+                </label>{" "}
+                <div>
+                  <InputText
+                    id="inputtext"
+                    className="p-inputtext-sm block mb-2"
+                    onChange={(e) => {
+                      setJus(e.target.value);
+                    }}
+                    style={{ width: "90%" }}
+                  />
+                </div>
               </div>
+            </div>
           </div>
-          </div>       
         </Dialog>
-
       </div>
     </div>
   );

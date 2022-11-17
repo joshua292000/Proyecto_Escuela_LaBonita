@@ -455,7 +455,7 @@ export function InfoProfesor() {
 
     //Mensaje de confirmacion y efecto de carga del boton de guardar
     const accept = () => {
-        toast1.current.show({ severity: 'info', summary: 'Confirmación', detail: 'Usted a aceptado', life: 3000 });
+        toast1.current.show({ severity: 'info', summary: 'Confirmación', detail: 'Usted ha aceptado', life: 3000 });
         agregarPersona({ state: state, setState: setState });
         agregarFun({ state: state, setState: setState });
         agregarContacto({ cedula: state.cedula, tCotacto: "Teléfono" , contacto: stateCon.numTelefono })
