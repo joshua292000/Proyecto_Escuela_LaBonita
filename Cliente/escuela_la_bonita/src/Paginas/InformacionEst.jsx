@@ -11,7 +11,6 @@ import { RadioButton } from "primereact/radiobutton";
 import { Calendar } from "primereact/calendar";
 
 export function InfoEstudiante() {
-  const [stateApp, setStateApp] = useContext(infoEncargado);
   const [state, setState] = useContext(infoEstudiante);
    const [date, setDate] = useState(null);
      const grados = [
@@ -51,10 +50,10 @@ export function InfoEstudiante() {
                 name="Grado"
                 id="Grado"
                 className="p-inputtext-sm block mb-2"
-                value={state.Grado}
+                value={state.grado}
                 options={grados}
                 placeholder="Grado"
-                onChange={(e) => setState({ ...state, Grado: e.target.value })}
+                onChange={(e) => setState({ ...state, grado: e.target.value })}
                 optionLabel="name"
                 optionValue="name"
                 style={{ width: "auto" }}
@@ -91,10 +90,11 @@ export function InfoEstudiante() {
               </label>
               <InputTextarea
                 type="text"
+                value={state.descripcion}
                 onChange={(e) =>
                   setState({
                     ...state,
-                    pApellido: e.target.value,
+                    descripcion: e.target.value,
                   })
                 }
                 required
@@ -206,8 +206,8 @@ export function InfoEstudiante() {
               </label>
               <Calendar
                 id="icon"
-                value={date}
-                onChange={(e) => setDate(e.value)}
+                value={new Date(state.vencePoliza)}
+                onChange={(e) => setState({...state, vencePoliza: e.value})}
                 showIcon
                 dateFormat="yy-mm-dd"
               />
@@ -218,7 +218,7 @@ export function InfoEstudiante() {
       <button
         type="button"
         className="Matricula"
-        onClick={() => Matricula({ valueEst: state }, { valueEnc: stateApp })}
+        onClick={() => Matricula({ valueEst: state }, { valueEnc: state})}
       >
         Matricula
       </button>

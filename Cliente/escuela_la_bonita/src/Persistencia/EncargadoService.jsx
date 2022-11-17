@@ -6,9 +6,9 @@ import Swal from 'sweetalert2';
 export const ObtenerEncargado = async(props)=>{ 
     console.log("param", props.idEncar)
     try{
-       const res = await axios.get('http://localhost:3000/obtenerEncargado/'+props.cedula+'/'+props.idEncar)
+       const res = await axios.get('http://localhost:3000/obtenerEncargado/'+props)
         console.log("Res",res.data[0]);
-       return res.data;       
+       return res.data[0];       
      }catch(e){
     console.log(e);
     }

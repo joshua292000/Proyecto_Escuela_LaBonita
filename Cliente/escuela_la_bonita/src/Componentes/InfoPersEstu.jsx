@@ -27,7 +27,13 @@ export function InfoPersonal() {
   useEffect(() => {
       Pais.getPais().then(data => setCountries(data));
       Provincia.getProvincia().then(data => setProvincia(data));
-  }, []);
+  }, [state.provincia]);
+
+
+  useEffect(() => {
+    Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia)))
+    Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)))
+   }, [state.provincia]);
   return (
     
       <div className="form-demo" style={{ height: 'auto' }}>
@@ -52,10 +58,8 @@ export function InfoPersonal() {
                                   icon="pi pi-search"
                                   id="Buscar2"
                                   className="p-button-warning"
-                                  onMouseMove={()=>{Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia)))
-                                                   Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)))}}
+
                                   onClick={async() => {
-                                    
                                     setState(await ObtenerEstudiante(state.cedula));
                                   }} />
                           </div>

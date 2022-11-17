@@ -43,25 +43,25 @@ app.route("/insertarEncargadoEst")
 
 
 const ObtenerEncargado= (request, response) => {
-    connection.query('CALL PRC_ObtenerEncargado( ?, ?, @cedula, @pNombre, @sNombre, '+
+    connection.query('CALL PRC_ObtenerEncargado( ?, @cedula, @pNombre, @sNombre, '+
                                                 '@pApellido, @sApellido, @fechNaci, @estCivil, '+
                                                 '@sexo, @nacionalidad, @direccion, @provincia, '+
                                                 '@canton, @distrito, @lugarTrabajo, @viveCEstu, '+ 
                                                 '@escolaridad, @ocupacion, @parentezco, @telefono, @correo, @msjError); ' +             
                                         'SELECT  @cedula  as cedula, @pNombre as pNombre, @sNombre as sNombre, '+
-                                                '@pApellido as pApellido, @sApellido as sApellido, @fechNaci as fechNaci, @estCivil as estCivil, '+
-                                                '@sexo as sexo, @nacionalidad  as lugarnacimiento, @direccion as direccion, @provincia as provincia, '+
-                                                '@canton  as canton, @distrito  as distrito, @lugarTrabajo as lugarTrabajo, @viveCEstu  as viveCEstu, '+ 
-                                                '@escolaridad as escolaridad, @ocupacion as ocupacion, @parentezco as parentezco, @telefono as telefono, '+
+                                                '@pApellido as pApellido, @sApellido as sApellido, @fechNaci as fechaNaci, @estCivil as estadoCivil, '+
+                                                '@sexo as sexo, @nacionalidad  as lugarNacimiento, @direccion as direccion, @provincia as provincia, '+
+                                                '@canton  as canton, @distrito  as distrito, @lugarTrabajo as lugarTrabajo, @viveCEstu  as viveConEstu, '+ 
+                                                '@escolaridad as escolaridad, @ocupacion as ocupacion, @parentezco as parentesco, @telefono as telefono, '+
                                                 '@correo as correo, @msjError AS error;',                                                   
-    [request.params.cd, request.params.id],
+    [request.params.cd],
     (error, results) => {
         if(error)
             throw error;
         response.status(201).json(results[1]);
     });
 };
-app.get("/obtenerEncargado/:cd/:id", ObtenerEncargado)
+app.get("/obtenerEncargado/:cd", ObtenerEncargado)
 
 const ObtenerEncargadosXidEst= (request, response) => {
     connection.query('SELECT p.Per_Identificacion cedula, p.Per_PNombre pNombre, p.Per_SNombre sNombre, '+

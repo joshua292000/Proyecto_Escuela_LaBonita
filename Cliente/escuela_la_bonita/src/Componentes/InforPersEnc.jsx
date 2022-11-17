@@ -19,12 +19,12 @@ import {ObtenerEncargadosEstu, ObtenerEncargado  } from '../Persistencia/Encarga
 import { infoEstudiante } from '../AppContext/providerEstudiante';
 import {infoEncargado} from '../AppContext/providerInfoEncargado';
 
-let datosBasidos = {
+let datosVasios = {
     canton : null,          cedula: "",         correo: "",         direccion: "",
     distrito: null,         escolaridad: "",    estadoCivil: "",    fechaNaci: "",
     lugarNacimiento: "",  lugarTrabajo: "",   ocupacion: "",      pApellido: "",
     pNombre: "",          parentesco: "",     provincia: null,       sApellido: "",   
-    sNombre: "",          sexo: "",            telefono: "",       viveConEstu: "",
+    sNombre: "",          sexo: "",            telefono: "",       viveConEstu: ""
 };
 
 export function InfoEncargado() {
@@ -66,7 +66,7 @@ export function InfoEncargado() {
       ];
     const [estu] = useContext(infoEstudiante);
     const [state, setState]= useContext(infoEncargado);//almacena toda la información
-    const [edit, setEdit] = useState(datosBasidos);//contendrá la información que se edite o se cree
+    const [edit, setEdit] = useState(datosVasios);//contendrá la información que se edite o se cree
     const [productDialog, setProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const toast = useRef(null);
@@ -91,7 +91,7 @@ export function InfoEncargado() {
         }
     }, [edit.provincia]);
 
-    console.log("state", state);
+    console.log("state", edit);
 
     const separarContactos = async (res) => {
         const contactos = await res.map((dt)=>{return dt.contactos.split("-")})
@@ -112,19 +112,24 @@ export function InfoEncargado() {
     const saveProduct = () => {
         setSubmitted(true);
         if (edit.cedula.trim()) {
-            let _products = [...state];
-            let _product = {...edit};
+            let datos = [...state];
+            let editados = {...edit};
             if (edit.cedula) {
                 const index = findIndexById(edit.cedula);
-                _products[index] = _product;
-                toast.current.show({ severity: 'success', summary: 'Actualización', detail: 'Encargado actualizado', life: 3000 });
+                if(index >= 0){
+                    datos[index] = editados;
+                    toast.current.show({ severity: 'success', summary: 'Actualización', detail: 'Encargado actualizado', life: 2500 });    
+                }else{
+                    datos.push(editados);
+                    toast.current.show({ severity: 'success', summary: 'Registrado', detail: 'Encargado Registrado', life: 2500 });
+                }
+                 
+            }else { 
+                toast.current.show({ severity: 'feiled', summary: 'Registrado', detail: 'Encargado no Registrado', life: 2500 });
             }
-            else { 
-                toast.current.show({ severity: 'success', summary: 'Actualización', detail: 'Encargado Registrado', life: 3000 });
-            }
-            setState(_products);
+            setState(datos);
             setProductDialog(false);
-            setEdit(datosBasidos);
+            setEdit(datosVasios);
     }
 }
 const findIndexById = (cd) => {
@@ -139,10 +144,17 @@ const findIndexById = (cd) => {
     return index;
 }
 
+
+const crearNuevo = () => {
+    setEdit(datosVasios);
+    setSubmitted(false);
+    setProductDialog(true);
+}
+
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <Button label="Agregar encargado" icon="pi pi-plus" className="p-button-success mr-2"  />
+                <Button label="Agregar encargado" icon="pi pi-plus" className="p-button-success mr-2" onClick={crearNuevo} />
             </React.Fragment>
         )
     }
@@ -215,8 +227,9 @@ const findIndexById = (cd) => {
                                         icon="pi pi-search"
                                         id="Buscar2"
                                         className="p-button-warning"
-                                        onClick={() => {
-                                            ObtenerEncargado({ state: state, setState: setState });
+                                        onClick={async() => {
+                                            const res = await ObtenerEncargado(edit.cedula);
+                                            await setEdit({...res});
                                         }} />
                                 </div>
                                 <div>
