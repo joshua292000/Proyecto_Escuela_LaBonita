@@ -218,5 +218,19 @@ const Asistencia_Comedor = (request, response) => {
 
 app.get("/Asistencia_Comedor/:FechaIni/:FechaFin", Asistencia_Comedor);
 
+const insertarAsistencia = (request, response) => {
+    const {estid, fechaA, justificacion,materia,tipoAsistencia} = request.body;
+    connection.query('CALL `PRC_InsertarAsistencia`(?, ?, ?, ?, ?, @msjError); SELECT @msjError As error;', 
+    [estid, fechaA, justificacion,materia,tipoAsistencia],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+//ruta
+app.route("/insertarAsistencia").post(insertarAsistencia);
+
 
 module.exports = app;

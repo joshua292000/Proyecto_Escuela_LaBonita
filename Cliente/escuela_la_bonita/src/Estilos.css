@@ -217,6 +217,20 @@
     border-radius: 5px;
   }
 
+  #rootacademico {
+      height: auto;
+      min-width: auto;
+      font-family: Circular, Helvetica, Arial, sans-serif;
+      margin: 10;
+      padding: 50px;
+      text-align: center;
+      box-sizing: border-box;
+      justify-content: center;
+      background: linear-gradient(145deg, rgba(195, 240, 200, 0.598), rgba(80, 154, 245, 0.511));
+      border-radius: 1rem;
+      border-radius: 5px;
+  }
+
   #demo-button .template {
     
     background-color:transparent;
