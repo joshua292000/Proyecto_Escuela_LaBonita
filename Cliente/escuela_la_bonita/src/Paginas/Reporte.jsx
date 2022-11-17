@@ -267,7 +267,7 @@ export function Reporte() {
             ) : null}
           </div>
 
-          <div style={{ minHeight: "100vh" }}>
+          <div className="pdfreporteIndi" style={{ minHeight: "100vh" }}>
             {datos ? (
               <>
                 {verPDFI ? (

@@ -200,4 +200,23 @@ const obtenerAlumnos = (request, response) => {
 //ruta
 app.get("/obtenerAlumnos/:Sec_Grado/:Sec_Seccion", obtenerAlumnos);
 
+
+const Asistencia_Comedor = (request, response) => {
+    const FechaIni = request.params.FechaIni;
+    const FechaFin = request.params.FechaFin;
+ 
+    connection.query('SELECT DISTINCT COUNT(a.Est_Id) AS Cant_Est, DATE_FORMAT(a.AsiCom_FechaActual, "%Y-%m-%d") AS Fecha '+
+                    'FROM esc_estudiantes e, esc_asistenciacomedor a '+
+                    'WHERE a.AsiCom_FechaActual BETWEEN ? AND ? AND a.Est_Id=e.Est_Id GROUP BY a.AsiCom_FechaActual ',
+    [FechaIni, FechaFin],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+app.get("/Asistencia_Comedor/:FechaIni/:FechaFin", Asistencia_Comedor);
+
+
 module.exports = app;

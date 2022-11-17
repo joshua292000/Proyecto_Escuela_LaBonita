@@ -28,7 +28,7 @@ import ReactPDF, {
     return parts;
   });
   
-  const ReportePDFI = (props) => {
+  const ReporteComedorPDF = (props) => {
     
       const [funcionario, setFuncionario] = useState([]);
      
@@ -66,11 +66,11 @@ import ReactPDF, {
           </Text>
         
   
-          <Text style={styles.title}>REPORTE DE ASISTENCIA </Text>
+          <Text style={styles.title}>REPORTE DE ASISTENCIA DE COMEDOR </Text>
           <Text style={styles.title2}>OFICIO DREPZ-ERFB-C01-CT019-2022 </Text>
   
           <Text style={styles.text}>
-            Se detallan la asistencia del estudiante {props.dato.map((r)=> {return r.PNombre+' '+r.SNombre+' '+r.PApellido+' '+r.SApellido})}.
+            Se detalla la asistencia del comedor iniciando en la fecha { window.myGlobalFechaIni.toLocaleDateString("en-CA")} hasta la fecha { window.myGlobalFechaFin.toLocaleDateString("en-CA")}.
           </Text>
   
           
@@ -81,28 +81,16 @@ import ReactPDF, {
        
               <TableHeader  style={styles.Tabla}>
                       <TableCell style={styles.Tabla} >
-                          Identificacion
+                            Fecha 
                       </TableCell>
                       <TableCell style={styles.Tabla}>
-                          Nombre Completo
-                      </TableCell>
-                      <TableCell style={styles.Tabla}>
-                          Asistencia
-                      </TableCell>
-                      <TableCell style={styles.Tabla}>
-                          Aus. Justificada
-                      </TableCell>
-                      <TableCell style={styles.Tabla}>
-                          Aus. Injustificada
+                          Cantidad de estudiantes
                       </TableCell>
                   </TableHeader>
                  
                   <TableBody>
-                       <DataTableCell getContent={(r) => r.Identificacion} style={styles.Tabla}/>
-                       <DataTableCell getContent={(r) => r.PNombre+" "+r.SNombre+" "+r.PApellido+" "+r.SApellido} style={styles.Tabla}/>
-                       <DataTableCell getContent={(r) => r.Asistencia} style={styles.Tabla}/>
-                       <DataTableCell getContent={(r) => r.Ausencia} style={styles.Tabla}/>
-                       <DataTableCell getContent={(r) => r.Ausencia_Justificada} style={styles.Tabla}/>
+                       <DataTableCell getContent={(r) => r.Fecha} style={styles.Tabla}/>
+                       <DataTableCell getContent={(r) => r.Cant_Est} style={styles.Tabla}/>
                   </TableBody>
                   
               </Table>
@@ -185,5 +173,5 @@ import ReactPDF, {
     },
   });
   
-  export default ReportePDFI;
+  export default ReporteComedorPDF;
   

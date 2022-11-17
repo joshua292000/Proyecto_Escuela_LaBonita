@@ -291,3 +291,20 @@ export const Obtener_Materias = async () => {
       console.log(e);
     }
   };
+
+
+  export const AsistenciaComedor = async (props) => {
+    try {
+         const res = await axios
+        .get("http://localhost:3000/Asistencia_Comedor/"+props.FechaIni+"/"+props.FechaFin)
+          if (res.data.length >0) {
+           
+            return res.data;
+          } else {
+            Swal.fire('Error', 'Asistencia no generada');
+          }
+        
+    } catch (e) {
+      console.log(e);
+    }
+  };

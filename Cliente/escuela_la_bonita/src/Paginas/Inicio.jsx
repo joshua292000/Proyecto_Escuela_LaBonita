@@ -8,11 +8,15 @@ import Asistencia from "../Recursos/Asistencia.png";
 import Matricula from "../Recursos/Matricula.png";
 import Reporte from '../Recursos/reporte.png'
 import ReporteComedor from '../Recursos/reporteComedor.png'
+import { Header } from "../Componentes/Cabecera";
 
 export default function Inicio() {
   const navegar = useNavigate();
 
     return (
+      <div>
+        {" "}
+        <Header />
       <div className="Div">
         <h1>Página de inicio</h1>
         <div id="Matricula">
@@ -56,6 +60,7 @@ export default function Inicio() {
           />
           <h1>Generar reporte de comedor</h1>
         </div>
+      </div>
       </div>
     );
   }

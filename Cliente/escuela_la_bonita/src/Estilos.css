@@ -250,7 +250,7 @@
 	max-width: 250px;
 	margin-left: 70%;
   margin-top: -4%;
-  transform: translateX(-870px) translateY(-50px);
+  transform: translateX(-800px) translateY(-50px);
 
 }
  
@@ -286,7 +286,7 @@
   font-size: 20px;
   margin-left: 320px;
   margin-top: -3%;
-  transform: translateX(300px);
+  transform: translateX(300px) translateY(-20px);
 }
 
 .NombreEscuela{
@@ -296,7 +296,7 @@
 .CargarPDF{
   margin-top: 10%;
   margin-left: 36%;
-  
+  transform: translateX(70px) translateY(-80px);
 }
 
 .inputE{
@@ -314,7 +314,7 @@
 .Regional{
   margin-left: 36%;
   margin-top: -5.5%;
-
+ transform: translateY(-30px);
 }
 
 .inputR{
@@ -327,7 +327,7 @@
 .Circuito{
   margin-left: 70%;
   margin-top: -5.5%;
-
+  transform: translateY(-58px);
 }
 
 .inputC{
@@ -338,8 +338,6 @@
 }
 
 /*---------------------------CSS reportes-------------------------------*/
-
-
 
 
 #Reporte{
@@ -386,18 +384,20 @@
 .FechaInicio{
   margin-left: 43%;
   margin-top: -4.8%;
+  transform: translateY(-37px);
 }
 
 .FechaFinal{
   margin-left: 61%;
   margin-top: -4.6%;
+  transform: translateY(-64px);
 }
 
 .content-select3{
 	max-width: 250px;
 	margin-left: 22%;
   margin-top: -5%;
-
+  transform: translateY(-19px);
 }
  
 .content-select3 select{
@@ -427,17 +427,11 @@
 
 
 
-
-
-
-
-
-
 .content-select4{
 	max-width: 250px;
 	margin-left: 78%;
   margin-top: -4.5%;
-
+  transform: translateY(-88px);
 }
  
 .content-select4 select{
@@ -468,11 +462,17 @@
 .CargarDatos{
   margin-left: 20%;
   margin-top: 10%;
+  transform: translateY(-170px) translateX(80px);
 }
 
 .CargarReportePDF{
   margin-left: 50%;
   margin-top: -3.5%;
+  transform: translateY(-175px) translateX(50px);
+}
+
+.pdfreporteIndi{
+  transform: translateY(-700px)
 }
 
 /*---------------------------CSS reportes comedor-------------------------------*/
@@ -483,5 +483,18 @@
   border-radius: 30px;
   margin-top: -27%;
   font-size: 15px;
-  transform: translateY(-650px) translateX(350px);
+  transform: translateY(-675px) translateX(350px);
+}
+
+.FechaInicioComedor{
+  transform: translateX(400px) translateY(5px);
+}
+
+
+.FechaFinalComedor{
+  transform: translateY(-80px) translateX(750px);
+}
+
+.CargarReportePDFComedor{
+  transform: translateY(10px) translateX(600px);
 }

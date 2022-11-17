@@ -124,6 +124,7 @@ console.log("global", props.dato)
           }}
         >
           <Text>MSc. {funcionario.map((func)=>{return func.PNombre +' '+func.SNombre+' '+func.PApellido+' '+func.SApellido})} </Text>
+          <Text>Directora  </Text>
           <Text>Escuela Rodrigo Facio Brenes. </Text>
         </View>
       </Page>
