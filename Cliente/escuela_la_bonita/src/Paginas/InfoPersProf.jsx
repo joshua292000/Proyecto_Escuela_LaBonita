@@ -4,10 +4,14 @@ import { infoProfesores } from "../AppContext/providerProfesores";
 import { InfoPersonal, InfoProfesor } from "../Componentes/InformacionProfe";
 import { TabView, TabPanel } from 'primereact/tabview';
 import "../Estilos.css";
+import { Header } from "../Componentes/Cabecera";
 
 export default function Inicio() {
   const [state, setState] = useContext(infoProfesores);
   return (
+    <div>
+    {" "}
+    <Header />
     <div id="rootprofesores" className="Div" >
       <span className="titleBlack">Información personal del profesor</span>
       <TabView   scrollable style={{ textAlign: 'center' }} >
@@ -22,6 +26,7 @@ export default function Inicio() {
 
       {/* <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br /> */}
       
+    </div>
     </div>
   );
 }

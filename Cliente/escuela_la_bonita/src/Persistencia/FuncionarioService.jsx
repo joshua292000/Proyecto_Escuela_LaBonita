@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import Json from '../Componentes/Globales'
 import Cookies from "universal-cookie";
 const json = Json;
-const cookies = new Cookies();
+const cookies = new Cookies(); 
 
 export const Obtener_Secciones = async () => {
   try {

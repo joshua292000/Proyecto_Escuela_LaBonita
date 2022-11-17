@@ -12,7 +12,7 @@ const Loggin = (request, response) => {
     const usuario = request.params.usuario;
     const clave = request.params.clave;
 
-    connection.query('SELECT u.Usu_Usuario, u.Usu_Clave, f.Func_Id '+
+    connection.query('SELECT u.Usu_Usuario, u.Usu_Clave, f.Func_Id, u.Rol_Id '+
                     'FROM esc_funcionarios f, esc_usuarios u '+
                     'WHERE f.Usu_Id=u.Usu_Id AND u.Usu_Usuario=? AND u.Usu_Clave=?',
     [usuario, clave],

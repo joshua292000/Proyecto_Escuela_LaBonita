@@ -9,9 +9,28 @@ import Matricula from "../Recursos/Matricula.png";
 import Reporte from '../Recursos/reporte.png'
 import ReporteComedor from '../Recursos/reporteComedor.png'
 import { Header } from "../Componentes/Cabecera";
+import React, { Component } from 'react';
 
 export default function Inicio() {
+  const cookies = new Cookies();
   const navegar = useNavigate();
+
+  const VerEle=()=> {
+    
+    const IdDirector = cookies.get('Rol_Id');
+    console.log("ver id", IdDirector)
+    if(IdDirector==="1"){
+      console.log("ver ele 2", cookies.get('Rol_Id'))
+      return(
+              <div id = "RegistrarFuncionarios">
+                 <img src={ReporteComedor} alt="Escuela Rodrigo Facio Brenes" width="200px" 
+                 onClick={()=> navegar("/RegistroProfesor")}
+                 />
+                 <h1>Registrar funcionario</h1>
+              </div>
+      )
+    }
+  }
 
     return (
       <div>
@@ -60,7 +79,11 @@ export default function Inicio() {
           />
           <h1>Generar reporte de comedor</h1>
         </div>
+
+         <VerEle></VerEle>
+
       </div>
       </div>
     );
+  
   }

@@ -23,9 +23,10 @@ export function Loggin() {
       await axios
         .get("http://localhost:3000/loggin/" + value1 + "/" + value2)
         .then((res) => {
-          console.log("tiene ",res.data[0].Func_Id);
+          console.log("tiene loggin",res.data);
           const cookies = new Cookies();
           cookies.set('Func_Id', res.data[0].Func_Id, {path: '/'});
+          cookies.set('Rol_Id', res.data[0].Rol_Id, {path: '/'});
           if (res.data.length >0) {
             navegar("/Inicio");
           } else {

@@ -185,6 +185,16 @@
     border-radius: 30px;
   }
 
+  #RegistrarFuncionarios{
+    background-color: #B78DE6;
+    height: 350px;
+    width: 240px;
+    border-radius: 30px;
+    margin-top: -27%;
+    font-size: 15px;
+    transform: translateY(-700px) translateX(705px);
+  }
+
   #inputtext,#fnacimiento{
     width: 150px;
   }
