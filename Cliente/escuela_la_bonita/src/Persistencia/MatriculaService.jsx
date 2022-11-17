@@ -16,7 +16,6 @@ export  function Matricula(propstEst, propsEnc) {
     agregarEncargadoEstudiante({valueEnc: propsEnc.valueEnc.cedula},{valueEst: propstEst.valueEst.cedula});//se le pasa la cedula de encargado y estudiante
 
     Swal.fire('Felicidades', 'La matricula se creo con éxito');   
-
     console.log(json);
     
 }

@@ -7,8 +7,8 @@ dotenv.config();
 //conexión con la base de datos
 const {connection} = require("../config");
 
-
-const insertarPersona = (request, response) => {
+//Inserta en la tabla esc_Persona
+const InsertarPersona = (request, response) => {
     const {cedula, pNombre, sNombre, pApellido, sApellido, fechNaci, estCivil, sexo, 
            estado, nacionalidad, nomProvincia, nomCanton, nomDistrito, direccion} = request.body;
     connection.query('CALL PRC_InsertarPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @msjError); SELECT @msjError AS error;', 
@@ -22,9 +22,9 @@ const insertarPersona = (request, response) => {
 };
 
 //ruta
-app.route("/insertarPersona").post(insertarPersona);
+app.route("/insertarPersona").post(InsertarPersona);
 
-const insertarContacto = (request, response) => {
+const InsertarContacto = (request, response) => {
     const {cedulaPer, tipoContacto, contacto} = request.body;
     connection.query('CALL PRC_InsertarContactoPersona(?, ?, ?, @msjError); SELECT @msjError AS error;', 
     [cedulaPer, tipoContacto, contacto],
@@ -36,7 +36,7 @@ const insertarContacto = (request, response) => {
 };
 
 //ruta
-app.route("/insertarContacto").post(insertarContacto);
+app.route("/insertarContacto").post(InsertarContacto);
 
 const obtenerContacto = (request, response) => {
     const id = request.params.id;

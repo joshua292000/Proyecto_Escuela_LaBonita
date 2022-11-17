@@ -58,37 +58,15 @@ export const agregarEst = async (props)=>{
       .then(err=> {console.log(err)})
   }
 
- 
   export const ObtenerEstudiante= async (props) => { 
-    console.log(props.state.cedula)
-    // try{
-       await axios.get('http://localhost:3000/obtenerEstudiante/'+props.state.cedula).then(res =>{
-       //props.setState({...props.state, mapEstudiante: res.data});
-      console.log(res.data);
-      if(res.data.length === 0){
-        Swal.fire('Error', 'El estudiante no se encuentra registrado');
-      }else{
-        // eslint-disable-next-line array-callback-return
-        res.data.map((dep)=>{
-          props.setState({...props.state, fechNac: dep.fechaNaci,
-                          ...props.state, pNombre: dep.Per_PNombre,
-                          ...props.state, sNombre: dep.Per_SNombre,
-                          ...props.state, pApellido: dep.Per_PApellido,
-                          ...props.state, sApellido: dep.Per_SApellido,
-                          ...props.state, provincia: dep.Pro_Nombre,
-                          ...props.state, canton: dep.Can_Nombre,
-                          ...props.state, distrito: dep.Dis_Nombre,
-                          ...props.state, direccion: dep.Dir_Direccion,
-                          ...props.state, sexo: dep.Per_Sexo,
-                          ...props.state, lugarnacimiento: dep.Pais_Nombre,
-                          ...props.state, idEncargado: dep.Per_Id,
-                          ...props.state, Grado: dep.Sec_Grado,
-                          ...props.state, adecuacion: dep.Ade_Nombre,
-                          ...props.state, viaja: dep.Est_Viaja,
-                          ...props.state, poliza: dep.Est_Poliza
-          });
-        })
-      }
-   })           
-}    
-       
+    console.log(props)
+    const res = await axios.get('http://localhost:3000/obtenerEstudiante/'+props)
+    
+    if(res.data.length > 0){
+      console.log("data",res.data);
+      return res.data[0];
+    }else{
+      Swal.fire('Error', 'El estudiante no se encuentra registrado');
+    }          
+  }    
+         

@@ -3,13 +3,13 @@ import {createContext,useState} from 'react';
 //const infoEncargado = createContext();
 
 const ProviderInfoEncargado = ({ children }) =>{
-    const [stateEnc,setstateEnc] = useState({});
-    const [stateCon,setStateCon] = useState({});
+    const [stateEnc,setstateEnc] = useState([]);
+
     return (            
             <infoEncargado.Provider value={[stateEnc,setstateEnc]}>
-                <infoContacto.Provider value={[stateCon,setStateCon]}>
+
                      {children}
-               </infoContacto.Provider>  
+  
             </infoEncargado.Provider>  
              
             
@@ -18,4 +18,3 @@ const ProviderInfoEncargado = ({ children }) =>{
 
 export default ProviderInfoEncargado;
 export const infoEncargado = createContext();//datos personales del encargado
-export const infoContacto = createContext();//informacion de contacto

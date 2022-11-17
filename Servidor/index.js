@@ -10,9 +10,9 @@ var cors = require('cors')
 app.use(cors())
 
 //cargamos el archivo de rutas
-app.use(require('./services/encargadoEstuService'));
-app.use(require('./services/estudianteSevice'));
-app.use(require('./services/personaService'));
+app.use(require('./services/EncargadoEstuService'));
+app.use(require('./services/EstudianteSevice'));
+app.use(require('./services/PersonaService'));
 app.use(require('./services/FuncionarioService'));
 
 app.listen(process.env.PORT||3300,() => {
