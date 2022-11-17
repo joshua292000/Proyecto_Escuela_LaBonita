@@ -37,8 +37,14 @@ export function InfoPersonal() {
     useEffect(() => {
         Pais.getPais().then(data => setCountries(data));
         Provincia.getProvincia().then(data => setProvincia(data));
-        
+      
     }, []);
+    useEffect(() => {
+        if (state.provincia) {
+            Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia)));
+            Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)));
+        }
+    }, [state.provincia]);
     const Estado = [
         { name: 'Soltero',code:'S' },
         { name: 'Casado',code:'C' },
@@ -47,6 +53,13 @@ export function InfoPersonal() {
         { name: 'Viudo(a)',code:'V' },
         { name: 'Separado(a)',code:'E'}
     ];
+    function delayAddOne() {
+       
+            ObtenerProfesor({ state: state, setState: setState });
+            ObtenerCont({ state: stateCon, setState: setStateCon, idFun: state.cedula })
+            console.log("Entre ", state.provincia)
+    
+      }
     return (
         <div className="form-demo" style={{ height: 'auto' }}>
             <span className="titleBlack">Información Personal</span>
@@ -70,16 +83,7 @@ export function InfoPersonal() {
                                     icon="pi pi-search"
                                     id="Buscar2"
                                     className="p-button-warning"
-                                    onMouseMove={()=>{
-                                        Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia)));
-                                        Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)));
-                                    }}
-                                    onClick={() => {
-                                        console.log("Fecha ", state.fechNac)
-                                        ObtenerProfesor({ state: state, setState: setState });
-                                        ObtenerCont({ state: stateCon, setState: setStateCon, idFun: state.cedula })
-                                        console.log("IdEncargado ", state.cedula)
-                                    }} />
+                                    onClick={delayAddOne} />
                             </div>
                             <div>
                             </div>
@@ -244,6 +248,7 @@ export function InfoPersonal() {
                             id="direccion"
                             className="p-inputtext-sm block mb-2"
                             value={state.direccion}
+                            autoResize 
                             onChange={(e) =>
                                 setState({ ...state, direccion: e.target.value })}
                             rows={1}
@@ -417,12 +422,14 @@ export function InfoProfesor() {
     }
     const headerTemplate = (options) => {
         const { className, chooseButton } = options;
+        if(className){
         return (
             <div className={className} onMouseLeave={()=>setState({...state,Perfil: value2})} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
                 {chooseButton}
                 {/* {"Hola mundo"}*/}
             </div>
         );
+        }
     }
     const itemTemplate = (file, props) => {
         setValue2( file.objectURL )
@@ -571,6 +578,7 @@ export function InfoProfesor() {
                             <InputTextarea
                                 id="descrpcion"
                                 value={state.descrip}
+                                autoResize 
                                 onChange={(e) =>
                                     setState({ ...state, descrip: e.target.value })}
                                 rows={5}

@@ -49,7 +49,7 @@ const ConstanciaMatriculaPDF = (props) =>{
             <Text style={styles.header}>DIRECCIÓN REGIONAL DE EDUCACIÓN PÉREZ ZELEDÓN</Text>
             <Text style={styles.header}>MINISTERIO DE EDUCACIÓN PÚBLICA</Text>
   
-            <Text style={styles.title}>CONSTANCIA TRASLADO  </Text>
+            <Text style={styles.title}>CONSTANCIA MATRICULA  </Text>
             <Text style={styles.title2}>OFICIO DREPZ-ERFB-C01-CM033-2022 </Text>
            
    
