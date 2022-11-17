@@ -275,12 +275,7 @@ export const Obtener_Materias = async () => {
   export const obtenerAlumnos = async (props) => {
     //Obtiene todos los alumnos
     try {
-      const res = await axios.get(
-        "http://localhost:3000/obtenerAlumnos/" +
-          props.grado +
-          "/" +
-          props.seccion
-      );
+      const res = await axios.get("http://localhost:3000/obtenerAlumnos/" + props.grado +"/" + props.seccion);
       if (res.data.length > 0) {
         console.log("metodo ", res.data);
         return res.data;

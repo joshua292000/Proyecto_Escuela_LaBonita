@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useRef} from "react";
 import "primereact/resources/themes/lara-light-indigo/theme.css"; //theme
 import "primereact/resources/primereact.min.css"; //core css
 import "primeicons/primeicons.css";
@@ -13,21 +13,47 @@ import { obtenerAlumnos, Obtener_Materias, Obtener_Secciones } from "../Persiste
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
 
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
+import { Toast } from 'primereact/toast';
+import { Dialog } from 'primereact/dialog';
+
 export function Asistencia() {
+  let datosBasidos ={
+    cedula : "",
+    estId: "",
+    papellido: "",
+    pnombre: "",
+    sapellido: "",
+    snombre: "",
+    asistencia: "",
+    materia: ""
+   }
+
   const [materia,setMateria]=useState([]);
-  const [materiaS, setMateriaS] = useState([]);
+  const [materiaS, setMateriaS] = useState();
   const [seccion, setSeccion] = useState([]);
   const [seccionS, setSeccionS] = useState([]);
   const [alumnos, setAlumnos] = useState([]);
   const [loading1, setLoading1] = useState(false); 
+  const [edit, setEdit] = useState();
+  const [jus, setJus] = useState({});
  const [date, setDate] = useState(null);
+ const [productDialog, setProductDialog] = useState(false);
+ const [submitted, setSubmitted] = useState(false);
+
+ const toast = useRef(null);
+ const dt = useRef(null);
+
+ 
 
   useEffect (()=>{
     const obtenerDatos=async()=>{
       const res = await Obtener_Materias();
       const res1 = await Obtener_Secciones();
-      console.log("res:", res);
-      console.log("res1:", res1);
+      //console.log("res:", res);
+      //console.log("res1:", res1);
       setMateria(res);
       setSeccion(res1);
     }
@@ -37,7 +63,7 @@ export function Asistencia() {
   const obtenerA = async() => {
     console.log(seccionS);
     const res2=await obtenerAlumnos(seccionS);
-    console.log("res2:",res2)
+    //console.log("res2:",res2)
     setAlumnos(res2);
     setLoading1(true);
     setTimeout(() => {
@@ -64,6 +90,118 @@ export function Asistencia() {
       </div>
     );
   };
+
+
+  const guardarCambios = (datos, props) => {
+     setSubmitted(true);
+    if (datos.cedula.trim()) {
+        let alum = [...alumnos];
+        let data = {...datos};
+        if (data.cedula) {
+            const index = findIndexById(data.cedula);
+            if(props.justi != null){
+              alum[index].asistencia = "Ausencia justificada";
+              alum[index].justificacion = jus;
+              setProductDialog(false);
+            }
+            if(props.estado != null){
+              alum[index].asistencia = props.estado;
+            } 
+            alum[index].materia = materiaS;
+            toast.current.show({ severity: 'success', summary: 'Actualización', detail: 'Encargado actualizado', life: 3000 });
+        }
+        setAlumnos(alum);
+    }
+  }
+  const findIndexById = (cd) => {
+    let index = -1;
+    for (let i = 0; i < alumnos.length; i++) {
+        if (alumnos[i].cedula === cd) {
+            index = i;
+            break;
+        }
+    }
+
+    return index;
+  }
+  const buttonPresente = (rowData) => {
+    return (
+        <React.Fragment>
+          <input
+            type="radio"
+            value="true"
+            id="Presente"
+            name="asistenciaest"
+            onClick={async ()=>{ 
+             await guardarCambios(rowData, {estado: "Presente", justi: null})}}
+          ></input>        
+        </React.Fragment>
+    );
+  }
+  
+
+  const buttonAusenInjus = (rowData) => {
+    return (
+        <React.Fragment>
+          <input
+            type="radio"
+            value="true"
+            id="Ausente"
+            name="asistenciaest"
+            onClick={async ()=>{ 
+              await guardarCambios(rowData, { estado: "Ausencia injustificada", justi: null})}}
+          ></input>          
+        </React.Fragment>
+    );
+}
+
+const buttonAusenJusti = (rowData) => {
+  return (
+      <React.Fragment>
+         <input
+            type="radio"
+            value="true"
+            id="AusenciaJusti"
+            name="asistenciaest"
+            onClick={()=>{ 
+              setEdit(rowData);
+              setProductDialog(true); }}
+              
+          ></input>          
+      </React.Fragment>
+  );
+}
+
+
+const inputJustificacion = (rowData) => {
+  return (
+      <React.Fragment>
+         <InputText
+            id="inputtext"
+            className="p-inputtext-sm block mb-2"
+            value={rowData.justificacion}
+            style={{ width: '90%' }}   
+            required />       
+      </React.Fragment>
+  );
+}
+
+const hideDialog = () => {
+  setSubmitted(false);
+  setProductDialog(false);
+}
+
+const productDialogFooter = (
+  <React.Fragment>
+      <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+      <Button label="Guardar" icon="pi pi-check" className="p-button-text"  onClick={async ()=>{ 
+              await guardarCambios(edit, { estado: null, justi: ""})}}/>
+  </React.Fragment>)
+
+console.log("edit", alumnos);
+//console.log("materia", materiaS);
+
+
   return (
     <div>
       {" "}
@@ -125,71 +263,33 @@ export function Asistencia() {
         </div>
         <br />
         <br />
-        <Table>
-          <thead>
-            <tr>
-              <th>Cédula</th>
-              <th>Nombre completo</th>
-              <th>Presente</th>
-              <th>Ausencia Injustificada</th>
-              <th>Ausencia Justificada</th>
-              <th>Motivo de la ausencia:</th>
-            </tr>
-          </thead>
-          <tbody>
-            {alumnos ? (
-              alumnos.map((dt, i) => {
-                return (
-                  <tr key={i}>
-                    <td>{dt.cedula}</td>
-                    <td>
-                      {dt.pnombre +
-                        " " +
-                        dt.snombre +
-                        " " +
-                        dt.papellido +
-                        " " +
-                        dt.sapellido}
-                    </td>
-                    <td>
-                      <input
-                        type="radio"
-                        value="true"
-                        id="Presente"
-                        name="asistenciaest"
-                      ></input>
-                    </td>
-                    <td>
-                      {"    "}
-                      <input
-                        type="radio"
-                        id="AusenciaI"
-                        name="asistenciaest"
-                      ></input>
-                    </td>
-                    <td>
-                      {"   "}
-                      <input
-                        type="radio"
-                        id="AusenciaJ"
-                        name="asistenciaest"
-                      ></input>
-                    </td>
-                    <td>
-                      <input type="text" />
-                    </td>
-                  </tr>
-                );
-              })
-            ) : (
-              <tr>
-                <td>
-                  <span>Sin resultados </span>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+        <Toast ref={toast} />
+        <DataTable ref={dt} value={alumnos} responsiveLayout="scroll" >  
+            <Column field={"cedula"} header="Cedula" sortable style={{ minWidth: '12rem' }}></Column>
+            <Column field={"pnombre"} header="Nombre" sortable style={{ minWidth: '12rem' }}></Column>
+            <Column header="Presente" body={buttonPresente} style={{ minWidth: '12rem' }}></Column>
+            <Column header="Ausencia injustificada" body={buttonAusenInjus}  exportable={false} style={{ minWidth: '12rem' }}></Column>
+            <Column header="Ausencia justificada"  body={buttonAusenJusti} exportable={false} style={{ minWidth: '12rem' }}></Column>
+            <Column header="Motivo de la ausencia"  body={inputJustificacion} exportable={false} style={{ minWidth: '12rem' }}></Column>
+        </DataTable>
+
+        <Dialog visible={productDialog} style={{ width: '800px' }} header="Justificación" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog} >
+          <div className="form-demo" style={{ height: 'auto' }}>
+          <div className=" col-sm">
+              <div className="field">
+                  <label><b>Justificación:</b></label>{" "}
+                  <div>
+                      <InputText
+                          id="inputtext"
+                          className="p-inputtext-sm block mb-2"
+                          onChange={(e)=>{setJus( e.target.value)}}
+                          style={{ width: '90%' }} />
+                  </div>
+              </div>
+          </div>
+          </div>       
+        </Dialog>
+
       </div>
     </div>
   );
