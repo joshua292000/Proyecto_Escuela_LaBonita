@@ -37,9 +37,7 @@ export function InfoPersonal() {
   return (
     
       <div className="form-demo" style={{ height: 'auto' }}>
-          <span className="titleBlack">Información Personal del estudiante</span>
-          <br />
-          <div className="container" style={{ borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}>
+          <div className="container" >
               <div className="row ">
                   <div className="col-sm offset-md-2">
                       <div className="field">
@@ -294,6 +292,7 @@ export function InfoPersonal() {
                       </div>
                   </div>
               </div>
+              <Divider align="left" ></Divider>
           </div>
       </div>
   );

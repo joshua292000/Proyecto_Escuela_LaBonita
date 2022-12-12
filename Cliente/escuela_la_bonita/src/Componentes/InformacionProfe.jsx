@@ -615,7 +615,7 @@ export function InfoProfesor() {
                 <div className="row">
                     <div className="col-sm">
                     <ConfirmDialog />
-                        <Button label="Guardar" loading={loading2} onClick={confirm1} className="mr-2"/>
+                        <Button label="Guardar" icon="pi pi-save" style={{backgroundColor: '#00939C'}} loading={loading2} onClick={confirm1} className="mr-2"/>
                     </div>
                 </div>
             </div>

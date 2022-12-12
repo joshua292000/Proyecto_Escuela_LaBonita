@@ -13,7 +13,7 @@ export default function Inicio() {
     {" "}
     <Header />
     <div id="rootprofesores" className="Div" >
-      <span className="titleBlack">Información personal del profesor</span>
+      <span className="titleBlack" style={{marginBottom:'2%'}}>Información personal del profesor</span>
       <TabView   scrollable style={{ textAlign: 'center' }} >
         <TabPanel header="Información Personal" leftIcon="pi pi-user">
           <InfoPersonal setState={setState} state={state} />
