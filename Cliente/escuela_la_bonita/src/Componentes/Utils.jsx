@@ -18,3 +18,4 @@ export function ButtonSiguiente(props) {
     </div>
   );
 }
+
