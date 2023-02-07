@@ -200,6 +200,21 @@ const obtenerAlumnos = (request, response) => {
 //ruta
 app.get("/obtenerAlumnos/:Sec_Grado/:Sec_Seccion", obtenerAlumnos);
 
+const obtenerAsistencia = (request, response) => {
+    connection.query(
+     "SELECT e.Est_Id AS estId,p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre,p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido, a.Asi_Justificacion AS justificacion, a.TAsi_Id AS tasistencia "+
+      "FROM esc_estudiantes e, esc_seccion s, esc_personas p, esc_asistencia a "+
+      "WHERE s.Sec_Id=e.Sec_Id AND e.Per_Id=p.Per_Id AND s.Sec_Grado=? AND s.Sec_Seccion=? AND e.Est_Id=a.Est_Id AND a.Asi_FechaActual=?",
+      [request.params.Sec_Grado, request.params.Sec_Seccion, request.params.Asi_FechaActual],
+      (error, results) => {
+        if (error) throw error;
+        response.status(201).json(results);
+      }
+    );
+  };
+  
+  //ruta
+  app.get("/obtenerAlumnos/:Sec_Grado/:Sec_Seccion/:Asi_FechaActual", obtenerAsistencia);
 
 const Asistencia_Comedor = (request, response) => {
     const FechaIni = request.params.FechaIni;

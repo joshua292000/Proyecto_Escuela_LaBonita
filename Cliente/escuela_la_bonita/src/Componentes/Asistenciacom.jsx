@@ -213,7 +213,7 @@ export function Asistenciacom() {
                                 {"  "}
                             </div>
                             <div className="col">
-                                <label><b>Seccion:</b></label>
+                                <label><b>Sección:</b></label>
                                 <div>
                                     <Dropdown
                                         name="label"
@@ -263,7 +263,7 @@ export function Asistenciacom() {
                                 <DataTable ref={dt} value={alumnos} responsiveLayout="scroll">
                                     <Column
                                         field={"cedula"}
-                                        header="Cedula"
+                                        header="Cédula"
                                         sortable
                                         style={{ minWidth: "12rem" }}
                                     ></Column>

@@ -14,7 +14,7 @@ export function Asistencia() {
     {" "}
     <Header />
     <div id="RootAsistencia" className="Div" >
-      <span className="titleBlack" style={{ marginBottom: '2%' }}>Asitencia Estudiantil</span>
+      <span className="titleBlack" style={{ marginBottom: '2%' }}>Asistencia Estudiantil</span>
       <Asistenciacom  />
     </div>
     </div>

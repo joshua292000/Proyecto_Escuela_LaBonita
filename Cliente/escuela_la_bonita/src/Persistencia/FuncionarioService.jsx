@@ -322,9 +322,10 @@ export const insertarAsistencia = async (props) => {
         res.data[1].map((dep) => {
           //se mapea la respuesta del servidor
           if (dep.error != null) {
-                Swal.fire("Felicidades", "Asistencia guardada con éxito");   
+                Swal.fire("Error, la asistencia falló al guardarse");   
           }
           json.insertEstError = dep.error;
+          Swal.fire("Asistencia guardada con éxito"); 
         });
       });
   } catch (e) {
