@@ -4,7 +4,8 @@
 import './Home.css';
 import { Carousel } from "primereact/carousel";
 import React from 'react';
-
+import Escuela1 from '../Recursos/EscuelaLado.jpg';
+import Bienvenidos from '../Recursos/Bienvenidos.png';
 const itemTemplate = (product) => {
     // return content;
   };
@@ -19,7 +20,7 @@ const Home = (props) => {
                     <div class="carrusel-elemento">
                         <img
                             class="imagenes"
-                                src="https://scontent.fsjo10-1.fna.fbcdn.net/v/t39.30808-6/301829858_605279847621850_2679330052690748808_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=e3f864&_nc_ohc=HGyyK1Fxf6EAX9aqq6-&_nc_ht=scontent.fsjo10-1.fna&oh=00_AT_FZLk1JOHxLwGdU2RLc6EELeuyTgBrrkBpTrNIwOQdJQ&oe=63549EF9"
+                                src={Bienvenidos}
                         />
                     </div>
 
@@ -40,7 +41,7 @@ const Home = (props) => {
                     <div class="carrusel-elemento">
                         <img
                             class="imagenes"
-                                src="https://www.spanishunicorn.com/wp-content/uploads/2018/10/frases-de-motivacion-para-estudiantes-1024x536.jpg"
+                                src={Escuela1}
                         /> 
                     </div>     
                         

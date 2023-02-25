@@ -15,6 +15,7 @@ import {Constancias} from "./Paginas/Constancia";
 import { Asistencia } from "./Paginas/Asistencia";
 import { Reporte } from "./Paginas/Reporte";
 import { ReporteComedor } from "./Paginas/ReporteComedor";
+import { AcercaDe } from "./Paginas/AcercaDe";
 
 export function App() {
 return (
@@ -32,6 +33,7 @@ return (
       <Route path="/ReporteComedor" element={<ReporteComedor />} />
       <Route path="/AsistenciaEstudiantes" element={<Asistencia />} />
       <Route path="/RegistroProfesor" element={<InformacionPro />} />
+      <Route path="/AcercaDe" element={<AcercaDe />} />
     </Routes>
   </BrowserRouter>
 );

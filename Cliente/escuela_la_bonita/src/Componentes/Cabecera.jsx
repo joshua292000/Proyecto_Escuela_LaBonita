@@ -1,27 +1,3 @@
-
-/*
-import React from 'react';
-
-const Header = () => {
-    return (
-        <div className="navbar bg-[#FA7D19] text-white  px-16">
-            <div className="flex-1">
-                <a href="#" className="btn btn-ghost normal-case text-3xl">Bienvenidos a la escuela Rodrigo Facio Brenes</a>
-            </div>
-            <div className="flex-none">
-                <ul className="menu menu-horizontal p-0 font-bold">
-                    <li><a>Profesores</a></li>
-                    <li><a>Acerca de</a></li>
-                    <li><a>Encargados de familia</a></li>
-                    <li><a>Contactenos</a></li>
-                </ul>
-            </div>
-        </div>
-    );
-};
-
-export default Header;*/
-
 import React from 'react';
 //import './style.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
@@ -37,13 +13,21 @@ import Logo from "../Recursos/Escudo_escuela.png";
 export function Header() {
 
    const navegar = useNavigate(); 
+
+   function scrollToSection() {
+      window.location.hash = '#Mision';
+    }
+
+   function scrollToSection2() {
+      window.location.hash = '#Junta';
+    }
    
 
 const items = [
      {
        label:'Inicio',
        icon:'pi pi-fw pi-power-off',
-      command:(event)=>{navegar("/")}
+       command:(event)=>{navegar("/")}
     }, 
     {
        label:'Acerca de',
@@ -51,15 +35,19 @@ const items = [
        items:[
            {
              label:'Historia',
-             icon:'pi pi-fw pi-align-left'
+             icon:'pi pi-fw pi-align-left',
+             command:(event)=>{navegar("/AcercaDe")},
           },
           {
              label:'Misión y visión',
-             icon:'pi pi-fw pi-align-right'
+             icon:'pi pi-fw pi-align-right',
+             //command:(event)=>{navegar("/AcercaDe/#Mision")},
+             command:(event)=>{scrollToSection()}
           },
           {
              label:'Junta Directiva',
-             icon:'pi pi-fw pi-align-center'
+             icon:'pi pi-fw pi-align-center',
+             command:(event)=>{scrollToSection2()}
           },
 
        ]
