@@ -10,10 +10,11 @@ var cors = require('cors')
 app.use(cors())
 
 //cargamos el archivo de rutas
-app.use(require('./services/EncargadoEstuService'));
-app.use(require('./services/EstudianteSevice'));
-app.use(require('./services/PersonaService'));
-app.use(require('./services/FuncionarioService'));
+app.use(require('./services/encargadoEstuService'));
+app.use(require('./services/estudianteSevice'));
+app.use(require('./services/personaService'));
+app.use(require('./services/funcionarioService'));
+app.use(require('./services/viajaConService'));
 
 app.listen(process.env.PORT||3300,() => {
     console.log("Servidor corriendo en el puerto 3000");

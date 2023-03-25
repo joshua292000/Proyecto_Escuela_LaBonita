@@ -1,8 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import Json from '../Componentes/Globales'
 import Cookies from "universal-cookie";
-const json = Json;
+
 const cookies = new Cookies(); 
 
 export const Obtener_Secciones = async () => {
@@ -108,7 +107,6 @@ export const agregarFun = async (props) => {
         if (dep.error != null) {//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
           Swal.fire('Error', dep.error);//se muestra el error en pantalla
         }
-        json.insertEstError = dep.error;
       })
 
     });
@@ -148,7 +146,6 @@ export const agregarPersona = async (props) => {
         if (dep.error != null) {//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
           Swal.fire('Error', dep.error);//se muestra el error en pantalla
         }
-        json.insertEstError = dep.error;
       })
 
     });
@@ -177,7 +174,6 @@ export const agregarContacto = async (props) => {
         if (dep.error != null) {//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
           Swal.fire('Error', dep.error);//se muestra el error en pantalla
         }
-        json.insertEstError = dep.error;
       })
 
     });
@@ -324,7 +320,6 @@ export const insertarAsistencia = async (props) => {
           if (dep.error != null) {
                 Swal.fire("Error, la asistencia falló al guardarse");   
           }
-          json.insertEstError = dep.error;
           Swal.fire("Asistencia guardada con éxito"); 
         });
       });

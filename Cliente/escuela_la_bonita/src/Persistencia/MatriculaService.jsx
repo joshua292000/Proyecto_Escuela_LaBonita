@@ -1,21 +1,56 @@
 
-import Swal from 'sweetalert2';
-import { agregarInfoPersonal } from './PersonaServive';
-import { agregarEncargadoEstudiante, agregarEst } from './EstudianteService';
-import Json from '../Componentes/Globales'
-const json = Json;
+import { agregarInfoPersonal, agregarContactoPersona } from './PersonaServive';
+import { agregarEncargadoEstudiante, agregarEstudiante, agregarViajaCon } from './EstudianteService';
+import { agregarEncargado } from './EncargadoService';
 
-export  function Matricula(propstEst, propsEnc) {
-    console.log( "Datooooooosss");
-    console.log( propstEst.valueEst);
-    console.log( propsEnc.valueEnc);
-    //Se valida si ocurrio un error al momento de realizar las inserciones de datos.
-    agregarInfoPersonal({value : propstEst.valueEst});//se le pasa todo el contexto con la info, información del estudiante
-    agregarInfoPersonal({value : propsEnc.valueEnc});//se le pasa todo el contexto con la info, informacion del encargado
-    agregarEst({value : propstEst.valueEst});//se pasa el contexto de estudiante para guardar la info de matricula
-    agregarEncargadoEstudiante({valueEnc: propsEnc.valueEnc.cedula},{valueEst: propstEst.valueEst.cedula});//se le pasa la cedula de encargado y estudiante
 
-    Swal.fire('Felicidades', 'La matricula se creo con éxito');   
-    console.log(json);
+export const Matricula = async (propsEst, propsEnc) => {
+    let respuesta;
+    respuesta = await agregarInfoPersonal(propsEst);//se le pasa todo el contexto con la infomación del estudiante para guadar en la BD
+    if(respuesta === null){
+        respuesta = await agregarEstudiante(propsEst);//se pasa el contexto de estudiante para guardar la info de matricula
+        if(respuesta === null){
+            for(let i=0; i < propsEnc.length; i++){
+                respuesta = await agregarInfoPersonal(propsEnc[i]);//se le pasa todo el contexto con la informacion del encargado para guardar en la BD
+                if(respuesta === null){
+                    respuesta = await agregarEncargado(propsEnc[i]);
+                    if(respuesta === null){
+                        //agregarEncargadoEstudiante({valueEnc: propsEnc.valueEnc.cedula},{valueEst: propstEst.valueEst.cedula});//se le pasa la cedula de encargado y estudiante
+                        if("correo" in propsEnc[i]){
+                            respuesta = await agregarContactoPersona({cedulaPer: propsEnc[i].cedula, tipoContacto: 'Correo', contacto: propsEnc[i].correo})
+                        }
+                        if(respuesta === null){
+
+                            if("telefono" in propsEnc[i]){
+                            respuesta = await agregarContactoPersona({cedulaPer: propsEnc[i].cedula, tipoContacto: 'Telefono', contacto: propsEnc[i].telefono})
+                            }
+
+                            if(respuesta === null){
+                                respuesta = await agregarEncargadoEstudiante({cedulaEncar: propsEnc[i].cedula, cedulaEst: propsEst.cedula, estado: propsEnc[i].estado});//se le pasa la cedula de encargado y estudiante
+                                if(respuesta !== null){
+                                    return respuesta
+                                }
+                            }else return respuesta
+
+                        }else return respuesta
+                       
+                    }else return respuesta
+
+                }else return respuesta
+            }
+            if(propsEst.viaja ==="A"){
+                for(let i=0; i < propsEst.acompaniante.length; i++){
+                    if(respuesta === null)
+                        await agregarViajaCon(propsEst.acompaniante[i]);
+                    return respuesta;
+                }
+                
+            }
+            //Se ingresaron todos los datos bien.
+            return respuesta;
+
+        }else return respuesta
+
+    }else return respuesta
     
 }

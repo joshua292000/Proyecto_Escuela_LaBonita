@@ -9,16 +9,22 @@ const {connection} = require("../config");
 
 //Inserta en la tabla esc_Persona
 const InsertarPersona = (request, response) => {
-    const {cedula, pNombre, sNombre, pApellido, sApellido, fechNaci, estCivil, sexo, 
-           estado, nacionalidad, nomProvincia, nomCanton, nomDistrito, direccion} = request.body;
-    connection.query('CALL PRC_InsertarPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @msjError); SELECT @msjError AS error;', 
-    [cedula, pNombre, sNombre, pApellido, sApellido, fechNaci, estCivil, sexo, 
-    estado, nacionalidad, nomProvincia, nomCanton, nomDistrito, direccion],
+    const {cedula, pNombre, sNombre, pApellido, sApellido, fechaNaci, estadoCivil, sexo, 
+           lugarNacimiento, provincia, canton, distrito, direccion} = request.body;
+    connection.query('CALL PRC_InsertarPersona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, @msjError); SELECT @msjError AS error;', 
+    [cedula, pNombre, sNombre, pApellido, sApellido, fechaNaci, estadoCivil, sexo, 
+     lugarNacimiento, provincia, canton, distrito, direccion],
     (error, results) => {
-        if(error)
-            throw error;
-        response.status(201).json(results);
+        if(error){
+            //se retorna el error así para realizar la validacion de errores generica en el cliente
+            response.status(500).json([{error: "Se produjo un error al insertar"}]);
+        }else{
+            //se retorna la posicion 1 ya que ahí se encuentra el valor de la variable de error
+            response.status(200).send(results[1]);
+        }
     });
+
+    //console.log(request.body);
 };
 
 //ruta
@@ -29,9 +35,13 @@ const InsertarContacto = (request, response) => {
     connection.query('CALL PRC_InsertarContactoPersona(?, ?, ?, @msjError); SELECT @msjError AS error;', 
     [cedulaPer, tipoContacto, contacto],
     (error, results) => {
-        if(error)
-            throw error;
-        response.status(201).json(results);
+        if(error){
+            //se retorna el error así para realizar la validacion de errores generica en el cliente
+            response.status(500).json([{error: "Se produjo un error al insertar"}]);
+        }else{
+            //se retorna la posicion 1 ya que ahí se encuentra el valor de la variable de error
+            response.status(200).json(results[1]);
+        }
     });
 };
 
@@ -45,9 +55,13 @@ const obtenerContacto = (request, response) => {
                      'WHERE c.Tco_Id =t.Tco_Id AND c.Per_Id=p.Per_Id AND p.Per_Id= ?', 
     [id],
     (error, results) => {
-        if(error)
-            throw error;
-        response.status(201).json(results);
+        if(error){
+            //se retorna el error así para realizar la validacion de errores generica en el cliente
+            response.status(500).json([{error: "Se produjo un error al insertar"}]);
+        }else{
+            //se retorna la posicion 1 ya que ahí se encuentra el valor de la variable de error
+            response.status(200).json(results[1]);
+        }
     });
 };
 

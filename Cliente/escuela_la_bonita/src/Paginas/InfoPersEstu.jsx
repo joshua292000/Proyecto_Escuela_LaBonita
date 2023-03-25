@@ -16,13 +16,6 @@ export default function Inicio() {
         <div style={{backgroundColor:'white' ,borderRadius: '15px',paddingTop:'15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}>
           <InfoPersonal setState={setState} state ={state} quien="estudiante"/>
           {/* <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br /> */}
-          <div className='container'>
-            <div className="row justify-content-end">
-              <div className="col-4">
-                <ButtonSiguiente dir="informacionencargado" nom="Siguiente" icono="pi pi-arrow-right" enc="" idEncar={state.idEncargado}/> 
-              </div>
-            </div>
-          </div>
         </div>
         
         </div> 

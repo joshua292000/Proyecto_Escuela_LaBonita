@@ -1,11 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { infoEncargado} from "../AppContext/providerInfoEncargado";
 import { Button } from 'primereact/button';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 
 export function ButtonSiguiente(props) {
-  const [state, setState] = useContext(infoEncargado);
   const navegar = useNavigate();
   const acciones = () => {
     navegar("/" + props.dir);
@@ -19,3 +17,15 @@ export function ButtonSiguiente(props) {
   );
 }
 
+
+
+export function Cargando() {
+    return (
+        <div className="card flex justify-content-center">
+            <ProgressSpinner  animationDuration="3s"/>
+        </div>
+    );
+}
+   
+
+export const msjErrorServidor = "Se produjo un error al conectar con el servidor";

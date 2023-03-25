@@ -1,45 +1,44 @@
 /* eslint-disable array-callback-return */
 import axios from 'axios';
-import Swal from 'sweetalert2';
-import Json from '../Componentes/Globales'
-const json = Json;
+import { msjErrorServidor } from '../Componentes/Utils';
 
 export const agregarInfoPersonal = async(props) => {
-  console.log(props.value);
-  var estadoCivil ="";
-  if('estadoCivil' in props.value){
-    estadoCivil = props.value.estadoCivil;
-  }else{
-    estadoCivil = "S";
-  }
-   var infop = {
-      cedula: props.value.cedula,
-      pNombre: props.value.pNombre,
-      sNombre: props.value.sNombre,
-      pApellido:props.value.pApellido,
-      sApellido: props.value.sApellido,
-      fechNaci: props.value.fechNac,
-      estCivil: estadoCivil,
-      sexo: props.value.sexo,
-      estado: "A",
-      idDirec: 1,
-      idNacio: 1
+  try{
+    console.log("InfoPersonal");
+    const res = await axios.post('http://localhost:3000/insertarPersona', props);
+    console.log(res.data[0]); 
+
+    //se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
+    if(res.data[0].error !== null){
+      console.log("error", res.data[0].error);
+      return "Error";
+      
+    }else{
+      return null;
     }
-     try{
-      await axios.post('http://localhost:3000/insertarPersona', infop).then(res =>{
-            console.log( res.data);
-            res.data[1].map((dep)=>{ //se mapea la respuesta del servidor
-              if(dep.error != null){//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
-                Swal.fire('Error', dep.error);//se muestra el error en pantalla
-              }
-              json.insertPersoError = dep.error;
-            })
-
-     })
-
-     }catch(e){
-       console.log(e);
-
-     }
-    
+        
+  }catch(error){
+    //captura errores como de conxion al servidor. Error 404 
+    return msjErrorServidor;
   }
+  
+}
+
+export const agregarContactoPersona = async(props) => {
+  try{
+    console.log("Contacto");
+    const res =await axios.post('http://localhost:3000/insertarContacto', props);
+      console.log(res.data);
+      //se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción 
+      if(res.data[0].error !== null){
+        console.log("error", res.data[0].error);
+        return 'Error'
+        
+      }
+      return null;
+
+  }catch(error){
+    return msjErrorServidor;
+  }
+  
+}
