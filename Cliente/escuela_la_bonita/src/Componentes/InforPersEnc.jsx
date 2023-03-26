@@ -14,7 +14,7 @@ import { RadioButton } from 'primereact/radiobutton';
 import { Divider } from 'primereact/divider';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { addLocale } from 'primereact/api';
-import { ButtonSiguiente } from "../Componentes/Utils";
+import { ButtonSiguiente, Cargando, tiempoCargando } from "../Componentes/Utils";
 import { useNavigate } from "react-router-dom";
 
 import { ObtenerEncargadosEstu, ObtenerEncargado } from '../Persistencia/EncargadoService';
@@ -86,6 +86,7 @@ export function InfoEncargado() {
     const [verModalMsj, setVerModalMsj] = useState(false);
     const [requerido, setRequerido] = useState(false);
     const [correoValido, setCorreoValido] = useState(true);
+    const [verCargando, setVerCargando] = useState(false);
 
     const navegar = useNavigate();
     const inputRefs = [
@@ -140,12 +141,23 @@ export function InfoEncargado() {
     };
 
     const buscarEncargado = async ()=> {
+        setVerCargando(true);
         const res = await ObtenerEncargado(encarEdit.cedula);
         if(res.cedula === null){
-          setVerModal(false);
-          setVerModalMsj(true);
+            //El timeout es para mostar la modal de cargando por 1/2 segundo
+            setTimeout(()=>{
+                setVerModal(false);
+                setVerModalMsj(true);
+                setVerCargando(false)
+            },tiempoCargando);
+          
         }else{
-          setEncarEdit({ ...res });
+            //El timeout es para mostar la modal de cargando por 1/2 segundo
+            setTimeout(()=>{
+                setVerCargando(false)
+                setEncarEdit({ ...res });
+            },tiempoCargando);
+          
  
         }           
         
@@ -379,6 +391,10 @@ export function InfoEncargado() {
                 </div>
             </Dialog>
 
+            <Dialog visible={verCargando} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Cargando..." modal >
+            <Cargando/>
+            </Dialog>
+
             <Dialog visible={verModal} style={{ width: '800px' }} header="Datos del encargado" modal className="p-fluid" footer={btnsModal} onHide={cerrarModal} >
                 <div className="form-demo" style={{ height: 'auto' }}>
                     <span className="titleBlack">Información Personal</span>
@@ -427,7 +443,7 @@ export function InfoEncargado() {
                                             locale="es"
                                             required
                                             onChange={(e) =>
-                                                setEncarEdit({ ...encarEdit, fechaNaci: e.value.toLocaleDateString('sv-SE')})}
+                                                setEncarEdit({ ...encarEdit, fechaNaci: e.value.toLocaleDateString('en-ZA')})}
                                             touchUI />
                                         {requerido && !encarEdit.fechaNaci && <small className="p-error">Fecha de nacimiento es requerido</small>}
                                     </div>

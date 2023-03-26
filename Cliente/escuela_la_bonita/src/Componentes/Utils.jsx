@@ -3,6 +3,10 @@ import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 
 
+export const msjErrorServidor = "Se produjo un error al conectar con el servidor";
+
+export const tiempoCargando = 300;
+
 export function ButtonSiguiente(props) {
   const navegar = useNavigate();
   const acciones = () => {
@@ -26,6 +30,4 @@ export function Cargando() {
         </div>
     );
 }
-   
 
-export const msjErrorServidor = "Se produjo un error al conectar con el servidor";

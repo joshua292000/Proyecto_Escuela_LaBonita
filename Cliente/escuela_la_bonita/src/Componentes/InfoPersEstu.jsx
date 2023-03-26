@@ -14,7 +14,7 @@ import { addLocale } from 'primereact/api';
 import { useNavigate } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
-import { Cargando } from "./Utils";
+import { Cargando, tiempoCargando } from "./Utils";
 import 'react-datepicker/dist/react-datepicker.css';
 
 export function InfoPersonal() {
@@ -30,7 +30,7 @@ export function InfoPersonal() {
   const [Dis, setDistrito] = useState([]);
   const [requerido, setRequerido] = useState(false);
   const [verModalMsj, setVerModalMsj] = useState(false);
-  const [verCanrgando, setVerCargando] = useState(false);
+  const [verCargando, setVerCargando] = useState(false);
   const navegar = useNavigate();
 
   const msjEmergente = useRef(null);
@@ -100,15 +100,24 @@ export function InfoPersonal() {
     }
 
     const consultarEstudiante = async () =>{
-        //setVerCargando(true);
+        setVerCargando(true);
         const res = await ObtenerEstudiante(state.cedula)
         if(res !== null){
-            setState(res);
-        }else
-            setVerModalMsj(true);
-        //setTimeout(()=>{setVerCargando(false)}, 5000);
-        //setVerCargando(false)
-        
+            //El timeout es para mostar la modal de cargando por 1/2 segundo
+            setTimeout(()=>{
+                setVerCargando(false); 
+                setState(res);
+            }, tiempoCargando);
+            //setState(res);
+            
+        }else{
+            //El timeout es para mostar la modal de cargando por 1/2 segundo
+            setTimeout(()=>{
+                setVerCargando(false);
+                setVerModalMsj(true);
+            }, tiempoCargando);
+            //setVerModalMsj(true);
+        }
     }
     const cerrarModalMsj = () => {
         setVerModalMsj(false);
@@ -125,7 +134,6 @@ export function InfoPersonal() {
   return (
     
     <div>
-        {verCanrgando ? <Cargando/> :
       <div className="form-demo" style={{ height: 'auto' }}>
         <Toast ref={msjEmergente} className="p-toast-custom" />
 
@@ -137,6 +145,11 @@ export function InfoPersonal() {
                 </span>
             </div>
         </Dialog>
+
+        <Dialog visible={verCargando} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Cargando..." modal >
+            <Cargando/>
+        </Dialog>
+
           <div className="container" >
            
               <div className="row ">
@@ -181,7 +194,7 @@ export function InfoPersonal() {
                                 locale="es"      
                                 required                     
                                 onChange={(e) =>
-                                    setState({ ...state, fechaNaci: e.value.toLocaleDateString('sv-SE')})}
+                                    setState({ ...state, fechaNaci: e.value.toLocaleDateString('en-ZA')})}
                                 showIcon
                                 />      
                           </div>
@@ -446,7 +459,6 @@ export function InfoPersonal() {
             </div>
           </div>
       </div>
-      }
     </div>
   );
 }

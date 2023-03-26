@@ -10,8 +10,9 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { RadioButton } from "primereact/radiobutton";
 import { Calendar } from "primereact/calendar";
 import { Button } from 'primereact/button';
-import { ButtonSiguiente } from "./Utils";
+import { ButtonSiguiente, Cargando, tiempoCargando } from "./Utils";
 import { addLocale } from 'primereact/api';
+import { useNavigate} from "react-router-dom";
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -65,10 +66,14 @@ export function InfoEstudianteMatricula() {
     const [requerido, setRequerido] = useState(false);
     const [verModalMatri, setVerModalMatri] = useState(false);
     const [req, setReq] = useState(false);
+    const [msjModal, setMsjModal]= useState("");
+    const [matriCorrecta, setMatriCorrecta] = useState(false);
+    const [verCargando, setVerCargando] = useState(false);
+
     const msjEmergente = useRef(null);
     const msjEmergente2 = useRef(null);
     const dt = useRef(null);
-    const [msjModal, setMsjModal]= useState("");
+    const navegar = useNavigate();
 
     const inputRefs = [
         useRef(null),
@@ -116,6 +121,10 @@ export function InfoEstudianteMatricula() {
     }
     const cerrarModalMsjMatricula = () => {
         setVerModalMatri(false);
+        if(matriCorrecta){
+            window.location.href = '/Informacionpersonal';
+ 
+        }
     }
 
     const obtenerAcompaniantes = async () =>{
@@ -123,7 +132,7 @@ export function InfoEstudianteMatricula() {
         let est =  { ...state};
         let datos = [];
         let subAcom;
-        // tiene acompañantes ya registados
+        // tiene acompañantes ya registados. Si el tamaño es > 1 tiene uno o más acompañantes
         if(acom.length > 1){
             if(acom.length === 3){
                 for (let i=0; i < acom.length-1; i++) {
@@ -186,13 +195,23 @@ export function InfoEstudianteMatricula() {
     }
 
     const buscarViajaCon = async ()=> {
+        setVerCargando(true);
         const res = await ObtenerViajaCon(acompanianteEdit.cedula);
         if(res.pNombre === null){
-            document.getElementById("cedula").focus();
-            setVerModal(false);
-            setVerModalMsj(true);
+            setTimeout(()=>{
+                document.getElementById("cedula").focus();
+                setVerModal(false);
+                setVerModalMsj(true);
+                setVerCargando(false);
+
+            },500)
+            
         }else{
-          setAcompanianteEdit({ ...res });
+            setTimeout(()=>{
+                document.getElementById("cedula").focus();
+                setAcompanianteEdit({ ...res });
+                setVerCargando(false);
+            }, 500);
         }           
         
     }
@@ -258,15 +277,28 @@ export function InfoEstudianteMatricula() {
                 if(state.viaja ==="A"){
                     let estado = state.acompaniante.some(obj => obj.estado === "A");
                     if(estado){
-                        //hace matricula
+                        //hace matrícula
+                        setVerCargando(true);
                         respuesta = await Matricula(state, encargado);
                         if(respuesta === null){
-                            setMsjModal("Estudiante matrículado correctamente");
-                            setVerModalMatri(true);
+                            //El timeout es para mostar la modal de cargando por 1/2 segundo
+                            setTimeout(()=>{
+                                setMsjModal("Estudiante matrículado correctamente");
+                                setVerModalMatri(true);
+                                setMatriCorrecta(true);
+                                setVerCargando(false);
+                            },tiempoCargando);
+                            
     
                         }else{
-                            setMsjModal(respuesta);
-                            setVerModalMatri(true);
+                            //El timeout es para mostar la modal de cargando por 1/2 segundo
+                            setTimeout(()=>{
+                                setMsjModal(respuesta);
+                                setVerModalMatri(true);
+                                setMatriCorrecta(false);
+                                setVerCargando(false);
+                            },tiempoCargando);
+                            
                         }
     
                         console.log("entro4", respuesta);
@@ -308,7 +340,6 @@ export function InfoEstudianteMatricula() {
     }
 
     const cerrarModalMsjEnter =  async (event) => {
-        console.log("enter2");
         if (event.key === 'Enter') {
             event.preventDefault();
             setVerModalMsj (false);
@@ -318,7 +349,6 @@ export function InfoEstudianteMatricula() {
     }
 
     const cerrarModalMatriculaEnter =  async (event) => {
-        console.log("enter2");
         if (event.key === 'Enter') {
             //event.preventDefault();
             setVerModalMatri(false);
@@ -522,7 +552,7 @@ export function InfoEstudianteMatricula() {
                                     id="icon"
                                     value={new Date(state.vencePoliza)}
                                     locale="es"
-                                    onChange={(e) => setState({ ...state, vencePoliza: e.value.toLocaleDateString('sv-SE') })}
+                                    onChange={(e) => setState({ ...state, vencePoliza: e.value.toLocaleDateString('en-ZA') })}
                                     showIcon
                                     dateFormat="yy-mm-dd"
                                 />
@@ -702,7 +732,9 @@ export function InfoEstudianteMatricula() {
                         </div>
                     </Dialog>
 
-
+                    <Dialog visible={verCargando} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Cargando..." modal >
+                        <Cargando/>
+                    </Dialog>
 
                     <Dialog visible={verModal} style={{ width: '800px' }} header="Datos del acompañante" modal className="p-fluid" footer={btnsModal} onHide={cerrarModal} >
                     <div className="form-demo" style={{ height: 'auto' }}>
