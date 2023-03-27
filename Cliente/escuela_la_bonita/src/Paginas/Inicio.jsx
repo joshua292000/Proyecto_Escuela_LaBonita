@@ -138,6 +138,20 @@ export default function Inicio() {
             <div className="col">
               <VerEle></VerEle>
             </div>
+
+            <Card
+                className="Reportes"
+                id="Reporte"
+                style={{ width: '20em' }}
+                header={<img alt="Card" src={Reporte} />}
+                onClick={() => navegar("/SubirPDF")}>
+                <h3>Subir Horarios</h3>
+              </Card>
+            </div>
+            <div className="col">
+              <Tooltip target=".ReporteComedor" position="bottom" mouseTrack mouseTrackLeft={10}>
+                <label>Sistema para subir los horarios</label>
+              </Tooltip>
           </div>
         </div>
       </div>

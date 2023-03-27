@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express.Router();
-
 const dotenv = require("dotenv");
 dotenv.config();
+const path = require('path');
+const fs = require('fs');
 
 //conexión con la base de datos
 const {connection} = require("../config");
@@ -23,6 +24,8 @@ const Loggin = (request, response) => {
     });
 };
 
+app.get("/loggin/:usuario/:clave",Loggin);
+
 const Obtener_Secciones = (request, response) => {
     //const Sec_Grado = request.params.Sec_Grado;
     //const Sec_Seccion = request.params.Sec_Seccion;
@@ -39,7 +42,7 @@ const Obtener_Secciones = (request, response) => {
 };
 
 //ruta
-app.get("/loggin/:usuario/:clave",Loggin);
+
 app.get("/Constancia/:Func_Id",Obtener_Secciones);
 
 const obtenerFuncionario = (request, response) => {
@@ -247,5 +250,46 @@ const insertarAsistencia = (request, response) => {
 //ruta
 app.route("/insertarAsistencia").post(insertarAsistencia);
 
+//Funcion de recibir y guardar los horarios en PDF
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "horarios/");
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+const horarios = multer({ storage: storage });
+app.post('/horarios', horarios.array('pdfFiles', 10), function (req, res, next) {
+    const pdfFiles = req.files;
+    pdfFiles.forEach(function (file) {
+      console.log(file.filename);
+    });
+    res.send('Archivos subidos correctamente');
+});
+
+//Funcion para devolver los horarios en PDF
+app.get('/horario', (req, res) => {
+    const pdfDir = path.join(__dirname, '../horarios');
+    fs.readdir(pdfDir, (err, files) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error al obtener la lista de archivos PDF');
+        } else {
+          const pdfs = files.filter(file => file.endsWith('.pdf'));
+          console.log("Esto lleva", pdfs)
+          res.json(pdfs.map(pdf => ({ filename: pdf })));
+        }
+      });
+  });
+
+app.get('/horarios/:filename', (req, res) => {
+    const filename = req.params.filename;
+    console.log("direccion ", filename)
+    const filepath = path.join(__dirname, '../horarios', filename);
+    res.download(filepath, filename); 
+  }); 
+  
 
 module.exports = app;

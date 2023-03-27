@@ -8,7 +8,7 @@ import React from 'react';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";   
-import { RegistroUsuEnc } from "./Paginas/RegistroEncUsu";
+import { LogginEncargados } from "./Paginas/LogginEncargados";
 import {Loggin} from "./Paginas/Loggin";
 import PaginaInicial from "./Paginas/PaginaInicial";
 import {Constancias} from "./Paginas/Constancia";
@@ -16,6 +16,12 @@ import { Asistencia } from "./Paginas/Asistencia";
 import { Reporte } from "./Paginas/Reporte";
 import { ReporteComedor } from "./Paginas/ReporteComedor";
 import { AcercaDe } from "./Paginas/AcercaDe";
+import { Proyectos } from "./Paginas/Proyectos";
+import { ActividadesDiarias } from "./Paginas/ActividadesDiarias";
+import { SubirPDF } from "./Paginas/SubirPDF";
+import { Horarios } from "./Paginas/Horarios";
+import { CrearUsu} from "./Paginas/CrearUsu";
+import {InicioEnc} from "./Paginas/InicioEnc";
 
 export function App() {
 return (
@@ -27,13 +33,20 @@ return (
       <Route path="/Informacionpersonal" element={<InfoPersEstu />} />
       <Route path="/Informacionestudiante" element={<InfoEstudiante />} />
       <Route path="/Informacionencargado" element={<InformacionEnc />} />
-      <Route path="/RegistroEncargados" element={<RegistroUsuEnc />} />
+      <Route path="/LogginEncargados" element={<LogginEncargados />} />
       <Route path="/Constancias" element={<Constancias />} />
       <Route path="/Reporte" element={<Reporte />} />
       <Route path="/ReporteComedor" element={<ReporteComedor />} />
       <Route path="/AsistenciaEstudiantes" element={<Asistencia />} />
       <Route path="/RegistroProfesor" element={<InformacionPro />} />
       <Route path="/AcercaDe" element={<AcercaDe />} />
+      <Route path="/Proyectos" element={<Proyectos />} />
+      <Route path="/InicioEnc" element={<InicioEnc />} />
+      <Route path="/ActividadesDiarias" element={<ActividadesDiarias />} />
+      <Route path="/SubirPDF" element={<SubirPDF />} />
+      <Route path="/Horarios" element={<Horarios />} />
+      <Route path="/CrearUsu" element={<CrearUsu />} />
+
     </Routes>
   </BrowserRouter>
 );

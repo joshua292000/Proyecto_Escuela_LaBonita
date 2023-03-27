@@ -55,11 +55,12 @@ const items = [
     {
        label:'Proyectos',
        icon:'pi pi-fw pi-pencil',
+       command:(event)=>{navegar("/Proyectos");}
     },
     {
        label:'Encargados',
        icon:'pi pi-fw pi-user',
-       command:(event)=>{navegar("/RegistroEncargados");}
+       command:(event)=>{navegar("/LogginEncargados");}
     },
     {
        label:'Funcionarios',

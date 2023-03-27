@@ -60,4 +60,9 @@ export const ObtenerContEncargado = async (props)=>{
     }catch(e){
     console.log(e);
     }
+
 }
+
+ 
+
+  
