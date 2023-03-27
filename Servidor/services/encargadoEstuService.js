@@ -101,6 +101,40 @@ const ObtenerEncargadosXidEst= (request, response) => {
 app.get("/ObtenerEncargadosXidEst/:id", ObtenerEncargadosXidEst);
 
 
+ //Loggin de Encargados
 
+ const LogginEnc = (request, response) => {
+    const usuario = request.params.usuario;
+    const clave = request.params.clave;
+
+    connection.query('SELECT u.Usu_Usuario, u.Usu_Clave '+
+                    'FROM esc_usuarios u '+
+                    'WHERE u.Usu_Usuario=? AND u.Usu_Clave=?',
+    [usuario, clave],
+    (error, results) => {
+        if(error)
+            throw error;
+        response.status(201).json(results);
+    });
+};
+
+app.get("/logginEnc/:usuario/:clave",LogginEnc);
+
+//Crea el usuario de los encargados si el numero de cedula existe
+const CrearUsuarioEnc = (request, response) => {
+    const{Identificacion, Clave} = request.body;
+    connection.query('CALL PRC_InsertarUsuarioEncargado(?, ?, @msjError); SELECT @msjError AS error;', 
+      [Identificacion,Clave],
+      (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).json(results);
+      }
+    );
+  };
+   
+  //ruta
+  app.route("/CrearUsuarioEnc").post(CrearUsuarioEnc);
 
 module.exports = app;
