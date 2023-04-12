@@ -8,6 +8,7 @@ import React from 'react';
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";   
+import 'primeflex/primeflex.css';
 import { LogginEncargados } from "./Paginas/LogginEncargados";
 import {Loggin} from "./Paginas/Loggin";
 import PaginaInicial from "./Paginas/PaginaInicial";
@@ -22,7 +23,7 @@ import { SubirPDF } from "./Paginas/SubirPDF";
 import { Horarios } from "./Paginas/Horarios";
 import { CrearUsu} from "./Paginas/CrearUsu";
 import {InicioEnc} from "./Paginas/InicioEnc";
-
+import DataViewDemo from "./Paginas/InfoProfesores";
 export function App() {
 return (
   <BrowserRouter>
@@ -46,7 +47,7 @@ return (
       <Route path="/SubirPDF" element={<SubirPDF />} />
       <Route path="/Horarios" element={<Horarios />} />
       <Route path="/CrearUsu" element={<CrearUsu />} />
-
+      <Route path="/Profesores" element={<DataViewDemo />} />
     </Routes>
   </BrowserRouter>
 );

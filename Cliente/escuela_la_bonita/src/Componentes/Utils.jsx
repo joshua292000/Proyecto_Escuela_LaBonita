@@ -21,7 +21,9 @@ export function ButtonSiguiente(props) {
   );
 }
 
-
+export const msjRequeridos='Campo requerido';
+export const msjAdCe='El campo de cedula esta vacio.';
+export const msjAdCorreo='Correo electrónico inválido.';
 
 export function Cargando() {
     return (

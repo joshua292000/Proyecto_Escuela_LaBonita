@@ -48,20 +48,20 @@ app.get("/Constancia/:Func_Id",Obtener_Secciones);
 const obtenerFuncionario = (request, response) => {
     // const {cedula} = request.body;
      
-     connection.query('SELECT p.Per_Identificacion AS cedula, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, '+ 
-                      'p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido, DATE_FORMAT(p.Per_FechaNacimiento, "%Y-%m-%d")  as fechaNaci, '+ 
-                      'p.Per_EstadoCivil AS EstadoCivil, p.Per_Sexo AS Sexo, i.Pais_Nombre AS Pais, d.Dir_Direccion AS Direccion, '+ 
-                      'v.Pro_Nombre AS Provincia, t.Can_Nombre AS Canton, o.Dis_Nombre AS Distrito, f.Func_Escolaridad AS Escolaridad, '+
-                      'f.Func_AniosLaborados AS Experiencia,DATE_FORMAT(f.Fun_FechaIngreso, "%Y-%m-%d")  as fechaIngre,f.Fun_Foto AS Foto, '+
-                      'f.Fun_Descripcion AS Descripcion, n.Ins_Nombre AS Institucion '+ 
-                      'FROM esc_personas p, esc_pais i, esc_direccion d, '+ 
-                      'esc_provincia v, esc_canton t, esc_distrito o, '+ 
-                      'esc_funcionarios f, esc_institucion n '+ 
-                      'WHERE p.Esc_Nacionalidad = i.Pais_Id AND p.Per_Id =d.Per_id AND '+ 
-                      'd.Pro_Id = v.Pro_Id AND d.Can_Id = t.Can_Id AND '+ 
-                      'd.Dis_Id = o.Dis_Id AND p.Per_Id = f.Per_Id AND f.Ins_Id= n.Ins_Id '+ 
-                      'AND p.Per_Identificacion = ?;', 
-     [request.params.cedula],
+    connection.query('SELECT p.Per_Identificacion AS cedula, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, ' +
+    'p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido, DATE_FORMAT(p.Per_FechaNacimiento, "%Y-%m-%d")  as fechaNaci, ' +
+    'p.Per_EstadoCivil AS EstadoCivil, p.Per_Sexo AS Sexo, i.Pais_Nombre AS Pais, d.Dir_Direccion AS Direccion, ' +
+    'v.Pro_Nombre AS Provincia, t.Can_Nombre AS Canton, o.Dis_Nombre AS Distrito, f.Func_Escolaridad AS Escolaridad, ' +
+    'f.Func_AniosLaborados AS Experiencia,DATE_FORMAT(f.Fun_FechaIngreso, "%Y/%m/%d")  as fechaIngre, ' +
+    'f.Fun_Descripcion AS Descripcion, n.Ins_Nombre AS Institucion ' +
+    'FROM esc_personas p, esc_pais i, esc_direccion d, ' +
+    'esc_provincia v, esc_canton t, esc_distrito o, ' +
+    'esc_funcionarios f, esc_institucion n ' +
+    'WHERE p.Esc_Nacionalidad = i.Pais_Id AND p.Per_Id =d.Per_id AND ' +
+    'd.Pro_Id = v.Pro_Id AND d.Can_Id = t.Can_Id AND ' +
+    'd.Dis_Id = o.Dis_Id AND p.Per_Id = f.Per_Id AND f.Ins_Id = n.Ins_Id ' +
+    'AND f.Fun_Estado = ? AND p.Per_Identificacion = ?;',
+    [request.params.cedula],
      (error, results) => {
          if(error)
              throw error;
@@ -73,7 +73,39 @@ const obtenerFuncionario = (request, response) => {
  app.get("/obtenerFuncionario/:cedula",obtenerFuncionario);
   
 
- const obtenerisntitucion = (request, response) => {
+ const MostrarFuncionario=(request,response)=>{
+    connection.query('SELECT p.Per_Identificacion AS cedula,CONCAT(p.Per_PNombre," ", p.Per_SNombre," ", p.Per_PApellido," ", p.Per_SApellido) As Nombre, '+
+                     'GROUP_CONCAT(DISTINCT m.Mat_Nombre) AS MNombre, GROUP_CONCAT(DISTINCT c.Cont_Contacto) AS Contacto,'+
+                     'f.Fun_Descripcion AS Descripcion From esc_funcionarios f, esc_personas p, esc_materias m,esc_contactoper c '+
+                     'WHERE p.Per_Id = f.Per_Id AND p.Per_Id = c.Per_Id AND f.Func_Id = m.Func_Id AND f.Fun_Estado= "A" '+
+                     'GROUP BY p.Per_Id;',
+        (error, results) => {
+            if (error)
+                throw error;
+            //console.log("Imagen " , results)
+            response.status(201).json(results);
+        });
+}
+
+app.get("/MostrarFuncionario", MostrarFuncionario);
+
+
+const eliminarFuncionario=(request,response)=>{
+    const { estado, cedula } = request.body;
+    connection.query('UPDATE esc_funcionarios AS F INNER JOIN esc_personas AS o ON F.Per_Id = o.Per_Id SET F.Fun_Estado= ? '+ 
+                     'WHERE o.Per_Identificacion= ? ;',
+                     (error, results) => {
+                         if (error)
+                             throw error;
+                         response.status(201).json(results);
+                     });
+};
+
+//ruta
+app.route("/eliminarFuncionario").post(eliminarFuncionario);
+
+
+const obtenerisntitucion = (request, response) => {
     connection.query('SELECT i.Ins_Id AS id ,i.Ins_Nombre AS Institucion FROM esc_institucion i;', 
     (error, results) => {
         if(error)
@@ -84,9 +116,9 @@ const obtenerFuncionario = (request, response) => {
 app.get("/obtenerisntitucion",obtenerisntitucion);
 
 const insertarFuncionario = (request, response) => {
-    const {cedula, institucion, escolaridad,experiencia,fechaIngreso,foto,descripcion} = request.body;
+    const {cedula, institucion, escolaridad,experiencia,fechaIngreso,descripcion} = request.body;
     connection.query('CALL PRC_InsertarFuncionario(?, ?, ?, ?,?, ?, ?, @msjError); SELECT @msjError As error;', 
-    [cedula, institucion, escolaridad,experiencia,fechaIngreso,foto,descripcion],
+    [cedula, institucion, escolaridad,experiencia,fechaIngreso,descripcion],
     (error, results) => {
         if(error)
             throw error;
@@ -291,5 +323,70 @@ app.get('/horarios/:filename', (req, res) => {
     res.download(filepath, filename); 
   }); 
   
-
+  const { request } = require("http");
+  const { response } = require("./personaService");
+  
+  const storageFoto = multer.diskStorage({
+      destination: function (req, file, cb) {
+          cb(null, 'services/uploads/')
+      },
+      filename: function (req, file, cb) {
+          const arr = file.originalname.split('.');
+          const date = new Date(Date.now());
+          const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+          console.log("ARR[0] ",arr[0])
+          const arr2 =arr[0].split('-');
+          console.log("ARR2[0] ",arr[0])
+          //const nuevoNombre= arr[0]+'-('+formattedDate+').'+arr[1];
+          const nuevoNombre= arr2[0]+'.jpg';
+          cb(null, nuevoNombre);        
+      }
+  });
+  
+  const upload = multer({ storage: storageFoto });
+  
+  app.post('/upload', upload.single('image'), function (req, res) {
+      console.log("CUERPO", req.file);
+      if (req.file) {
+          const filePath = req.file.path;
+          const array = req.file.path.split('\\');
+          const newfilePath=array[1]+'/'+array[2];
+          console.log("New NAME ", newfilePath)
+          const cedula = req.body.cedula;
+          console.log("IMAGEN ", req.file)
+           connection.query('UPDATE esc_funcionarios AS F '+
+           'INNER JOIN esc_personas AS o ON F.Per_Id = o.Per_Id '+
+           'SET F.Fun_Foto= ? '+
+           'WHERE o.Per_Identificacion= ?;',
+               [newfilePath,cedula],
+               (error, results) => {
+                   if(error)
+                       throw error;
+                  // res.status(201).json(results);
+               });
+          res.json({ message: 'Image subida con exito' });
+      } else {
+          res.status(400).json({ message: 'Error subiendo la imagen' }); 
+      }
+  });
+  
+  
+  const ImagenFuncionario = async (request, response) => {
+      const cedula = request.params.idcliente;
+      console.log("Cliente ",request.params); 
+      //console.log("CEDULA ",cedula);
+      await connection.query('SELECT f.Fun_Foto From esc_funcionarios f, esc_personas p WHERE f.Per_Id=p.Per_Id AND p.Per_Identificacion=?; ',
+          [cedula],
+          (error, results) => {
+              if (error)
+                  throw error;
+             // console.log("Respuesta ")
+              const filePath = path.join(__dirname,results[0].Fun_Foto);
+             // console.log("FOTO "  ,filePath); hkjh
+              response.sendFile(filePath);
+          });
+  };
+  
+  app.get("/ImagenFuncionario/:idcliente", ImagenFuncionario);
+  
 module.exports = app;

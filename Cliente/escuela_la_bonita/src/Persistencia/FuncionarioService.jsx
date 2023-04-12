@@ -32,7 +32,7 @@ export const ObtenerProfesor = async (props) => {
       // eslint-disable-next-line array-callback-return
       res.data.map((dep) => {
         props.setState({
-          ...props.state, fechNac: new Date(dep.fechaNaci),
+          ...props.state, fechNac: dep.fechaNaci,
           ...props.state, pNombre: dep.PNombre,
           ...props.state, sNombre: dep.SNombre,
           ...props.state, pApellido: dep.PApellido,
@@ -46,7 +46,7 @@ export const ObtenerProfesor = async (props) => {
           ...props.state, estadoCivil: dep.EstadoCivil,
           ...props.state, Perfil: dep.Foto,
           ...props.state, Nescolar: dep.Escolaridad,
-          ...props.state, fechIng: new Date(dep.fechaIngre),
+          ...props.state, fechIng: dep.fechaIngre,
           ...props.state, lugarTrabajo: dep.Institucion,
           ...props.state, Atrabajo: dep.Experiencia,
           ...props.state, descrip: dep.Descripcion
@@ -72,6 +72,57 @@ export const ObtenerCont = async (props) => {
   }
 }
 
+export const GuardarFoto = async (props) => {
+  console.log("Foto ", props.image);
+  console.log("Cedula ", props.cedula);
+  const formData = new FormData();
+  formData.append('image', props.image);
+  formData.append('cedula', props.cedula);
+  console.log("Foto ",formData);
+  axios.post('http://localhost:3000/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }).then(response => {
+    console.log(response.data);
+  })
+    .catch(error => {
+      Swal.fire('Error', '');
+      console.error(error);
+    });
+}
+export const ObtenerFunMostrar = async () => {
+
+  try {
+    const res = await axios.get('http://localhost:3000/MostrarFuncionario');
+    console.log("Funcionarios", res.data);
+    if (res.data.length > 0) {
+      return res.data;
+    } else {
+      return null;
+    }
+
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export const ObtenerImgFunc = async (props) => {
+  try {
+    const res = await axios.get('http://localhost:3000/ImagenFuncionario/' + props, { responseType: 'blob' })
+    console.log("Imagen ", res.data);
+    if (res.data) {
+      return URL.createObjectURL(res.data);
+    } else {
+      return null;
+    }
+
+  } catch (e) {
+    console.log("Error ", e);
+  }
+
+}
+
 export const ObtenerInstitucion = async () => {
 
   try {
@@ -94,14 +145,40 @@ export const agregarFun = async (props) => {
     institucion: props.state.lugarTrabajo,
     escolaridad: props.state.Nescolar,
     experiencia: props.state.Atrabajo,
-    fechaIngreso: props.state.fechIng.toLocaleDateString('zh-Hans-CN'),
-    foto: props.state.Perfil,
+    fechaIngreso: props.state.fechIng,
     descripcion: props.state.descrip
   }
   console.log("Verctor de datos a guardar: ", infop)
 
   try {
     await axios.post('http://localhost:3000/insertarFuncionario', infop).then(res => {
+      console.log(res.data);
+      res.data[1].map((dep) => { //se mapea la respuesta del servidor
+        if (dep.error != null) {//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
+          Swal.fire('Error', dep.error);//se muestra el error en pantalla
+        }
+      })
+
+    });
+
+
+  } catch (e) {
+    console.log(e);
+
+  }
+}
+
+export const Eliminarfun = async (props) => {
+  console.log(props.state);
+  //falta ingresar unas varas en interfas.
+  var infop = {
+    estado: 'I',
+    cedula: props.state.cedula
+  }
+  console.log("Verctor de Eliminación: ", infop)
+
+  try {
+    await axios.post('http://localhost:3000/eliminarFuncionario', infop).then(res => {
       console.log(res.data);
       res.data[1].map((dep) => { //se mapea la respuesta del servidor
         if (dep.error != null) {//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
@@ -127,13 +204,13 @@ export const agregarPersona = async (props) => {
     sNombre: props.state.sNombre,
     pApellido: props.state.pApellido,
     sApellido: props.state.sApellido,
-    fechNaci: props.state.fechNac.toLocaleDateString('zh-Hans-CN'),
+    fechNaci: props.state.fechNac,
     estCivil: props.state.estadoCivil,
     sexo: props.state.sexo,
     estado: "A",
     nacionalidad: props.state.lugarnacimiento,
     nomProvincia: props.state.provincia,
-    nomCanton:  props.state.canton,
+    nomCanton: props.state.canton,
     nomDistrito: props.state.distrito,
     direccion: props.state.direccion
   }
