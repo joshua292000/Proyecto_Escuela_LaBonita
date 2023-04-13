@@ -3,9 +3,12 @@ import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 
 
-export const msjErrorServidor = "Se produjo un error al conectar con el servidor";
 
-export const tiempoCargando = 300;
+export const msjRequeridos='Campo requerido';
+export const msjAdCe='El campo de cedula esta vacio.';
+export const msjAdCorreo='Correo electrónico inválido.';
+export const msjErrorServidor = "Se produjo un error al conectar con el servidor";
+export const tiempoCargando = 350;
 
 export function ButtonSiguiente(props) {
   const navegar = useNavigate();
@@ -20,10 +23,6 @@ export function ButtonSiguiente(props) {
     </div>
   );
 }
-
-export const msjRequeridos='Campo requerido';
-export const msjAdCe='El campo de cedula esta vacio.';
-export const msjAdCorreo='Correo electrónico inválido.';
 
 export function Cargando() {
     return (

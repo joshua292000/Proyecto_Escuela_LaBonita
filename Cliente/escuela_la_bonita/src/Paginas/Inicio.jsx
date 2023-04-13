@@ -139,6 +139,7 @@ export default function Inicio() {
               <VerEle></VerEle>
             </div>
 
+            <div className="col">
             <Card
                 className="Reportes"
                 id="Reporte"
@@ -146,12 +147,45 @@ export default function Inicio() {
                 header={<img alt="Card" src={Reporte} />}
                 onClick={() => navegar("/SubirPDF")}>
                 <h3>Subir Horarios</h3>
-              </Card>
-            </div>
-            <div className="col">
+            </Card>
+
+            
               <Tooltip target=".ReporteComedor" position="bottom" mouseTrack mouseTrackLeft={10}>
                 <label>Sistema para subir los horarios</label>
               </Tooltip>
+           </div>
+
+            {/*Agregue Julián */}
+
+            <div className="col">
+              <Tooltip target=".ReporteComedor" position="bottom" mouseTrack mouseTrackLeft={10}>
+                <label>Módulo de asignación de secciones</label>
+              </Tooltip>
+
+              <Card
+                className="Reportes"
+                id="ReporteComedor"
+                style={{ width: '20em' }}
+                header={<img alt="Card" src={ReporteComedor} />}
+                onClick={() => navegar("/AsignarSeccion")}>
+                <h3>Asignar secciones</h3>
+              </Card>
+            </div>
+
+            <div className="col">
+              <Tooltip target=".ReporteComedor" position="bottom" mouseTrack mouseTrackLeft={10}>
+                <label>Módulo de asignación de secciones a profesores</label>
+              </Tooltip>
+
+              <Card
+                className="ReporteComedor"
+                id="ReporteComedor"
+                style={{ width: '20em' }}
+                header={<img alt="Card" src={ReporteComedor} />}
+                onClick={() => navegar("/AsignarSeccionProfe")}>
+                <h3>Asignar secciones a profesores</h3>
+              </Card>
+            </div>
           </div>
         </div>
       </div>

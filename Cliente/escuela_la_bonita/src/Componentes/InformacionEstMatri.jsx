@@ -12,7 +12,6 @@ import { Calendar } from "primereact/calendar";
 import { Button } from 'primereact/button';
 import { ButtonSiguiente, Cargando, tiempoCargando } from "./Utils";
 import { addLocale } from 'primereact/api';
-import { useNavigate} from "react-router-dom";
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -73,7 +72,7 @@ export function InfoEstudianteMatricula() {
     const msjEmergente = useRef(null);
     const msjEmergente2 = useRef(null);
     const dt = useRef(null);
-    const navegar = useNavigate();
+
 
     const inputRefs = [
         useRef(null),
@@ -306,14 +305,25 @@ export function InfoEstudianteMatricula() {
                         msjEmergente.current.show({ severity: 'feiled', summary: 'Datos requeridos', detail: 'Es necesario agregar al menos un acompañante', life: 3000 });
                     }
                 }else{
+                    setVerCargando(true);
                     respuesta = await Matricula(state, encargado);
                     if(respuesta === null){
-                        setMsjModal("Estudiante matrículado correctamente");
-                        setVerModalMatri(true);
+                        //El timeout es para mostar la modal de cargando por 1/2 segundo
+                        setTimeout(()=>{
+                            setMsjModal("Estudiante matrículado correctamente");
+                            setVerModalMatri(true);
+                            setMatriCorrecta(true);
+                            setVerCargando(false);
+                        },tiempoCargando);
 
                     }else{
-                        setMsjModal(respuesta);
-                        setVerModalMatri(true);
+                        //El timeout es para mostar la modal de cargando por 1/2 segundo
+                        setTimeout(()=>{
+                            setMsjModal(respuesta);
+                            setVerModalMatri(true);
+                            setMatriCorrecta(false);
+                            setVerCargando(false);
+                        },tiempoCargando);
                     }
 
                 }
@@ -428,7 +438,7 @@ export function InfoEstudianteMatricula() {
                                     inputId="dropdown"
                                     name="Grado"
                                     id="Grado"
-                                    className= {req && !state.grado ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                    className= {req && !state.grado ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                     value={state.grado}
                                     options={grados}
                                     placeholder="Grado"
@@ -450,7 +460,7 @@ export function InfoEstudianteMatricula() {
                                     inputId="dropdown"
                                     name="Adecuación"
                                     id="Adecuación"
-                                    className={req && !state.grado ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                    className={req && !state.grado ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                     value={state.adecuacion}
                                     options={adecuaciones}
                                     placeholder="Adecuación"
@@ -472,7 +482,7 @@ export function InfoEstudianteMatricula() {
                                 <br></br>
                                 <InputTextarea
                                     type="text"
-                                    className="p-inputtext-sm block mb-2"
+                                    className="p-inputtext-sm mb-2"
                                     value={state.descripcion}
                                     autoResize
                                     maxLength={150}
@@ -483,7 +493,7 @@ export function InfoEstudianteMatricula() {
                                         })
                                     }
                                     rows={5}
-                                    style={{ transform: 'translateX(5px)', width: '98%' }}
+                                    style={{width: '80%' }}
                                     required
                                 />
                             </div>
@@ -507,7 +517,7 @@ export function InfoEstudianteMatricula() {
                     <div className="row ">
                         <div className="col-sm-2">
                             <RadioButton
-                                className={req && !state.poliza ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                className={req && !state.poliza ? 'p-invalid'  : "p-inputtext-sm mb-1"}
                                 inputId="poliza1"
                                 value="true"
                                 checked={state.poliza === "N"}
@@ -526,7 +536,7 @@ export function InfoEstudianteMatricula() {
                         </div>
                         <div className="col-sm-2">
                             <RadioButton
-                                className={req && !state.poliza ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                className={req && !state.poliza ? 'p-invalid'  : "p-inputtext-sm mb-1"}
                                 inputId="poliza2"
                                 value="true"
                                 checked={state.poliza === "S"}
@@ -548,7 +558,7 @@ export function InfoEstudianteMatricula() {
                             <div className="field">
                                 <div>
                                 <Calendar
-                                    className={req && !state.vencePoliza && state.poliza === 'S' ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                    className={req && !state.vencePoliza && state.poliza === 'S' ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                     id="icon"
                                     value={new Date(state.vencePoliza)}
                                     locale="es"
@@ -578,7 +588,7 @@ export function InfoEstudianteMatricula() {
                     <div className="row">
                         <div className="col-sm-2">
                             <RadioButton
-                                className={req && !state.imas ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                className={req && !state.imas ? 'p-invalid'  : "p-inputtext-sm mb-1"}
                                 inputId="imas1"
                                 value="true"
                                 checked={state.imas === "N"}
@@ -592,7 +602,7 @@ export function InfoEstudianteMatricula() {
                         </div>
                         <div className="col-sm-2">
                             <RadioButton
-                                className={req && !state.imas ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                className={req && !state.imas ? 'p-invalid'  : "p-inputtext-sm mb-1"}
                                 inputId="imas2"
                                 value="true"
                                 checked={state.imas === "S"}
@@ -626,7 +636,7 @@ export function InfoEstudianteMatricula() {
                     <div className="row ">
                         <div className="col-sm-2">
                             <RadioButton
-                                className={req && !state.viaja ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                className={req && !state.viaja ? 'p-invalid'  : "p-inputtext-sm mb-1"}
                                 inputId="viaja"
                                 value="true"
                                 checked={state.viaja === "S"}
@@ -640,7 +650,7 @@ export function InfoEstudianteMatricula() {
                         </div>
                         <div className="col-sm-2">
                             <RadioButton
-                                className={req && !state.viaja ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                className={req && !state.viaja ? 'p-invalid'  : "p-inputtext-sm mb-1"}
                                 inputId="viaja2"
                                 value="true"
                                 checked={state.viaja === "A"}
@@ -679,7 +689,7 @@ export function InfoEstudianteMatricula() {
                                         <Toolbar className="mb-4" left={btnAgregarViajaIzquierdo}></Toolbar>
                                         <DataTable value={state.acompaniante ? state.acompaniante.filter((val) => val.estado === 'A') : null} ref={dt}  responsiveLayout="scroll" >
                                             <Column  field="cedula" header="Cédula" sortable style={{ minWidth: '12rem' }}></Column>
-                                            <Column  field={(dt)=>{return dt.pNombre +" "+ dt.pApellido +" "+ dt.sApellido}} header="Nombre" sortable style={{ minWidth: '12rem' }}></Column>
+                                            <Column  field={(dt)=>{return dt.pNombre +" "+ dt.pApellido +" "+ dt.sApellido}} header="Nombre comple" sortable style={{ minWidth: '12rem' }}></Column>
                                             <Column body={btnsColmDercTabla} exportable={false} style={{ minWidth: '8rem' }}></Column>
                                         </DataTable>
                                     </div>
@@ -725,8 +735,8 @@ export function InfoEstudianteMatricula() {
 
                     <Dialog visible={verModalMatri} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Información" modal footer={btnsModalMsjMatricula} onHide={cerrarModalMsjMatricula}>
                         <div className="confirmation-content">
-                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            <span>
+                            <i className="pi pi-check-circle" style={{ fontSize: '2rem', marginRight: '15px' }} />
+                            <span >
                                 {msjModal}
                             </span>
                         </div>
@@ -751,7 +761,7 @@ export function InfoEstudianteMatricula() {
                                                 onKeyDown={(event)=>compoSiguente(event, 0)}
                                                 style={{ width: '30px' }}
                                                 id="cedula"
-                                                className={ requerido && !acompanianteEdit.cedula ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                                className={ requerido && !acompanianteEdit.cedula ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                                 value={acompanianteEdit.cedula}
                                                 autoFocus
                                                 keyfilter = {/^[^\s]+$/}
@@ -781,7 +791,7 @@ export function InfoEstudianteMatricula() {
                                                 ref={inputRefs[1]}
                                                 onKeyDown={(event)=>compoSiguente(event, 1)}
                                                 id="pNombre"
-                                                className={ requerido && !acompanianteEdit.pNombre ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                                className={ requerido && !acompanianteEdit.pNombre ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                                 value={acompanianteEdit.pNombre}
                                                 maxLength={45}
                                                 onChange={(e) =>
@@ -800,7 +810,7 @@ export function InfoEstudianteMatricula() {
                                                 ref={inputRefs[2]}
                                                 onKeyDown={(event)=>compoSiguente(event, 2)}
                                                 id="sNombre"
-                                                className="p-inputtext-sm block mb-2"
+                                                className="p-inputtext-sm mb-2"
                                                 value={acompanianteEdit.sNombre}
                                                 style={{ width: '90%' }}
                                                 maxLength={45}
@@ -818,7 +828,7 @@ export function InfoEstudianteMatricula() {
                                                 ref={inputRefs[3]}
                                                 onKeyDown={(event)=>compoSiguente(event, 3)}
                                                 id="pApellido"
-                                                className={ requerido && !acompanianteEdit.pApellido ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                                className={ requerido && !acompanianteEdit.pApellido ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                                 value={acompanianteEdit.pApellido}
                                                 style={{ width: '90%' }}
                                                 maxLength={45}
@@ -837,7 +847,7 @@ export function InfoEstudianteMatricula() {
                                                 ref={inputRefs[4]}
                                                 onKeyDown={(event)=>compoSiguente(event, 4)}
                                                 id="sApellido"
-                                                className={ requerido && !acompanianteEdit.sApellido ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                                className={ requerido && !acompanianteEdit.sApellido ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                                 value={acompanianteEdit.sApellido}
                                                 style={{ width: '90%' }}
                                                 maxLength={45}
