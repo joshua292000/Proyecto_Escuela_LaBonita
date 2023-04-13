@@ -66,9 +66,9 @@ const items = [
        label:'Funcionarios',
        icon:'pi pi-fw pi-calendar',
        //command:(event)=>{navegar("/RegistroProfesor")}
-       //command:(event)=>{navegar("/Loggin")}
+       command:(event)=>{navegar("/Loggin")}
        //onclick: ()=>navegar("/Loggin")
-       items:[
+       /*items:[
          {
            label:'Iniciar Sesion',
            icon:'pi pi-fw pi-align-left',
@@ -80,7 +80,7 @@ const items = [
            command:(event)=>{navegar("/Inicio")}
         },
 
-     ]
+     ]*/
     
     },
   

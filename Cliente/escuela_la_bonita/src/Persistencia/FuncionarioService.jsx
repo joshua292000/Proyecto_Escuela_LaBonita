@@ -29,6 +29,7 @@ export const ObtenerProfesor = async (props) => {
     if (res.data.length === 0) {
       Swal.fire('Error', 'El estudiante no se encuentra registrado');
     } else {
+      console.log("trae al funci ", res.data)
       // eslint-disable-next-line array-callback-return
       res.data.map((dep) => {
         props.setState({

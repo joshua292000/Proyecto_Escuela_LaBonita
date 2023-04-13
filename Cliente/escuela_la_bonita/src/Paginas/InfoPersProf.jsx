@@ -69,6 +69,7 @@ export default function Inicio() {
 
   useEffect(() => {
     const obtenerFoto = async () => {
+      console.log("esta picha de cedula", state.cedula)
       if (state.cedula){
         const imageUrl = await ObtenerImgFunc(state.cedula);
         if (imageUrl !== null) {
