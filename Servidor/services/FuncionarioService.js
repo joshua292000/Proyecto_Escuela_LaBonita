@@ -29,10 +29,9 @@ app.get("/loggin/:usuario/:clave",Loggin);
 const Obtener_Secciones = (request, response) => {
     //const Sec_Grado = request.params.Sec_Grado;
     //const Sec_Seccion = request.params.Sec_Seccion;
-
-    connection.query('SELECT s.Sec_Grado AS grado, s.Sec_Seccion AS seccion '+
-                    'FROM esc_funcionarios f, esc_seccion s '+
-                    'WHERE f.Func_Id=s.Func_Id AND f.Func_Id=?',
+    connection.query('SELECT g.Gra_Grado AS grado,s.Sec_Seccion AS seccion '+
+                     'FROM esc_funcionarios f, esc_seccion_has_funcionarios i,esc_grado g,esc_seccion s '+ 
+                     'WHERE f.Func_Id=i.Func_Id AND i.Sec_Id=s.Sec_Id AND s.Gra_Id=g.Gra_Id AND f.Func_Id=?',
     [request.params.Func_Id],
     (error, results) => {
         if(error)
@@ -42,7 +41,7 @@ const Obtener_Secciones = (request, response) => {
 };
 
 //ruta
-
+app.get("/loggin/:usuario/:clave",Loggin);
 app.get("/Constancia/:Func_Id",Obtener_Secciones);
 
 const obtenerFuncionario = (request, response) => {
@@ -220,36 +219,38 @@ const Obtener_Materias = (request, response) => {
 app.get("/ObtenerMaterias/:Func_Id", Obtener_Materias);
 
 const obtenerAlumnos = (request, response) => {
-  connection.query(
-    "SELECT e.Est_Id AS estId,p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre,p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido " +
-      "FROM esc_estudiantes e, esc_seccion s, esc_personas p " +
-      "WHERE s.Sec_Id=e.Sec_Id AND e.Per_Id=p.Per_Id AND s.Sec_Grado=?  AND s.Sec_Seccion=?",
-    [request.params.Sec_Grado, request.params.Sec_Seccion],
-    (error, results) => {
-      if (error) throw error;
-      response.status(201).json(results);
-    }
-  );
-};
-
-//ruta
-app.get("/obtenerAlumnos/:Sec_Grado/:Sec_Seccion", obtenerAlumnos);
-
-const obtenerAsistencia = (request, response) => {
     connection.query(
-     "SELECT e.Est_Id AS estId,p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre,p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido, a.Asi_Justificacion AS justificacion, a.TAsi_Id AS tasistencia "+
-      "FROM esc_estudiantes e, esc_seccion s, esc_personas p, esc_asistencia a "+
-      "WHERE s.Sec_Id=e.Sec_Id AND e.Per_Id=p.Per_Id AND s.Sec_Grado=? AND s.Sec_Seccion=? AND e.Est_Id=a.Est_Id AND a.Asi_FechaActual=?",
-      [request.params.Sec_Grado, request.params.Sec_Seccion, request.params.Asi_FechaActual],
+      'SELECT p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre,p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido,m.Mat_Id AS matrid '+
+      'FROM esc_estudiantes e, esc_grado g, esc_personas p,esc_matricula m, esc_seccion s  '+
+      'WHERE e.Per_Id=p.Per_Id  AND m.Est_Id=e.Est_Id AND m.Sec_Id=s.Sec_Id AND s.Gra_Id=g.Gra_Id AND g.Gra_Grado=? AND s.Sec_Seccion=?',
+      [request.params.Gra_Grado, request.params.Mat_Seccion],
+      (error, results) => {
+        if (error) throw error;
+        response.status(201).json(results); 
+      }
+    );
+  }; 
+  //ruta
+  app.get("/obtenerAlumnos/:Gra_Grado/:Mat_Seccion", obtenerAlumnos);
+
+
+  const obtenerAsistencia = (request, response) => {
+    connection.query(
+     'SELECT p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre,p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido, a.Asi_Justificacion AS justificacion, a.TAsi_Id AS tasistencia, m.Mat_Id AS matrid '+
+      'FROM esc_estudiantes e, esc_grado g,esc_matricula m, esc_personas p, esc_asistencia a, esc_tipoasistencia t,esc_materias c,esc_seccion s ' +
+      'WHERE a.TAsi_Id=t.TAsi_Id AND a.Mat_Id=c.Mat_Id AND c.Mat_Nombre=? AND a.Matr_Id=m.Mat_Id AND m.Sec_Id=s.Sec_Id AND s.Sec_Seccion=? AND s.Gra_Id=g.Gra_Id AND g.Gra_Grado=? AND m.Est_Id=e.Est_Id AND e.Est_Id=p.Per_Id AND a.Asi_FechaActual=?',
+      [request.params.Mat_Nombre, request.params.Sec_Seccion,request.params.Gra_Grado, request.params.Asi_FechaActual],
       (error, results) => {
         if (error) throw error;
         response.status(201).json(results);
       }
     );
   };
+
   
   //ruta
-  app.get("/obtenerAlumnos/:Sec_Grado/:Sec_Seccion/:Asi_FechaActual", obtenerAsistencia);
+  app.get("/obtenerAsistencia/:Mat_Nombre/:Sec_Seccion/:Gra_Grado/:Asi_FechaActual",  obtenerAsistencia);
+
 
 const Asistencia_Comedor = (request, response) => {
     const FechaIni = request.params.FechaIni;
@@ -269,9 +270,9 @@ const Asistencia_Comedor = (request, response) => {
 app.get("/Asistencia_Comedor/:FechaIni/:FechaFin", Asistencia_Comedor);
 
 const insertarAsistencia = (request, response) => {
-    const {estid, fechaA, justificacion,materia,tipoAsistencia} = request.body;
+    const {matrid, fechaA, justificacion,materia,tipoAsistencia} = request.body;
     connection.query('CALL `PRC_InsertarAsistencia`(?, ?, ?, ?, ?, @msjError); SELECT @msjError As error;', 
-    [estid, fechaA, justificacion,materia,tipoAsistencia],
+    [matrid, fechaA, justificacion,materia,tipoAsistencia],
     (error, results) => {
         if(error)
             throw error;
@@ -322,9 +323,6 @@ app.get('/horarios/:filename', (req, res) => {
     const filepath = path.join(__dirname, '../horarios', filename);
     res.download(filepath, filename); 
   }); 
-  
-
-
   
   const { request } = require("http");
   const { response } = require("./personaService");
