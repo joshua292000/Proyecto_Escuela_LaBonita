@@ -1,77 +1,102 @@
 import "../style.css";
 import "../Estilos.css";
 import { Header } from "../Componentes/Cabecera";
+import React, { useEffect, useState } from "react";
+import {
+  Appointments,
+  DateNavigator,
+  Toolbar,
+  TodayButton,
+  Scheduler,
+  DayView,
+  MonthView,
+  ViewSwitcher,
+  WeekView,
+} from "@devexpress/dx-react-scheduler-material-ui";
+import "moment/locale/es";
+import { Paper } from "@material-ui/core";
+import { ViewState } from '@devexpress/dx-react-scheduler';
 
-import 'whatwg-fetch';
-import React from 'react';
-import Scheduler from 'devextreme-react/scheduler';
-import CustomStore from 'devextreme/data/custom_store';
-import moment from 'moment';
-import 'moment/locale/es';
-import {IntlProvider} from 'react-intl';
-import timeZoneUtils from 'devextreme/time_zone_utils';
+export const ActividadesDiarias = () => {
+  const [calendarItems, setCalendarItems] = useState(null);
 
-
-export function ActividadesDiarias() {
-
-  const currentDate = new Date(2023, 2, 7);
+  const currentDate = '2023-02-07';
+  const PUBLIC_KEY = "AIzaSyCUONoCX5-J_IrTg_RJQKRwzx82GMK0ots";
+  const CALENDAR_ID =
+    "c446f61d7f99a5fe521a188a7ec7563438509cfdaa48ba2941b061e896baed04@group.calendar.google.com";
+  const API_URL = "https://www.googleapis.com/calendar/v3/calendars/";
+  const views = ["day", "workWeek", "month"];
+  const lenguage = "es";
  
 
-  function getData(_, requestOptions) {
-  const PUBLIC_KEY = 'AIzaSyCUONoCX5-J_IrTg_RJQKRwzx82GMK0ots';
-    const CALENDAR_ID = 'c446f61d7f99a5fe521a188a7ec7563438509cfdaa48ba2941b061e896baed04@group.calendar.google.com';
-    const dataUrl = ['https://www.googleapis.com/calendar/v3/calendars/',
-      CALENDAR_ID, '/events?key=', PUBLIC_KEY].join('');
-  
-    return fetch(dataUrl, requestOptions).then(
-      (response) => response.json(),
-    ).then((data) => data.items);
-  }
-  
-  const dataSource = new CustomStore({
-    load: (options) => getData(options, { showDeleted: false }),
-  });
-  
-  const views = ['day', 'workWeek', 'month'];
-  const lenguage = "es";
+  const getData = async () => {
+    const response = await fetch(
+      `${API_URL}${CALENDAR_ID}/events?key=${PUBLIC_KEY}`
+    );
+    const data = await response.json();
+    console.log(data);
+    const items = data?.items.map((item) => {
+      console.log(`${item.start.dateTime.slice(0,19)}.000Z`)
+      return {
+        title: item.summary,
+        startDate: new Date(`${item.start.dateTime.slice(0,19)}.000Z`),
+        endDate: new Date(`${item.end.dateTime.slice(0,19)}.000Z`),
+        id: item.id,
+      };
+    });
+    console.log('items:',items);
 
-  //const { timeZone } = this.state;
+    setCalendarItems(items);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
-
+  
   return (
     <div>
-      {" "}
       <Header />
-      <div>
+      {!calendarItems ? (
+        <p>Cargando...</p>
+      ) : (
         <div>
-        <React.Fragment>
-        
-        <div className="long-title">
-          <h3>Calendario de actividades</h3>
-        </div>
-        <IntlProvider locale="es">
-        <Scheduler
-          lenguage={lenguage}
-          dataSource={dataSource}
-          views={views}
-          defaultCurrentView="month"
-          defaultCurrentDate={currentDate}
-          height={500}
-          //startDayHour={7}
-          editing={false}
-          showAllDayPanel={false}
-          startDateExpr="start.dateTime"
-          endDateExpr="end.dateTime"
-          textExpr="summary"
-          //timeZone={timeZone}
-          //timeZone="America/Costa_Rica"
+          <>
+            <div className="long-title">
+              <h3> Calendario de actividades </h3>
+            </div>
+            <Paper>
+              <Scheduler
+                // lenguage={lenguage}
+                data={calendarItems}
+                locale={lenguage}
+                views={views}
+                // defaultCurrentView="month"
+                // defaultCurrentDate={currentDate}
+                height={600}
+   
+              >
+               <ViewState
+        //currentDate={currentDate}
+        defaultCurrentDate="2023-02-07"
+        defaultCurrentViewName="Month"
+      />
+          <WeekView
+            startDayHour={10}
+            endDayHour={19}
           />
-        </IntlProvider>
-        
-      </React.Fragment>
-      </div>
-      </div>
+      <MonthView />
+          <DayView  />
+      <Toolbar />
+      <DateNavigator />
+      <TodayButton  />
+      <ViewSwitcher />
+      <Appointments />
+               
+              </Scheduler>
+            </Paper>
+          </>
+        </div>
+      )}
     </div>
   );
-}
- 
+};

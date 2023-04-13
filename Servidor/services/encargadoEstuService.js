@@ -7,6 +7,9 @@ dotenv.config();
 //conexión con la base de datos
 const {connection} = require("../config");
 
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+
 //Inserta en la tabla esc_Encargados
 const InsertarEncargado = (request, response) => {
     const {cedula, lugarTrabajo, viveConEstu, parentesco, ocupacion, escolaridad} = request.body;
@@ -101,9 +104,10 @@ const ObtenerEncargadosXidEst= (request, response) => {
 app.get("/ObtenerEncargadosXidEst/:id", ObtenerEncargadosXidEst);
 
 
- //Loggin de Encargados
 
- const LogginEnc = (request, response) => {
+//Loggin de Encargados
+
+const LogginEnc = (request, response) => {
     const usuario = request.params.usuario;
     const clave = request.params.clave;
 
@@ -113,12 +117,13 @@ app.get("/ObtenerEncargadosXidEst/:id", ObtenerEncargadosXidEst);
     [usuario, clave],
     (error, results) => {
         if(error)
-            throw error;
+           throw error;
         response.status(201).json(results);
     });
 };
 
 app.get("/logginEnc/:usuario/:clave",LogginEnc);
+
 
 //Crea el usuario de los encargados si el numero de cedula existe
 const CrearUsuarioEnc = (request, response) => {
@@ -131,10 +136,121 @@ const CrearUsuarioEnc = (request, response) => {
         }
         response.status(201).json(results);
       }
-    );
+    ); 
   };
    
   //ruta
   app.route("/CrearUsuarioEnc").post(CrearUsuarioEnc);
 
+//Actualiza el usuario
+const ActualizarUsuarioEnc = (request, response) => {
+  const{Identificacion, Clave} = request.body;
+  connection.query('CALL PRC_ActualizarUsuarioEncargado(?, ?, @msjError); SELECT @msjError AS error;', 
+    [Identificacion,Clave],
+    (error, results) => {
+      if (error) {
+          throw error;
+      }
+      response.status(201).json(results);
+    }
+  );  
+};
+  
+//ruta
+app.route("/ActualizarUsuarioEnc").put(ActualizarUsuarioEnc);
+
+
+  //--------------------Recuperacion de contraseña----------------------------
+
+  const generarTokenRecuperacionContrasena = () => {
+    // Generar un buffer aleatorio de 32 bytes
+    const buffer = crypto.randomBytes(6);
+    
+    // Convertir el buffer a una cadena hexadecimal
+    const token = buffer.toString("hex");
+  
+    return token;
+  };
+
+
+  // Configurar el transporte de nodemailer con los detalles del servicio de correo
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "mgranadosnloria@gmail.com", // Correo electrónico desde el cual se enviarán los correos
+      pass: "ilrzcmfihvedbbbp", // Contraseña del correo electrónico
+    },
+  });
+
+  const sendPasswordRecoveryEmail = (nombre, to, token) => {
+    // Cuerpo del correo
+    const mailOptions = {
+      from: "mgranadosnloria@gmail.com", // Correo electrónico del remitente
+      to: to, // Correo electrónico del destinatario
+      subject: "Recuperación de contraseña de su cuenta en la Escuela Rodrigo Facio Brenes ", // Asunto del correo
+      html: `
+        <h1>Recuperación de Contraseña</h1>
+        <p>Estimado/a ${nombre}, </p>
+
+        <p> Recibimos una solicitud para restablecer la contraseña de tu cuenta en la Escuela Rodrigo Facio Brenes. Para completar el proceso de recuperación de contraseña, por favor sigue los pasos a continuación: </p>
+        
+        <p> Digite el siguiente codigo ${token} en el campo de codigo de seguridad de la pagina de recuperación de contraseña </p>
+        <p> Sigue las instrucciones en la página de recuperación de contraseña para crear una nueva contraseña segura para tu cuenta. </p>
+        <p> Una vez que hayas creado una nueva contraseña, podrás acceder nuevamente a tu cuenta en la página Escuela Rodrigo Facio Brenes con tus credenciales actualizadas. </p>
+        <p> Por favor, ten en cuenta que este enlace es de un solo uso y expirará en 10 minutos por motivos de seguridad. </p>
+        
+        <p> Si no solicitaste la recuperación de contraseña, por favor ignora este correo y toma las medidas necesarias para asegurar la seguridad de tu cuenta. </p>
+        
+        <p> Si tienes alguna pregunta o necesitas ayuda adicional, por favor no dudes en ponerte en contacto con nuestro equipo de soporte al correo esc.rodrigofaciobrenes@mep.go.cr. </p>
+        
+        <p> Gracias por tu atención a este asunto y por utilizar la página Escuela Rodrigo Facio Brenes. </p>
+        
+        <p> Atentamente,</p>
+        <p> Escuela Rodrigo Facio Brenes </p>
+        
+      `, // Contenido HTML del correo
+    };
+  
+    // Enviar el correo
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error al enviar el correo de recuperación de contraseña:", error);
+      } else {
+        console.log("Correo de recuperación de contraseña enviado:", info.response);
+      }
+    });
+  };
+ 
+
+
+  const ObtenerCorreo = (request, response) => {
+
+    const correo = request.params.correo;
+
+    connection.query('SELECT c.Cont_Contacto AS Contacto, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido '+
+                    'FROM esc_contactoper c, esc_personas p '+
+                    'WHERE c.Tco_Id = "2" AND c.Cont_Contacto =? AND c.Per_Id = p.Per_Id',
+    [correo],
+    (error, results) => {
+        if(error)
+            throw error;
+        //response.status(201).json(results);
+        //console.log("igual entra",results);
+        if(results.length>0){
+            console.log("igual entra",results);
+            const Nombre = results[0].PNombre +' '+ results[0].SNombre +' '+ results[0].PApellido +' '+ results[0].SApellido;
+            const email = results[0].Contacto;
+            const token = generarTokenRecuperacionContrasena();
+            sendPasswordRecoveryEmail(Nombre, email, token);
+            response.status(201).json(token); 
+        }else{
+            response.status(201).json(results);
+        }
+    });
+};
+
+app.get("/ObtenerCorreo/:correo",ObtenerCorreo);
+  
+
 module.exports = app;
+

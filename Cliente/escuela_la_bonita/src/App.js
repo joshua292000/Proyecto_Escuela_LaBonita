@@ -22,7 +22,8 @@ import { ActividadesDiarias } from "./Paginas/ActividadesDiarias";
 import { SubirPDF } from "./Paginas/SubirPDF";
 import { Horarios } from "./Paginas/Horarios";
 import { CrearUsu} from "./Paginas/CrearUsu";
-import {InicioEnc} from "./Paginas/InicioEnc";
+import { RecuperarContrasena } from "./Paginas/RecuperarContrasena";
+import InicioEnc from "./Paginas/InicioEnc";
 import DataViewDemo from "./Paginas/InfoProfesores";
 export function App() {
 return (
@@ -47,7 +48,10 @@ return (
       <Route path="/SubirPDF" element={<SubirPDF />} />
       <Route path="/Horarios" element={<Horarios />} />
       <Route path="/CrearUsu" element={<CrearUsu />} />
+      <Route path="/RecuperarContrasena" element={<RecuperarContrasena />} />
       <Route path="/Profesores" element={<DataViewDemo />} />
+
+
     </Routes>
   </BrowserRouter>
 );
