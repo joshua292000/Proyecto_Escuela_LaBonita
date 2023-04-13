@@ -401,7 +401,7 @@ app.get('/horarios/:filename', (req, res) => {
               response.sendFile(filePath);
           });
   };
-  
+   
   app.get("/ImagenFuncionario/:idcliente", ImagenFuncionario);
   
 module.exports = app;

@@ -81,7 +81,7 @@ export function AcercaDe() {
             width="350px"
             style={{ marginTop: "-130px" }}
           />
-          <h2 id="Junta">Junta Directiva</h2>
+          <h2 id="Junta">Junta de Educación</h2>
           <aside>
             {" "}
             Somos un grupo de personas que perseguimos el mismo fin, mejorar la

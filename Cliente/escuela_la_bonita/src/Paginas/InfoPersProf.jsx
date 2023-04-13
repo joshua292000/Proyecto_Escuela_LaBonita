@@ -70,13 +70,15 @@ export default function Inicio() {
 
   useEffect(() => {
     const obtenerFoto = async () => {
-        const imageUrl = await ObtenerImgFunc(state.cedula);
+       
+        if(Foto){
+          const imageUrl = await ObtenerImgFunc(state.cedula);
         if (imageUrl !== null) {
           setImageUrl(imageUrl);
         } else {
           //va el error del servidor
         }
-      } else{
+      }else{
         console.log("Cedula ",state.cedula)
       }
     }
@@ -97,7 +99,7 @@ export default function Inicio() {
       await agregarFun({ state: state, setState: setState });
       onLoadingClick2();
       //setCreaVisible(false);
-      window.location.reload();
+      //window.location.reload();
     }
     else {
       toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Faltan datos por llenar sfasd', life: 3000 });
