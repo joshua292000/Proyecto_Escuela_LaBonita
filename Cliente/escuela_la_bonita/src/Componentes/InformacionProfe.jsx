@@ -261,8 +261,8 @@ export function InfoPersonal(props) {
                                 <Dropdown
                                     inputId="dropdown"
                                     name="Provincia"
-                                    id="Provincia"
-                                    className={props.Requerido && !state.provincia ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    id="dropDown"
+                                    className={props.Requerido && !state.provincia ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                     value={state.provincia}
                                     options={pro}
                                     placeholder="Provincia"
@@ -284,7 +284,7 @@ export function InfoPersonal(props) {
                                     value={state.canton}
                                     className={props.Requerido && !state.canton ? 'p-invalid' : "p-inputtext-sm block mb-2"}
                                     name="Canton"
-                                    id="Canton"
+                                    id="dropDown"
                                     placeholder="Cantón"
                                     options={Can}
                                     onClickCapture={(e) =>
@@ -306,7 +306,7 @@ export function InfoPersonal(props) {
                                 <Dropdown
                                     inputId="dropdown"
                                     name="Distrito"
-                                    id="Distrito"
+                                    id="dropDown"
                                     value={state.distrito}
                                     className={props.Requerido && !state.distrito ? 'p-invalid' : "p-inputtext-sm block mb-2"}
                                     options={Dis}
@@ -394,7 +394,7 @@ export function InfoPersonal(props) {
                             <Dropdown
                                 inputId="dropdown"
                                 name="lugarnacimiento"
-                                id="lugarnacimiento"
+                                id="dropDown"
                                 className={props.Requerido && !state.lugarnacimiento ? 'p-invalid' : "p-inputtext-sm block mb-2"}
                                 value={state.lugarnacimiento}
                                 options={countries}
@@ -415,7 +415,7 @@ export function InfoPersonal(props) {
                                 inputId="dropdown"
                                 className={props.Requerido && !state.estadoCivil ? 'p-invalid' : "p-inputtext-sm block mb-2"}
                                 name="EstadoCivil"
-                                id="EstadoCivil"
+                                id="dropDown"
                                 value={state.estadoCivil}
                                 options={Estado}
                                 placeholder="Estado Civil"
@@ -623,7 +623,7 @@ export function InfoProfesor(props) {
                             <Dropdown inputId="dropdown"
                                 className={props.Requerido && !state.Nescolar ? 'p-invalid' : "p-inputtext-sm block mb-2"}
                                 name="Nivel escolar"
-                                id="Nivelescolar"
+                                id="dropDown"
                                 value={state.Nescolar}
                                 options={escolaridad}
                                 placeholder="Nivel escolar"
@@ -645,9 +645,9 @@ export function InfoProfesor(props) {
                 <div className="row">
                     <div className="col-sm">
                         <label><b>Fecha de ingreso a la institución:</b></label>{" "}
-                        <div className="field col-12 md:col-4 p-float-label">
+                        <div className="field ">
                             <Calendar
-                                className={props.Requerido && !state.fechIng ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                className={props.Requerido && !state.fechIng ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                 inputId="calendar"
                                 id="fingreso"
                                 dateFormat="dd-mm-yy"
@@ -677,7 +677,7 @@ export function InfoProfesor(props) {
                             <Dropdown
                                 inputId="dropdown"
                                 name="lugarTrabajo"
-                                id="lugarTrabajo"
+                                id="dropDown"
                                 className={props.Requerido && !state.lugarTrabajo ? 'p-invalid' : "p-inputtext-sm block mb-2"}
                                 value={state.lugarTrabajo}
                                 placeholder="Lugar de Trabajo"

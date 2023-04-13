@@ -758,3 +758,8 @@ color: #9f8465;
 }
 
 }
+
+#dropDown {
+  width: 100% !important;
+  height: 45px !important;
+}
