@@ -459,7 +459,7 @@ export function InfoEstudianteMatricula() {
                                 <Dropdown
                                     inputId="dropdown"
                                     name="Adecuación"
-                                    id="Adecuación"
+                                    id="dropDown"
                                     className={req && !state.grado ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                     value={state.adecuacion}
                                     options={adecuaciones}

@@ -305,7 +305,7 @@ export function AsignarSecciones(){
                             <Dropdown
                                 inputId="dropdown"
                                 name="Grado"
-                                id="Grado"
+                                id="dropDown"
                                 onKeyDown={buscarXEnter}
                                 className={requerido && !gradoBuscar? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                 value={gradoBuscar}

@@ -536,7 +536,7 @@ export function InfoEncargado() {
                                         <Dropdown
                                             inputId="dropdown"
                                             name="Provincia"
-                                            id="Provincia"
+                                            id="dropDown"
                                             className={ requerido && !encarEdit.provincia ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             value={encarEdit.provincia}
                                             optionValue="code"
@@ -560,7 +560,7 @@ export function InfoEncargado() {
                                             value={encarEdit.canton}
                                             className={ requerido && !encarEdit.canton ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             name="Canton"
-                                            id="Canton"
+                                            id="dropDown"
                                             placeholder="Cantón"
                                             optionValue="code"
                                             required
@@ -583,7 +583,7 @@ export function InfoEncargado() {
                                         <Dropdown
                                             inputId="dropdown"
                                             name="Distrito"
-                                            id="Distrito"
+                                            id="dropDown"
                                             optionValue="code"
                                             value={encarEdit.distrito}
                                             className={ requerido && !encarEdit.distrito ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
@@ -675,7 +675,7 @@ export function InfoEncargado() {
                                         style={{ width: '100%' }}
                                         inputId="dropdown"
                                         name="lugarnacimiento"
-                                        id="lugarnacimiento"
+                                        id="dropDown"
                                         className={ requerido && !encarEdit.lugarNacimiento ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         filter showClear filterBy="name"
                                         placeholder="Lugar de nacimiento"
@@ -699,7 +699,7 @@ export function InfoEncargado() {
                                         className={ requerido && !encarEdit.estadoCivil ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         placeholder="Estado Civil"
                                         name="EstadoCivil"
-                                        id="EstadoCivil"
+                                        id="dropDown"
                                         optionLabel="name"
                                         optionValue="code"
                                         required
@@ -775,7 +775,7 @@ export function InfoEncargado() {
                                         className={ requerido && !encarEdit.escolaridad ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         placeholder="Escolaridad"
                                         name="Escolaridad"
-                                        id="Escolaridad"
+                                        id="dropDown"
                                         optionLabel="name"
                                         optionValue="name"
                                         value={encarEdit.escolaridad}
@@ -839,7 +839,7 @@ export function InfoEncargado() {
                                         className={ requerido && !encarEdit.parentesco? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         placeholder="Parentesco"
                                         name="Parentesco"
-                                        id="Parentesco"
+                                        id="dropDown"
                                         optionLabel="name"
                                         optionValue="name"
                                         value={encarEdit.parentesco}

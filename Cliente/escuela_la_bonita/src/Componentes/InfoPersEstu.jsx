@@ -287,7 +287,7 @@ export function InfoPersonal() {
                             <Dropdown
                                 inputId="dropdown"
                                 name="Provincia"
-                                id="Provincia"
+                                id="dropDown"
                                 className={requerido && !state.provincia ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                 value={state.provincia}
                                 optionValue="code"
@@ -310,7 +310,7 @@ export function InfoPersonal() {
                                 value={state.canton}
                                 className={requerido && !state.canton ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                 name="Canton"
-                                id="Canton"
+                                id="dropDown"
                                 placeholder="Cantón"
                                 optionValue="code"
                                 options={Can}
@@ -332,7 +332,7 @@ export function InfoPersonal() {
                             <Dropdown
                                 inputId="dropdown"
                                 name="Distrito"
-                                id="Distrito"
+                                id="dropDown"
                                 optionValue="code"
                                 value={state.distrito}
                                 className={requerido && !state.distrito ? 'p-invalid'  : "p-inputtext-sm mb-2"}
@@ -428,7 +428,7 @@ export function InfoPersonal() {
                         <Dropdown
                             inputId="dropdown"
                             name="lugarnacimiento"
-                            id="lugarnacimiento"
+                            id="dropDown"
                             className={requerido && !state.lugarNacimiento ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                             optionValue="name"
                             value={state.lugarNacimiento}
