@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies(); 
 
+
 export const Obtener_Secciones = async () => {
   try {
     const res = await axios
@@ -368,7 +369,7 @@ export const Obtener_Materias = async () => {
         console.log("metodo ", res.data);
         return res.data;
       } else {
-        Swal.fire("Error", "Ocurrió un error al obtener la lista");
+        Swal.fire("Error", "Lo siento, ocurrió un error al obtener la lista");
       }
     } catch (e) {
       console.log(e);
@@ -395,7 +396,7 @@ export const Obtener_Materias = async () => {
 export const insertarAsistencia = async (props) => {
   console.log("date: ", props.fechaA.toLocaleDateString("zh-Hans-CN"));
    var infoA = {
-     estid: props.estId,
+     matrid: props.matrid,
      fechaA: props.fechaA.toLocaleDateString("zh-Hans-CN"),
      justificacion: props.justificacion,
      materia: props.materia,
@@ -419,3 +420,18 @@ export const insertarAsistencia = async (props) => {
     console.log(e);
   }
 }
+
+export const obtenerAsistencia= async (props) => {
+  //Obtiene la asistencia 
+    try {
+      const res = await axios.get("http://localhost:3000/obtenerAsistencia/" + props.materia +"/" + props.seccion +"/" + props.grado + "/" + props.fechaA);
+      if (res.data.length > 0) {
+        console.log("metodo ", res.data);
+        return res.data;
+      } else {
+        Swal.fire("Error", "Lo sentimos, ocurrió un error al cargar la asistencia.");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+};

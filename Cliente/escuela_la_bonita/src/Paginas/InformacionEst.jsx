@@ -1,9 +1,5 @@
 
 import { InfoEstudianteMatricula } from "../Componentes/InformacionEstMatri";
-import { useContext, useState } from "react";
-import { infoEstudiante } from "../AppContext/providerEstudiante";
-import { Matricula } from "../Persistencia/MatriculaService";
-
 import "../Estilos.css";
 import { Header } from "../Componentes/Cabecera";
 

@@ -225,8 +225,8 @@ export function InfoEncargado() {
 
 
 
-    const editarEncargado = async (data) => {
-        await setEncarEdit({ ...data });
+    const editarEncargado = (data) => {
+        setEncarEdit({ ...data });
         setVerModal(true);
     }
 
@@ -360,7 +360,7 @@ export function InfoEncargado() {
                             <Toolbar className="mb-4" left={btnAgregarEncIzquierdo}></Toolbar>
                             <DataTable ref={dt} value={encargado.filter((val) => val.estado === 'A') } responsiveLayout="scroll" >
                                 <Column field="cedula" header="Cédula" sortable style={{ minWidth: '12rem' }}></Column>
-                                <Column field={(dt)=>{return dt.pNombre +" "+ dt.pApellido}} header="Nombre" sortable style={{ minWidth: '12rem' }}></Column>
+                                <Column field={(dt)=>{return dt.pNombre +" "+ dt.pApellido}} header="Nombre completo" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column field="telefono" header="Telefono" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column field="correo" header="Correo" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column body={btnsColmDercTabla} exportable={false} style={{ minWidth: '8rem' }}></Column>
@@ -392,7 +392,7 @@ export function InfoEncargado() {
             </Dialog>
 
             <Dialog visible={verCargando} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Cargando..." modal >
-            <Cargando/>
+                <Cargando/>
             </Dialog>
 
             <Dialog visible={verModal} style={{ width: '800px' }} header="Datos del encargado" modal className="p-fluid" footer={btnsModal} onHide={cerrarModal} >
@@ -412,7 +412,7 @@ export function InfoEncargado() {
                                             id="cedula"
                                             keyfilter = {/^[^\s]+$/}
                                             maxLength={45}
-                                            className= { requerido && !encarEdit.cedula ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                            className= { requerido && !encarEdit.cedula ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             value={encarEdit.cedula}
                                             autoFocus
                                             onChange={(e) =>
@@ -435,18 +435,17 @@ export function InfoEncargado() {
                             <div className="col-sm  ">
                                 <div className="field">
                                     <label><b>Fecha nacimiento:</b></label>{" "}
-                                    <div className="field col-12 md:col-4 p-float-label">
-                                        <Calendar
-                                            className=  { requerido && !encarEdit.fechaNaci ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
-                                            inputId="calendar" id="fnacimiento"
-                                            value={new Date(encarEdit.fechaNaci)}
-                                            locale="es"
-                                            required
-                                            onChange={(e) =>
-                                                setEncarEdit({ ...encarEdit, fechaNaci: e.value.toLocaleDateString('en-ZA')})}
-                                            touchUI />
-                                        {requerido && !encarEdit.fechaNaci && <small className="p-error">Fecha de nacimiento es requerido</small>}
-                                    </div>
+                                    <Calendar
+                                        className=  { requerido && !encarEdit.fechaNaci ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
+                                        inputId="calendar" id="fnacimiento"
+                                        value={new Date(encarEdit.fechaNaci)}
+                                        locale="es"
+                                        required
+                                        onChange={(e) =>
+                                            setEncarEdit({ ...encarEdit, fechaNaci: e.value.toLocaleDateString('en-ZA')})}
+                                        showIcon 
+                                        style={{height: '45px'}}/>
+                                    {requerido && !encarEdit.fechaNaci && <small className="p-error">Fecha de nacimiento es requerido</small>}
                                 </div>
                             </div>
                         </div>
@@ -460,7 +459,7 @@ export function InfoEncargado() {
                                             ref={inputRefs[1]}
                                             onKeyDown={(event)=>compoSiguente(event, 1)}
                                             id="pNombre"
-                                            className= { requerido && !encarEdit.pNombre  ? 'p-invalid'  : "p-inputtext-sm block mb-2"}   // "p-inputtext-sm block mb-2"
+                                            className= { requerido && !encarEdit.pNombre  ? 'p-invalid'  : "p-inputtext-sm mb-2"}   // "p-inputtext-sm mb-2"
                                             value={encarEdit.pNombre}
                                             maxLength={45}
                                             onChange={(e) =>
@@ -479,7 +478,7 @@ export function InfoEncargado() {
                                             ref={inputRefs[2]}
                                             onKeyDown={(event)=>compoSiguente(event,2)}
                                             id="sNombre"
-                                            className="p-inputtext-sm block mb-2"
+                                            className="p-inputtext-sm mb-2"
                                             maxLength={45}
                                             value={encarEdit.sNombre}
                                             style={{ width: '90%' }}
@@ -497,7 +496,7 @@ export function InfoEncargado() {
                                             ref={inputRefs[3]}
                                             onKeyDown={(event)=>compoSiguente(event,3)}
                                             id="pApellido"
-                                            className={ requerido && !encarEdit.pApellido ? 'p-invalid'  : "p-inputtext-sm block mb-2"}  
+                                            className={ requerido && !encarEdit.pApellido ? 'p-invalid'  : "p-inputtext-sm mb-2"}  
                                             value={encarEdit.pApellido}
                                             style={{ width: '90%' }}
                                             maxLength={45}
@@ -516,7 +515,7 @@ export function InfoEncargado() {
                                             ref={inputRefs[4]}
                                             onKeyDown={(event)=>compoSiguente(event,4)}
                                             id="sApellido"
-                                            className={ requerido && !encarEdit.sApellido ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                            className={ requerido && !encarEdit.sApellido ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             value={encarEdit.sApellido}
                                             style={{ width: '90%' }}
                                             maxLength={45}
@@ -537,8 +536,8 @@ export function InfoEncargado() {
                                         <Dropdown
                                             inputId="dropdown"
                                             name="Provincia"
-                                            id="Provincia"
-                                            className={ requerido && !encarEdit.provincia ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                            id="dropDown"
+                                            className={ requerido && !encarEdit.provincia ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             value={encarEdit.provincia}
                                             optionValue="code"
                                             options={pro}
@@ -559,9 +558,9 @@ export function InfoEncargado() {
                                         <Dropdown
                                             inputId="dropdown"
                                             value={encarEdit.canton}
-                                            className={ requerido && !encarEdit.canton ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                            className={ requerido && !encarEdit.canton ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             name="Canton"
-                                            id="Canton"
+                                            id="dropDown"
                                             placeholder="Cantón"
                                             optionValue="code"
                                             required
@@ -584,10 +583,10 @@ export function InfoEncargado() {
                                         <Dropdown
                                             inputId="dropdown"
                                             name="Distrito"
-                                            id="Distrito"
+                                            id="dropDown"
                                             optionValue="code"
                                             value={encarEdit.distrito}
-                                            className={ requerido && !encarEdit.distrito ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                            className={ requerido && !encarEdit.distrito ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             options={Dis}
                                             required
                                             onClickCapture={(e) =>
@@ -613,7 +612,7 @@ export function InfoEncargado() {
                                 <InputTextarea
                                     ref={inputRefs[5]}
                                     onKeyDown={(event)=>compoSiguente(event, 5)}
-                                    className={ requerido && !encarEdit.direccion ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                    className={ requerido && !encarEdit.direccion ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                     value={encarEdit.direccion}
                                     maxLength={200}
                                     id="direccion"
@@ -676,8 +675,8 @@ export function InfoEncargado() {
                                         style={{ width: '100%' }}
                                         inputId="dropdown"
                                         name="lugarnacimiento"
-                                        id="lugarnacimiento"
-                                        className={ requerido && !encarEdit.lugarNacimiento ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                        id="dropDown"
+                                        className={ requerido && !encarEdit.lugarNacimiento ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         filter showClear filterBy="name"
                                         placeholder="Lugar de nacimiento"
                                         optionValue="name"
@@ -697,10 +696,10 @@ export function InfoEncargado() {
                                     <Dropdown
                                         style={{ width: '100%' }}
                                         inputId="dropdown"
-                                        className={ requerido && !encarEdit.estadoCivil ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                        className={ requerido && !encarEdit.estadoCivil ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         placeholder="Estado Civil"
                                         name="EstadoCivil"
-                                        id="EstadoCivil"
+                                        id="dropDown"
                                         optionLabel="name"
                                         optionValue="code"
                                         required
@@ -729,7 +728,7 @@ export function InfoEncargado() {
                                         onKeyDown={(event)=>compoSiguente(event,6)}
                                         id="correo"
                                         value={encarEdit.correo}
-                                        className={ !correoValido && encarEdit.correo ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                        className={ !correoValido && encarEdit.correo ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                         style={{ width: '70%' }}
                                         keyfilter={/[^\s]/}
                                         maxLength={50}
@@ -749,7 +748,7 @@ export function InfoEncargado() {
                                         onKeyDown={(event)=>compoSiguente(event,7)}
                                         id="telefono"
                                         value={encarEdit.telefono}
-                                        className="p-inputtext-sm block mb-2"
+                                        className="p-inputtext-sm mb-2"
                                         keyfilter="num"
                                         style={{ width: '40%' }}
                                         maxLength={45}
@@ -773,10 +772,10 @@ export function InfoEncargado() {
                                     <Dropdown
                                         style={{ width: '100%' }}
                                         inputId="dropdown"
-                                        className={ requerido && !encarEdit.escolaridad ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                        className={ requerido && !encarEdit.escolaridad ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         placeholder="Escolaridad"
                                         name="Escolaridad"
-                                        id="Escolaridad"
+                                        id="dropDown"
                                         optionLabel="name"
                                         optionValue="name"
                                         value={encarEdit.escolaridad}
@@ -796,7 +795,7 @@ export function InfoEncargado() {
                                         ref={inputRefs[8]}
                                         onKeyDown={(event)=>compoSiguente(event,8)}
                                         id="ocupacion"
-                                        className={ requerido && !encarEdit.ocupacion ? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                        className={ requerido && !encarEdit.ocupacion ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         value={encarEdit.ocupacion}
                                         style={{ width: '90%' }}
                                         maxLength={45}
@@ -813,7 +812,7 @@ export function InfoEncargado() {
                                         ref={inputRefs[9]}
                                         onKeyDown={(event)=>compoSiguente(event,9)}
                                         id="lugarTrabajo"
-                                        className="p-inputtext-sm block mb-2"
+                                        className="p-inputtext-sm mb-2"
                                         value={encarEdit.lugarTrabajo}
                                         style={{ width: '90%' }}
                                         maxLength={45}
@@ -837,10 +836,10 @@ export function InfoEncargado() {
                                     <Dropdown
                                         style={{ width: '100%' }}
                                         inputId="dropdown"
-                                        className={ requerido && !encarEdit.parentesco? 'p-invalid'  : "p-inputtext-sm block mb-2"} 
+                                        className={ requerido && !encarEdit.parentesco? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         placeholder="Parentesco"
                                         name="Parentesco"
-                                        id="Parentesco"
+                                        id="dropDown"
                                         optionLabel="name"
                                         optionValue="name"
                                         value={encarEdit.parentesco}

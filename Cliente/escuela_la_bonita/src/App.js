@@ -23,6 +23,8 @@ import { SubirPDF } from "./Paginas/SubirPDF";
 import { Horarios } from "./Paginas/Horarios";
 import { CrearUsu} from "./Paginas/CrearUsu";
 import { RecuperarContrasena } from "./Paginas/RecuperarContrasena";
+import {AsignarSeccion} from "./Paginas/AsignarSeccion";
+import {AsignarSeccionProfe} from "./Paginas/AsignarSecProfe";
 import InicioEnc from "./Paginas/InicioEnc";
 import DataViewDemo from "./Paginas/InfoProfesores";
 export function App() {
@@ -50,6 +52,8 @@ return (
       <Route path="/CrearUsu" element={<CrearUsu />} />
       <Route path="/RecuperarContrasena" element={<RecuperarContrasena />} />
       <Route path="/Profesores" element={<DataViewDemo />} />
+      <Route path="/AsignarSeccion" element={<AsignarSeccion/>} />
+      <Route path="/AsignarSeccionProfe" element={<AsignarSeccionProfe/>}/>
 
 
     </Routes>

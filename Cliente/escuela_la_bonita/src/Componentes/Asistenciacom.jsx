@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { obtenerAlumnos, Obtener_Materias, Obtener_Secciones, insertarAsistencia } from "../Persistencia/FuncionarioService";
+import { obtenerAsistencia, Obtener_Materias, Obtener_Secciones, insertarAsistencia, obtenerAlumnos } from "../Persistencia/FuncionarioService";
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
 import { Column } from 'primereact/column';
@@ -8,6 +8,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 import { Button } from "primereact/button";
+import moment from "moment";
 
 export function Asistenciacom() {
     const [materia, setMateria] = useState([]);
@@ -19,6 +20,7 @@ export function Asistenciacom() {
     const [edit, setEdit] = useState();
     const [jus, setJus] = useState({});
     const [date, setDate] = useState(null);
+    const [Fechahoy] = useState(new Date());
     const [productDialog, setProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
 
@@ -29,6 +31,7 @@ export function Asistenciacom() {
 
     useEffect(() => {
         const obtenerDatos = async () => {
+            //se obtienen las materias y secciones según el funcionario
             const res = await Obtener_Materias();
             const res1 = await Obtener_Secciones();
             //console.log("res:", res);
@@ -40,9 +43,18 @@ export function Asistenciacom() {
     }, [])
 
     const obtenerA = async () => {
-        console.log(seccionS);
-        const res2 = await obtenerAlumnos(seccionS);
-        //console.log("res2:",res2)
+        console.log("seccion",seccionS.seccion);
+        console.log("grado",seccionS.grado);
+        const formattedDate = moment(date).format("YYYY-MM-DD");
+        const datehoy = moment(Fechahoy).format("YYYY-MM-DD");
+        
+        //const res2 = await obtenerAsistencia({ materia: materiaS, seccion: seccionS.seccion, grado: seccionS.grado,fechaA: formattedDate});
+        const res2 = await obtenerAlumnos({seccion: seccionS.seccion, grado: seccionS.grado});
+   
+      //console.log("fechahoy",datehoy)
+        console.log("materia",materiaS)
+        console.log("res2:",res2)
+        console.log("fecha",formattedDate);
         setAlumnos(res2);
         setLoading1(true);
         setTimeout(() => {
@@ -76,6 +88,7 @@ export function Asistenciacom() {
         if (datos.cedula.trim()) {
             let alum = [...alumnos];
             let data = { ...datos };
+            console.log("Objeto",alum)
             if (data.cedula) {
                 const index = findIndexById(data.cedula);
                 if (props.justi != null) {
@@ -89,7 +102,7 @@ export function Asistenciacom() {
                 alum[index].materia = materiaS;
                 console.log("date:", date);
                 alum[index].fechaA = date;
-                toast.current.show({ severity: "success", summary: "Actualización", detail: "Encargado actualizado", life: 3000, });
+                toast.current.show({ severity: "success", summary: "Actualización", detail: "Asistencia Actualizada", life: 3000, });
             }
             setAlumnos(alum);
         }
@@ -112,7 +125,7 @@ export function Asistenciacom() {
                     type="radio"
                     value="true"
                     id="Presente"
-                    name="asistenciaest"
+                    name={rowData.cedula}
                     onClick={async () => {
                         await guardarCambios(rowData, { estado: "Presente", justi: null })
                     }}
@@ -129,7 +142,7 @@ export function Asistenciacom() {
                     type="radio"
                     value="true"
                     id="Ausente"
-                    name="asistenciaest"
+                    name={rowData.cedula}
                     onClick={async () => {
                         await guardarCambios(rowData, { estado: "Ausencia injustificada", justi: null })
                     }}
@@ -145,7 +158,7 @@ export function Asistenciacom() {
                     type="radio"
                     value="true"
                     id="AusenciaJusti"
-                    name="asistenciaest"
+                    name={rowData.cedula}
                     onClick={() => {
                         setEdit(rowData);
                         setProductDialog(true);
@@ -208,7 +221,6 @@ export function Asistenciacom() {
                                     dateFormat="yy-mm-dd"
                                     onChange={(e) => setDate(e.value)}
                                     showIcon
-
                                 />
                                 {"  "}
                             </div>
@@ -219,7 +231,7 @@ export function Asistenciacom() {
                                         name="label"
                                         value={seccionS}
                                         optionLabel="grado"
-                                        className="p-inputtext-sm block mb-2"
+                                        className="dropdown"
                                         valueTemplate={selectedSeccionesTemplate}
                                         itemTemplate={seccionOptionTemplate}
                                         options={seccion}
@@ -237,7 +249,7 @@ export function Asistenciacom() {
                                         value={materiaS}
                                         optionLabel="materia"
                                         optionValue="materia"
-                                        className="p-inputtext-sm block mb-2"
+                                        className="dropdown"
                                         options={materia}
                                         onChange={(e) => setMateriaS(e.value)}
                                         placeholder="Selecione la materia"
