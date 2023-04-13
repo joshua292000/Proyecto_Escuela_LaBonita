@@ -1,103 +1,84 @@
-import { ButtonSiguiente } from "../Componentes/Utils";
 import { useNavigate } from "react-router-dom";
 import "../style.css";
 import "../Estilos.css"
-import Cookies from "universal-cookie";
-import Constancia from '../Recursos/Constancia.png';
-import Asistencia from "../Recursos/Asistencia.png";
-import Matricula from "../Recursos/Matricula.png";
-import Reporte from '../Recursos/reporte.png'
-import RegistroFun from '../Recursos/RegistrarFuncionario.png'
-import ReporteComedor from '../Recursos/reporteComedor.png'
+import ActividadesDiarias from '../Recursos/ActividadesDiarias.png';
+import PerfilProfesores from "../Recursos/PerfilProfesores.png";
+import HorariosEscuela from "../Recursos/HorariosEscuela.png";
 import { Header } from "../Componentes/Cabecera";
-import React, { Component } from 'react';
-import { Card } from 'primereact/card';
-import { within } from "@testing-library/react";
-import { Tooltip } from 'primereact/tooltip';
-import 'whatwg-fetch';
-import Scheduler from 'devextreme-react/scheduler';
-import CustomStore from 'devextreme/data/custom_store';
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export function InicioEnc() {
-  const cookies = new Cookies();
+export default function InicioEnc() {  
   const navegar = useNavigate();
-  const header2 = (
-    <img alt="Card" src="images/usercard.png" onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} />
-  );
-  const footer = (
-    <span>
-      {/*<Button label="Save" icon="pi pi-check" />
-      <Button label="Cancel" icon="pi pi-times" className="p-button-secondary ml-2" />*/}
-    </span>
-  );
-  const VerEle = () => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isHovered2, setIsHovered2] = useState(false);
+  const [isHovered3, setIsHovered3] = useState(false);
 
-    const IdDirector = cookies.get('Rol_Id');
-    console.log("ver id", IdDirector)
-    if (IdDirector === "1") {
-      console.log("ver ele 2", cookies.get('Rol_Id'))
-      return (
-        <div>
-          <Tooltip target=".Funcionarios" position="bottom" mouseTrack mouseTrackLeft={10}>
-                  <label>Sistema de registro y actualización de funcionarios</label>
-          </Tooltip>
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
 
-          <Card
-            className="Funcionarios"
-            id="RegistrarFuncionarios"
-            style={{ width: '20em' }}
-            header={<img alt="Card" src={RegistroFun} />}
-            onClick={() => navegar("/RegistroProfesor")}>
-            <h3>Registrar funcionarios</h3>
-          </Card>
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handleMouseEnter2 = () => {
+    setIsHovered2(true);
+  };
+
+  const handleMouseLeave2 = () => {
+    setIsHovered2(false);
+  };
+  
+  const handleMouseEnter3 = () => {
+    setIsHovered3(true);
+  };
+
+  const handleMouseLeave3 = () => {
+    setIsHovered3(false);
+  };
+
+
+return (
+  <div>
+  {" "}
+  <Header /> 
+  <div className="card-deck d-flex justify-content-center align-items-center"> {/* Alinea horizontal y verticalmente */}
+    <div className="card col-sm-6 col-md-4 col-lg-3" 
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{backgroundColor: "#EB5160", boxShadow: isHovered ? "1px 1px 6px 5px #ffffff" : "none"}} 
+      onClick={() => navegar("/Horarios")}> {/* Controla el tamaño de la tarjeta */}
+        <img src={HorariosEscuela} className="card-img-top" alt="Imagen 1" />
+        <div className="card-body">
+        <h5 className="card-title text-center"> Horarios de la escuela</h5>
         </div>
-      )
-    }
-  }
+    </div> 
 
-  return (
-    <div>
-      {" "}
-      <Header />
-      <div className="Div">
-        <h1>Página de inicio</h1>
-        <div className="container" style={{ paddingLeft: '5%', borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}  >
-          <br />
-          <div className="row " >
-            <div className="col ">
-              <Tooltip target=".Matricula2" position="top" mouseTrack mouseTrackLeft={10}>
-                <label>Horarios de la escuela</label>
-              </Tooltip>
-
-              <Card
-                className="Matricula2"
-                id="Matricula"
-                style={{ width: '20em' }}
-                header={<img alt="Card" src={Matricula} />}
-                onClick={() => navegar("/Horarios")}>
-                <h3>Horarios</h3>
-              </Card>
-            </div>
-            <div className="col">
-              <Tooltip target=".Constancia" position="top" mouseTrack mouseTrackLeft={10}>
-                <label>Actividades diarias de la escuela</label>
-              </Tooltip>
-
-              <Card
-                className="Constancia"
-                id="Constancia"
-                style={{ width: '20em' }}
-                header={<img alt="Card" src={Constancia} />}
-                onClick={() => navegar("/ActividadesDiarias")}>
-                <h3>Actividades Diarias</h3>
-              </Card>
-
-            </div>
-
-            </div>  
+    <div className="card col-sm-6 col-md-4 col-lg-3" 
+      onMouseEnter={handleMouseEnter2}
+      onMouseLeave={handleMouseLeave2}
+      style={{backgroundColor: "#9368B7", boxShadow: isHovered2 ? "1px 1px 6px 5px #ffffff" : "none"}} 
+      onClick={() => navegar("/ActividadesDiarias")}> {/* Controla el tamaño de la tarjeta */}
+        <img src={ActividadesDiarias} className="card-img-top" alt="Imagen 2"  />
+        <div className="card-body">
+        <h5 className="card-title text-center">Actividades Diarias</h5>
         </div>
-      </div>
     </div>
-  );
 
-}
+    <div className="card col-sm-6 col-md-4 col-lg-3"
+      onMouseEnter={handleMouseEnter3}
+      onMouseLeave={handleMouseLeave3}
+      style={{backgroundColor: "#ADE25D", boxShadow: isHovered3 ? "1px 1px 6px 5px #ffffff" : "none"}} 
+      onClick={() => navegar("/Profesores")}>  
+        <img src={PerfilProfesores} className="card-img-top" alt="Imagen 1" />
+        <div className="card-body">
+          <h5 className="card-title text-center"> Profesores</h5>
+        </div>
+    </div>
+  </div>
+  <br></br>
+</div>
+  
+);
+};

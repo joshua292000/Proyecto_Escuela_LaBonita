@@ -7,8 +7,7 @@ export function CrearUsu() {
   return (
     <div>
     <Header />
-    <div id="ReportesComedor" className="Div" >
-      <span className="titleBlack" style={{ marginBottom: '2%' }}>Crear Usuario</span>
+    <div  >
       <CrearUsuario  />
     </div>
     </div>

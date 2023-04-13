@@ -1,10 +1,11 @@
 import Cookies from "universal-cookie";
 import React, { useRef, useState, useEffect } from "react";
-import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import {Navigate, useNavigate} from "react-router-dom";
+import { Card, Form, Button } from "react-bootstrap";
+import { Header } from "../Componentes/Cabecera";
 
 export function CrearUsuario() {
 
@@ -22,7 +23,7 @@ export function CrearUsuario() {
                         Swal.fire('Error', 'La cedula digitada no es correcta');  
                   }else{
                     Swal.fire('Excelente', 'Su usuario fue creado con exito');
-                    navegar("/RegistroEncargados");
+                    navegar("/LogginEncargados");
                   }
                
              });
@@ -33,7 +34,7 @@ export function CrearUsuario() {
             }
     };
 
-    return (
+   /* return (
         <div>
             <div className="comedor" >
                 <div className="container" style={{ backgroundColor: 'white', borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}>
@@ -84,3 +85,47 @@ export function CrearUsuario() {
     );
 }
 
+*/
+
+return (
+      <div className="container mt-5">
+        <Card className="mx-auto" style={{ maxWidth: '350px'}}>
+          <Card.Body>
+            <Card.Title className="text-center" style={{ color: "blue", fontWeight: "bold", fontSize: "24px" }}>
+              Crear Usuario
+            </Card.Title>
+            <Form>
+            <Form.Group controlId="identificacion">
+              <Form.Control
+                type="text"
+                placeholder="Ingrese su número de cedula"
+                style={{ borderRadius: "25px"}}
+                required
+                  value={Identificacion}
+                  onChange={(e) => setIdentificacion(e.target.value)}
+                
+              />
+            </Form.Group>
+            <br></br>
+            <Form.Group controlId="clave">
+              <Form.Control
+                type="password"
+                placeholder="Digite su contraseña"
+                style={{ borderRadius: "25px"}}
+                required
+                  value={Clave}
+                  onChange={(e) => setClave(e.target.value)}
+              />
+            </Form.Group>
+            <br></br>
+            <Button className="mt-4 mx-auto d-block w-100"  onClick={() => CrearUsuarioEnc()}>
+            Crear Usuario
+            </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
+      
+      );
+  
+    }
