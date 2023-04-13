@@ -20,7 +20,8 @@ import {
   ObtenerProfesor,
   Eliminarfun,
   ObtenerImgFunc, 
-  GuardarFoto
+  GuardarFoto,
+  ObtenerCont
 } from "../Persistencia/FuncionarioService";
 import { InputText } from 'primereact/inputtext';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
@@ -33,7 +34,7 @@ export default function Inicio() {
   const navegar = useNavigate();
   const [state, setState] = useContext(infoProfesores);
   const [stateCon, setStateCon] = useContext(infoContacto);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [Foto, setFoto] = useState(false);
   const [requerido, setrequerido] = useState(false);
   const toast = useRef(null);
   const [Creavisible, setCreaVisible] = useState(false);
@@ -69,7 +70,8 @@ export default function Inicio() {
 
   useEffect(() => {
     const obtenerFoto = async () => {
-      if (state.cedula){
+      console.log("Foto",Foto)
+      if (Foto){
         const imageUrl = await ObtenerImgFunc(state.cedula);
         if (imageUrl !== null) {
           setImageUrl(imageUrl);
@@ -81,7 +83,8 @@ export default function Inicio() {
       }
     }
     obtenerFoto();
-  }, [state.cedula]);
+  }, [Foto]);
+  
 
   const Guardar = async () => {
     setrequerido(true);
@@ -110,9 +113,13 @@ export default function Inicio() {
     window.location.reload();
   };
   async function delayAddOne() {
-    if (Editavisible)
+    console.log("Hola entre", state.cedula)
+    if (Editavisible || Eliminarvisible)
       await ObtenerProfesor({ state: state, setState: setState, estado: 'A' });
+      await ObtenerCont({ state: stateCon, setState: setStateCon, idFun: state.cedula });
+      setFoto(true);
     setRender(true);
+    console.log("Hola otra ves", state)
   }
   const cancelar = ()=>{
     setCreaVisible(false)
@@ -246,7 +253,7 @@ export default function Inicio() {
                       keyfilter="int"
                       //ref={inputRefs[0]}
                       //onKeyDown={(event) => compoSiguente(event, 0)}
-                      className={requerido && !state.cedula ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                      className={requerido && !state.cedula ? 'p-invalid' : "p-inputtext-sm mb-2"}
                       value={state.cedula ? state.cedula : ''}
                       onChange={(e) =>
                         setState({ ...state, cedula: e.target.value })}
@@ -274,7 +281,7 @@ export default function Inicio() {
                         id="pnombre"
                         //ref={inputRefs[1]}
                         //onKeyDown={(event) => compoSiguente(event, 1)}
-                        className={requerido && !state.pNombre ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                        className={requerido && !state.pNombre ? 'p-invalid' : "p-inputtext-sm mb-2"}
                         value={state.NombreCom ? state.NombreCom : ''}
                         onChange={(e) =>
                           setState({ ...state, NombreCom: e.target.value, })}
@@ -294,7 +301,7 @@ export default function Inicio() {
                       <InputTextarea
                         id="descrpcion"
                         value={state.descrip}
-                        className={requerido && !state.descrip ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                        className={requerido && !state.descrip ? 'p-invalid' : "p-inputtext-sm mb-2"}
                         autoResize
                         onChange={(e) =>
                           setState({ ...state, descrip: e.target.value })}
@@ -357,7 +364,7 @@ export default function Inicio() {
                       keyfilter="int"
                       //ref={inputRefs[0]}
                       //onKeyDown={(event) => compoSiguente(event, 0)}
-                      className={requerido && !state.cedula ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                      className={requerido && !state.cedula ? 'p-invalid' : "p-inputtext-sm mb-2"}
                       value={state.cedula ? state.cedula : ''}
                       onChange={(e) =>
                         setState({ ...state, cedula: e.target.value })}
@@ -384,7 +391,7 @@ export default function Inicio() {
                       id="pnombre"
                       //ref={inputRefs[1]}
                       //onKeyDown={(event) => compoSiguente(event, 1)}
-                      className={requerido && !state.pNombre ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                      className={requerido && !state.pNombre ? 'p-invalid' : "p-inputtext-sm mb-2"}
                       value={state.NombreCom ? state.NombreCom : ''}
                       onChange={(e) =>
                         setState({ ...state, NombreCom: e.target.value, })}

@@ -706,7 +706,12 @@ color: #9f8465;
 }
 }
 @media only screen and (max-width: 414px) {
-.Imgperfil {
+  
+  #telefono{
+    width: 75% !important;
+  }
+
+.Imgperfil,.p-inputgroup, #fnacimiento,#Correo {
   width: 100% !important ;
 }
 
