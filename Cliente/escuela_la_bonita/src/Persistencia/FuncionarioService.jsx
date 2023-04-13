@@ -24,7 +24,7 @@ export const Obtener_Secciones = async () => {
 export const ObtenerProfesor = async (props) => {
   console.log(props.state.cedula)
   // try{
-  await axios.get('http://localhost:3000/obtenerFuncionario/' + props.state.cedula).then(res => {
+  await axios.get('http://localhost:3000/obtenerFuncionario/' + props.estado + '/'+ props.state.cedula).then(res => {
     //props.setState({...props.state, mapEstudiante: res.data});
     console.log(res.data);
     if (res.data.length === 0) {
@@ -174,10 +174,9 @@ export const Eliminarfun = async (props) => {
   console.log(props.state);
   //falta ingresar unas varas en interfas.
   var infop = {
-    estado: 'I',
     cedula: props.state.cedula
   }
-  console.log("Verctor de Eliminación: ", infop)
+  console.log("Verctor de Eliminación: ", props.state.cedula)
 
   try {
     await axios.post('http://localhost:3000/eliminarFuncionario', infop).then(res => {
@@ -206,14 +205,14 @@ export const agregarPersona = async (props) => {
     sNombre: props.state.sNombre,
     pApellido: props.state.pApellido,
     sApellido: props.state.sApellido,
-    fechNaci: props.state.fechNac,
-    estCivil: props.state.estadoCivil,
+    fechaNaci: props.state.fechNac,
+    estadoCivil: props.state.estadoCivil,
     sexo: props.state.sexo,
     estado: "A",
-    nacionalidad: props.state.lugarnacimiento,
-    nomProvincia: props.state.provincia,
-    nomCanton: props.state.canton,
-    nomDistrito: props.state.distrito,
+    lugarNacimiento: props.state.lugarnacimiento,
+    provincia: props.state.provincia,
+    canton: props.state.canton,
+    distrito: props.state.distrito,
     direccion: props.state.direccion
   }
   console.log("Verctor de datos a guardar: ", infop)
@@ -279,6 +278,22 @@ export const Obtener_Persona_Rol = async () => {
   }
 };
 
+
+export const Obtener_Lista_materia = async () => {
+  try {
+       const res = await axios
+      .get("http://localhost:3000/ListarMateria")
+        if (res.data.length >0) {
+         
+          return res.data;
+        } else {
+          Swal.fire('Error', 'No se encontraron materias');
+        }
+      
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 export const BusquedaCedula = async (cedula) => {
   try {

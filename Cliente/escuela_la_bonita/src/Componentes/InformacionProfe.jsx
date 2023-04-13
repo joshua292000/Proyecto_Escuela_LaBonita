@@ -7,7 +7,8 @@ import {
     agregarPersona,
     agregarContacto,
     agregarFoto,
-    ObtenerFotoFuncionario
+    ObtenerFotoFuncionario,
+    Obtener_Lista_materia
 } from "../Persistencia/FuncionarioService";
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
@@ -130,14 +131,15 @@ export function InfoPersonal(props) {
                     <div className="col-sm offset-md-2">
                         <div className="field">
                             <label><b>Cédula:</b></label>{" "}
-                            <div className="p-inputgroup" style={{ width: '70%', transform: 'translateX(23%)' }}>
+                            <div className="p-inputgroup" style={{ width: '70%', backgroundPosition: 'center' }}>
                                 <InputText
-                                    style={{ width: '30px' }}
                                     id="cedula"
-                                    keyfilter="int"
+                                    style={{ width: '100%' }}
+                                    keyfilter = {/^[^\s]+$/}
+                                    maxLength={45}
                                     ref={inputRefs[0]}
                                     onKeyDown={(event) => compoSiguente(event, 0)}
-                                    className={props.Requerido && !state.cedula ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    className={props.Requerido && !state.cedula ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                     value={state.cedula ? state.cedula : ''}
                                     onChange={(e) =>
                                         setState({ ...state, cedula: e.target.value })}
@@ -156,14 +158,14 @@ export function InfoPersonal(props) {
                         </div>
                     </div>
 
-                    <div className="col-sm  ">
+                    <div className="col-sm ">
                         <div className="field">
                             <label><b>Fecha nacimiento:</b></label>{" "}
-                            <div className="field col-12 md:col-4 p-float-label">
+                            <div className="field">
                                 <Calendar
-
-                                    className={props.Requerido && !state.fechNac ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    className={props.Requerido && !state.fechNac ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                     inputId="calendar"
+                                    style={{ width: '60%' }}
                                     id="fnacimiento"
                                     dateFormat="dd-mm-yy"
                                     locale="es"
@@ -188,7 +190,7 @@ export function InfoPersonal(props) {
                                     id="pnombre"
                                     ref={inputRefs[1]}
                                     onKeyDown={(event) => compoSiguente(event, 1)}
-                                    className={props.Requerido && !state.pNombre ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    className={props.Requerido && !state.pNombre ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                     value={state.pNombre ? state.pNombre : ''}
                                     onChange={(e) =>
                                         setState({ ...state, pNombre: e.target.value, })}
@@ -204,7 +206,7 @@ export function InfoPersonal(props) {
                             <div>
                                 <InputText
                                     id="snombre"
-                                    className="p-inputtext-sm block mb-2"
+                                    className="p-inputtext-sm mb-2"
                                     ref={inputRefs[2]}
                                     onKeyDown={(event) => compoSiguente(event, 2)}
                                     value={state.sNombre}
@@ -223,7 +225,7 @@ export function InfoPersonal(props) {
                                     id="papellido"
                                     ref={inputRefs[3]}
                                     onKeyDown={(event) => compoSiguente(event, 3)}
-                                    className={props.Requerido && !state.pApellido ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    className={props.Requerido && !state.pApellido ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                     value={state.pApellido}
                                     style={{ width: '90%' }}
                                     onChange={(e) =>
@@ -241,7 +243,7 @@ export function InfoPersonal(props) {
                                     id="sapellido"
                                     ref={inputRefs[4]}
                                     onKeyDown={(event) => compoSiguente(event, 4)}
-                                    className={props.Requerido && !state.sApellido ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    className={props.Requerido && !state.sApellido ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                     value={state.sApellido}
                                     style={{ width: '90%' }}
                                     onChange={(e) =>
@@ -282,7 +284,7 @@ export function InfoPersonal(props) {
                                 <Dropdown
                                     inputId="dropdown"
                                     value={state.canton}
-                                    className={props.Requerido && !state.canton ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    className={props.Requerido && !state.canton ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                     name="Canton"
                                     id="dropDown"
                                     placeholder="Cantón"
@@ -308,7 +310,7 @@ export function InfoPersonal(props) {
                                     name="Distrito"
                                     id="dropDown"
                                     value={state.distrito}
-                                    className={props.Requerido && !state.distrito ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    className={props.Requerido && !state.distrito ? 'p-invalid' : "p-inputtext-sm  mb-2"}
                                     options={Dis}
                                     onClickCapture={(e) =>
                                         Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)))}
@@ -335,7 +337,7 @@ export function InfoPersonal(props) {
                             id="direccion"
                             ref={inputRefs[5]}
                             onKeyDown={(event) => compoSiguente(event, 5)}
-                            className={props.Requerido && !state.direccion ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                            className={props.Requerido && !state.direccion ? 'p-invalid' : "p-inputtext-sm mb-2"}
                             value={state.direccion}
                             autoResize
                             onChange={(e) =>
@@ -357,7 +359,7 @@ export function InfoPersonal(props) {
                             inputId="city1"
                             value="true"
                             checked={state.sexo === "M"}
-                            className={props.Requerido && !state.sexo ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                            className={props.Requerido && !state.sexo ? 'p-invalid' : "p-inputtext-sm mb-2"}
                             id="Hombre"
                             name="sexoest"
                             onChange={(e) =>
@@ -372,7 +374,7 @@ export function InfoPersonal(props) {
                         <RadioButton
                             inputId="city2"
                             value="true"
-                            className={props.Requerido && !state.sexo ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                            className={props.Requerido && !state.sexo ? 'p-invalid' : "p-inputtext-smmb-2"}
                             checked={state.sexo === "F"}
                             id="Mujer"
                             name="sexoest"
@@ -395,7 +397,7 @@ export function InfoPersonal(props) {
                                 inputId="dropdown"
                                 name="lugarnacimiento"
                                 id="dropDown"
-                                className={props.Requerido && !state.lugarnacimiento ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                className={props.Requerido && !state.lugarnacimiento ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                 value={state.lugarnacimiento}
                                 options={countries}
                                 filter showClear filterBy="name"
@@ -413,7 +415,7 @@ export function InfoPersonal(props) {
                         <div>
                             <Dropdown
                                 inputId="dropdown"
-                                className={props.Requerido && !state.estadoCivil ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                className={props.Requerido && !state.estadoCivil ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                 name="EstadoCivil"
                                 id="dropDown"
                                 value={state.estadoCivil}
@@ -465,7 +467,7 @@ export function InfoPersonal(props) {
                                 id="telefono"
                                 ref={inputRefs[7]}
                                 onKeyDown={(event) => compoSiguente(event, 7)}
-                                className={props.Requerido && !stateCon.numTelefono ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                className={props.Requerido && !stateCon.numTelefono ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                 value={stateCon.numTelefono}
                                 keyfilter="num"
                                 style={{ width: '40%' }}
@@ -490,6 +492,7 @@ export function InfoProfesor(props) {
     const [totalSize, setTotalSize] = useState(0);
     const fileUploadRef = useRef(null);
     const [Institucion, setInstitucion] = useState([]);
+    const [Materias, setMaterias] = useState([]);
     const chooseOptions = { icon: 'pi pi-fw pi-images', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined' };
     const toast1 = useRef(null);
     const [loading2, setLoading2] = useState(false);
@@ -501,16 +504,19 @@ export function InfoProfesor(props) {
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {
-        console.log("Hola ")
         const obtenerIns = async () => {
-            console.log("Hola 2 ")
             const res = await ObtenerInstitucion();
-            console.log("Hola 3 ", res)
             setInstitucion(res);
         }
         obtenerIns();
+        const listaMaterias = async()=>{
+            const lista= await Obtener_Lista_materia();
+            setMaterias(lista)
+        }
+        listaMaterias();
         console.log("Perfil", state.Perfil)
         console.log("Error ", state.Error)
+        console.log("Materias", state.materia)
     }, []);
 
 
@@ -589,7 +595,7 @@ export function InfoProfesor(props) {
             });
     }
 
-    useEffect(() => {
+  /*  useEffect(() => {
         console.log("Cedula ", state.cedula)
         if (state.Error !== 'Error' && state.cedula > 1) {
             axios.get('http://localhost:3000/ImagenFuncionario/' + state.cedula, { responseType: 'blob' })
@@ -598,7 +604,7 @@ export function InfoProfesor(props) {
                     setImageUrl(imageUrl);
                 });
         }
-    }, [state.cedula]);
+    }, [state.cedula]);*/
 
 
     const [selectedCities, setSelectedCities] = useState(null);
@@ -609,7 +615,6 @@ export function InfoProfesor(props) {
         { name: 'Istanbul', code: 'IST' },
         { name: 'Paris', code: 'PRS' }
     ];
-
     return (
         <div className="form-demo">
             <Toast ref={toast1} />
@@ -621,7 +626,7 @@ export function InfoProfesor(props) {
                         <label><b>Nivel escolar:</b></label>
                         <div>
                             <Dropdown inputId="dropdown"
-                                className={props.Requerido && !state.Nescolar ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                className={props.Requerido && !state.Nescolar ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                 name="Nivel escolar"
                                 id="dropDown"
                                 value={state.Nescolar}
@@ -645,7 +650,7 @@ export function InfoProfesor(props) {
                 <div className="row">
                     <div className="col-sm">
                         <label><b>Fecha de ingreso a la institución:</b></label>{" "}
-                        <div className="field ">
+                        <div className="field">
                             <Calendar
                                 className={props.Requerido && !state.fechIng ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                 inputId="calendar"
@@ -664,9 +669,19 @@ export function InfoProfesor(props) {
                     <div className="col-sm">
                         <label><b>Materias a impartir:</b></label>{" "}
                         <div className="">
-                            <MultiSelect value={selectedCities} onChange={(e) => setSelectedCities(e.value)} options={cities} optionLabel="name" display="chip"
-                                placeholder="Select Cities" maxSelectedLabels={3} className="w-full md:w-20rem" />
+                            <MultiSelect 
+                                value={state.materia} 
+                                onChange={(e) => setState({ ...state, materia: e.target.value, })}
+                                options={Materias} 
+                                optionLabel="Materia" 
+                                optionValue="Id"
+                                display="chip"
+                                placeholder="Seleccione las materias" 
+                                maxSelectedLabels={4} 
+                                className="w-full md:w-20rem" />
+                                
                         </div>
+                        <Button label="Guardar" icon="pi pi-save" style={{ backgroundColor: '#00939C' }}onClick={console.log("State", state)} className="mr-2" />
                     </div>
                 </div>
                 <Divider align="left" ></Divider>
@@ -678,7 +693,7 @@ export function InfoProfesor(props) {
                                 inputId="dropdown"
                                 name="lugarTrabajo"
                                 id="dropDown"
-                                className={props.Requerido && !state.lugarTrabajo ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                className={props.Requerido && !state.lugarTrabajo ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                 value={state.lugarTrabajo}
                                 placeholder="Lugar de Trabajo"
                                 options={Institucion}
@@ -696,7 +711,7 @@ export function InfoProfesor(props) {
                             <div>
                                 <InputText
                                     id="experiencia"
-                                    className={props.Requerido && !state.Atrabajo ? 'p-invalid' : "p-inputtext-sm block mb-2"}
+                                    className={props.Requerido && !state.Atrabajo ? 'p-invalid' : "p-inputtext-sm mb-2"}
                                     keyfilter="num"
                                     style={{ width: '100%' }}
                                     value={state.Atrabajo}
@@ -717,7 +732,7 @@ export function InfoProfesor(props) {
                             <InputTextarea
                                 id="descrpcion"
                                 value={state.descrip}
-                                className={props.Requerido && !state.descrip ? 'p-invalid'  : "p-inputtext-sm block mb-2"}
+                                className={props.Requerido && !state.descrip ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                 autoResize
                                 onChange={(e) =>
                                     setState({ ...state, descrip: e.target.value })}

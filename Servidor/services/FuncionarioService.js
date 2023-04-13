@@ -6,9 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 //conexión con la base de datos
-const {
-    connection
-} = require("../config");
+const { connection } = require("../config");
 
 
 const Loggin = (request, response) => {
@@ -62,7 +60,7 @@ const obtenerFuncionario = (request, response) => {
         'd.Pro_Id = v.Pro_Id AND d.Can_Id = t.Can_Id AND ' +
         'd.Dis_Id = o.Dis_Id AND p.Per_Id = f.Per_Id AND f.Ins_Id = n.Ins_Id ' +
         'AND f.Fun_Estado = ? AND p.Per_Identificacion = ?;',
-        [request.params.cedula],
+        [request.params.estado, request.params.cedula],
         (error, results) => {
             if (error)
                 throw error;
@@ -71,14 +69,14 @@ const obtenerFuncionario = (request, response) => {
 };
 
 //ruta
-app.get("/obtenerFuncionario/:cedula", obtenerFuncionario);
+app.get("/obtenerFuncionario/:estado/:cedula", obtenerFuncionario);
 
 
 const MostrarFuncionario = (request, response) => {
     connection.query('SELECT p.Per_Identificacion AS cedula,CONCAT(p.Per_PNombre," ", p.Per_SNombre," ", p.Per_PApellido," ", p.Per_SApellido) As Nombre, ' +
         'GROUP_CONCAT(DISTINCT m.Mat_Nombre) AS MNombre, GROUP_CONCAT(DISTINCT c.Cont_Contacto) AS Contacto,' +
-        'f.Fun_Descripcion AS Descripcion From esc_funcionarios f, esc_personas p, esc_materias m,esc_contactoper c ' +
-        'WHERE p.Per_Id = f.Per_Id AND p.Per_Id = c.Per_Id AND f.Func_Id = m.Func_Id AND f.Fun_Estado= "A" ' +
+        'f.Fun_Descripcion AS Descripcion From esc_funcionarios f, esc_personas p, esc_materias m,esc_contactoper c, esc_materias_has_funcionarios mf ' +
+        'WHERE p.Per_Id = f.Per_Id AND p.Per_Id = c.Per_Id AND f.Func_Id = mf.Func_Id AND mf.Mat_Id = m.Mat_Id AND f.Fun_Estado= "A" ' +
         'GROUP BY p.Per_Id;',
         (error, results) => {
             if (error)
@@ -92,12 +90,11 @@ app.get("/MostrarFuncionario", MostrarFuncionario);
 
 
 const eliminarFuncionario = (request, response) => {
-    const {
-        estado,
-        cedula
-    } = request.body;
-    connection.query('UPDATE esc_funcionarios AS F INNER JOIN esc_personas AS o ON F.Per_Id = o.Per_Id SET F.Fun_Estado= ? ' +
+    const { cedula } = request.body;
+    console.log("ELIMINAR ", request.body)
+    connection.query('UPDATE esc_funcionarios AS F INNER JOIN esc_personas AS o ON F.Per_Id = o.Per_Id SET F.Fun_Estado= "I" ' +
         'WHERE o.Per_Identificacion= ? ;',
+        [request.body.cedula],
         (error, results) => {
             if (error)
                 throw error;
@@ -120,15 +117,8 @@ const obtenerisntitucion = (request, response) => {
 app.get("/obtenerisntitucion", obtenerisntitucion);
 
 const insertarFuncionario = (request, response) => {
-    const {
-        cedula,
-        institucion,
-        escolaridad,
-        experiencia,
-        fechaIngreso,
-        descripcion
-    } = request.body;
-    connection.query('CALL PRC_InsertarFuncionario(?, ?, ?, ?,?, ?, ?, @msjError); SELECT @msjError As error;',
+    const { cedula, institucion, escolaridad, experiencia, fechaIngreso, descripcion } = request.body;
+    connection.query('CALL PRC_InsertarFuncionario(?, ?, ?, ?,?,?, @msjError); SELECT @msjError As error;',
         [cedula, institucion, escolaridad, experiencia, fechaIngreso, descripcion],
         (error, results) => {
             if (error)
@@ -227,7 +217,7 @@ const Obtener_Materias = (request, response) => {
         });
 };
 
-app.get("/ObtenerMaterias/:Func_Id", Obtener_Materias);
+app.get("/ListarMateria", ListarMateria);
 
 const obtenerAlumnos = (request, response) => {
     connection.query(
@@ -300,6 +290,8 @@ const insertarAsistencia = (request, response) => {
 //ruta
 app.route("/insertarAsistencia").post(insertarAsistencia);
 
+
+
 //Funcion de recibir y guardar los horarios en PDF
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -335,6 +327,8 @@ app.get('/horario', (req, res) => {
                 filename: pdf
             })));
         }
+    });
+});
     });
 });
 
