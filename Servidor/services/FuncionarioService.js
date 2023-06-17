@@ -205,7 +205,7 @@ const Obtener_Asistencia_Individual = (request, response) => {
 
 app.get("/ReporteIndividual/:FechaIni/:FechaFin/:Identificacion/:Grado/:Seccion/:Materia", Obtener_Asistencia_Individual);
 
-const Obtener_Materias = (request, response) => {
+const ListarMateria = (request, response) => {
 
     connection.query('SELECT m.Mat_Nombre AS materia '+
                     'FROM esc_materias m, esc_materias_has_funcionarios h '+
@@ -329,8 +329,8 @@ app.get('/horario', (req, res) => {
         }
     });
 });
-    });
-});
+    
+
 
 app.get('/horarios/:filename', (req, res) => {
     const filename = req.params.filename;

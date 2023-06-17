@@ -3,7 +3,12 @@ import "../Estilos.css";
 import { Header } from "../Componentes/Cabecera";
 import axios from "axios";
 import React, { useState } from "react";
-
+//import "bootstrap/dist/css/bootstrap.css";
+import {Container, Row, Col, Button } from "react-bootstrap";
+import { useDropzone  } from 'react-dropzone';
+import { RiCloseCircleLine } from 'react-icons/ri';
+import { FaFilePdf } from 'react-icons/fa';
+import Swal from "sweetalert2";
 export function SubirPDF() {
 
     const [pdfFiles, setPdfFiles] = useState([]);
@@ -13,9 +18,8 @@ export function SubirPDF() {
         setPdfFiles(Array.from(event.target.files));
       }
     
-      function handleDrop(event) {
-        event.preventDefault();
-        setPdfFiles(Array.from(event.dataTransfer.files));
+      function handleDrop(acceptedFiles) {
+        setPdfFiles(prevFiles => [...prevFiles, ...acceptedFiles]);
       }
 
      
@@ -26,82 +30,86 @@ export function SubirPDF() {
     function handleSubmit(event) {
         event.preventDefault();
         const formData = new FormData();
-        //pdfFiles.forEach((file) => formData.append("pdfs[]", file));
-        for (let i = 0; i < pdfFiles.length; i++) {
-            formData.append('pdfFiles', pdfFiles[i]);
-          }
+        pdfFiles.forEach(file => {
+          formData.append("pdfFiles", file);
+        });
+        //for (let i = 0; i < pdfFiles.length; i++) {
+        //    formData.append('pdfFiles', pdfFiles[i]);
+        //  }
         axios.post("http://localhost:3000/horarios", formData)
         .then(response => {
           console.log(response.data);
+          Swal.fire("Excelente", "Los horarios se subieron correctamente");
+          setPdfFiles([]);
         })
         .catch(error => {
           console.log(error);
+          Swal.fire("Error", "Los horarios no se subieron correctamente");
         });
       }
 
-   
+      const handleDeleteFile = (fileIndex) => {
+        const updatedFiles = [...pdfFiles];
+        updatedFiles.splice(fileIndex, 1);
+        setPdfFiles(updatedFiles);
+      };
 
-  return (
-    <div>
-      {" "}
-      <Header />
+      const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop: handleDrop });
+
+return (
+  <div>
+    <Header />
       <div>
-        <div>
-        <div className="long-title">
-          <h3>Subir Horarios en PDF</h3>
-        </div>
-        <form onSubmit={handleSubmit}>
-      <div className="ContenedorPDFprincipal">
-      <div className="ContenedorPDF"
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        //style={{  border: "2px dashed #ccc", padding: "100px", width: "1000px",marginLeft: "180px", borderRadius: "5px", backgroundColor: "white"}}
-      >
-        {pdfFiles.length > 0 ? (
-          <ul>
-            {pdfFiles.map((file) => (
-              <li style={{ textAlign: "center", fontFamily: "Arial" }} key={file.name}>{file.name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p style={{ margin: "80px", fontFamily: "Arial", textAlign: "center" }}>
-            Arrastra y suelta varios archivos PDF aquí o haz clic para seleccionar varios.
-          </p>
-        )}
-        <input
-          type="file"
-          accept=".pdf"
-          multiple
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-          ref={(input) => {
-            // Oculta el cuadro de diálogo de selección de archivos
-            if (input) {
-              input.value = null;
-            }
-          }}
-        />
-        <button
-          type="button"
+      <div className="long-title">
+        <h3 className="titlehorario" >Subir Horarios en PDF</h3>
+      </div>
+  <div className="dropzone-container" {...getRootProps()}>
+      <input {...getInputProps()} onChange={handleFileChange}/>
+      {isDragActive ? (
+        <p>Suelta los archivos aquí...</p>
+      ) : (
+        <p>Arrastra y suelta archivos PDF aquí</p>
+      )}
+      <div className="file-list">
+        {pdfFiles.map((file, index) => (
+          <div key={file.name} className="file-item">
+            <span className="file-icon">
+              <FaFilePdf size={32}/>
+            </span>
+            <span className="file-name">{file.name}</span>
+            <RiCloseCircleLine 
+              size={20}
+              className="delete-icon"
+              onClick={() => handleDeleteFile(index)}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+    <div className="button-container">
+          <button className="select-button"
           onClick={() => {
             // Activa el cuadro de diálogo de selección de archivos
             const fileInput = document.querySelector("input[type=file]");
             fileInput.click();
-          }}
-          style={{ backgroundColor: "#007bff", color: "#fff", border: "none", borderRadius: "3px", padding: "10px", cursor: "pointer", fontFamily: "Arial", position: "absolute",  left: "43%"}}
-        >
-          Seleccionar archivos
-        </button>
-      </div>
-      </div>
-      <button type="submit"
-       style={{ width:"90px",height:"40px",position:"absolute", left:"580px",bottom:"20px",backgroundColor: "#28a745", color: "#fff", border: "none", borderRadius: "3px", padding: "10px" ,cursor: "pointer", fontFamily: "Arial" }}
-          disabled={pdfFiles.length === 0}
-        >Enviar</button>
-    </form>
+            }}
+            
           
-        </div>
-      </div>
+          >Seleccionar archivos</button>
+          <button 
+            className="send-button" 
+            disabled={pdfFiles.length === 0}
+            onClick={handleSubmit}
+          >Enviar</button>
+    </div>
+    </div>
     </div>
   );
 }
+
+
+
+
+
+
+

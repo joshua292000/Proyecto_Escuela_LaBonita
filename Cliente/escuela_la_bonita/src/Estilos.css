@@ -348,7 +348,7 @@ div.noticia {
   font-family: Helvetica;
   text-align: justify;
   font-weight: bold;
-}
+} 
 
 div.noticia img.derecha {
   float: right;
@@ -514,6 +514,107 @@ div.reset {
   border-radius: 7px;
   background-color: white;
 }
+
+.dropzone-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 60px;
+  border: 2px dashed #ccc;
+  padding: 60px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  min-height: 200px;
+}
+
+.dropzone-container p {
+  margin: 0;
+}
+
+.file-list {
+  margin-top: 10px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.file-name {
+  margin-right: 5px;
+}
+
+.delete-icon {
+  color: red;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.select-button,
+.send-button {
+  border: none;
+  border-radius: 4px;
+  padding: 20px 30px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex: 1; /* Distribuir el espacio de manera equitativa */
+  max-width: 200px; /* Definir un ancho máximo para evitar que los botones sean demasiado grandes */
+}
+
+.select-button {
+  background-color: #007bff;
+  color: #fff;
+  margin-right: 5px; /* Agregar un espacio entre los botones */
+}
+
+.send-button {
+  background-color: #28a745;
+  color: #fff;
+  margin-left: 5px; /* Agregar un espacio entre los botones */
+}
+
+.select-button:hover{
+  background-color: #0056b3;
+}
+
+.send-button:hover {
+  background-color: #7FEB94;
+}
+
+.select-button:focus,
+.send-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+
+@media (max-width: 576px) {
+  .button-container {
+    flex-wrap: wrap;
+  }
+
+  .select-button,
+  .send-button {
+    margin: 5px 2px;
+    width: 100%;
+  }
+}
+
+.titlehorario {
+  color: black;
+  font-weight: 700;
+  max-width: 100%;
+  
+}
+
 
 /*---------------------------CSS Footer 2-------------------------------*/
 
