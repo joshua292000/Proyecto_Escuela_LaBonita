@@ -53,6 +53,7 @@ export function InfoEstudianteMatricula() {
         pNombre: "", sApellido: "",
         sNombre: ""
     };
+    
     const [state, setState] = useContext(infoEstudiante);
     const [encargado, setEncargado] =  useContext(infoEncargado);
 
@@ -68,9 +69,10 @@ export function InfoEstudianteMatricula() {
     const [msjModal, setMsjModal]= useState("");
     const [matriCorrecta, setMatriCorrecta] = useState(false);
     const [verCargando, setVerCargando] = useState(false);
+    const [gradoEstAnte, setGradoEstAnte] = useState("");//almacena el grado anterior del estudiante a matricular(grado de la matrícula pasada)
+    const [gradoEst, setGradoEst] = useState("");//almacena el grado actual a matricular del estudiante
 
     const msjEmergente = useRef(null);
-    const msjEmergente2 = useRef(null);
     const dt = useRef(null);
 
 
@@ -95,9 +97,10 @@ export function InfoEstudianteMatricula() {
         if(state.viaja === "A"){
             setVerTabla(true);
         }
+        setGradoEstAnte(state.grado);
 
     },[])
-    console.log("estu", state);
+    console.log("estu", state, gradoEst);
     console.log("Enca", encargado);
 
     const crearNuevo = () => {
@@ -124,6 +127,24 @@ export function InfoEstudianteMatricula() {
             window.location.href = '/Informacionpersonal';
  
         }
+    }
+
+    const validarGradoSeleccionado = (gradoSelec) =>{
+        if(state.grado){
+            let indxGradoAnte = grados.findIndex((elemento) => elemento.name === gradoEstAnte);
+            let indxGradoActual = grados.findIndex((elemento) => elemento.name === gradoSelec);
+            if(indxGradoActual >= indxGradoAnte){
+                setState({ ...state, gradoSelec }); 
+                setGradoEst(gradoSelec);
+                
+            }else{
+                msjEmergente.current.show({ severity: 'error', summary: 'Grado no permitido', detail: 'El grado a asignar no puede ser inferior al que ya tenía asignado', life: 5000 });
+            }
+
+        }else{
+            setState({ ...state, gradoSelec});
+        }
+        
     }
 
     const obtenerAcompaniantes = async () =>{
@@ -271,7 +292,7 @@ export function InfoEstudianteMatricula() {
     const validarRequeridos = async ()=>{
         setReq(true);
         let respuesta = null;
-        if(state.grado && state.adecuacion && state.poliza && state.imas && state.viaja){
+        if(gradoEst && state.adecuacion && state.poliza && state.imas && state.viaja){
             if(state.poliza !=="S" || state.vencePoliza){
                 if(state.viaja ==="A"){
                     let estado = state.acompaniante.some(obj => obj.estado === "A");
@@ -414,7 +435,6 @@ export function InfoEstudianteMatricula() {
     return (
         <div>
             <Toast ref={msjEmergente} />
-            <Toast ref={msjEmergente2} />
             {" "}
             <div >
                 
@@ -431,7 +451,7 @@ export function InfoEstudianteMatricula() {
                         <div className="col-sm">
                             <div className="field">
                                 <label>
-                                    <b>Grado:</b>
+                                  {state.grado? <b>Grado anterior: {gradoEstAnte}</b>: <b>Grado:</b>} 
                                 </label>
                                 <br></br>
                                 <Dropdown
@@ -439,16 +459,16 @@ export function InfoEstudianteMatricula() {
                                     name="Grado"
                                     id="Grado"
                                     className= {req && !state.grado ? 'p-invalid'  : "p-inputtext-sm mb-2"}
-                                    value={state.grado}
+                                    value={gradoEst}
                                     options={grados}
-                                    placeholder="Grado"
-                                    onChange={(e) => setState({ ...state, grado: e.target.value })}
+                                    placeholder="Seleccione un grado..."
+                                    onChange={(e) => validarGradoSeleccionado(e.target.value)}
                                     optionLabel="name"
                                     optionValue="name"
                                     style={{ width: "auto" }}
                                 />
                             </div>
-                            {req && !state.grado && <small className="p-error">Grado es requerido</small>}
+                            {req && !gradoEst && <small className="p-error">Grado es requerido</small>}
                         </div>
                         <div className="col-sm">
                             <div className="field">

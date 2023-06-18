@@ -38,12 +38,15 @@ export function InfoPersonal() {
   useEffect(() => {
       Pais.getPais().then(data => setCountries(data));
       Provincia.getProvincia().then(data => setProvincia(data));
-  }, [state.provincia]);
+  }, []);
 
  console.log("estu", state);
   useEffect(() => {
-    Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia)))
-    Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)))
+    if(state.provincia){
+        Canton.getCanton().then(data => setCanton(data.filter(data => data.pro === state.provincia)))
+        Distrito.getDistrito().then(data => setDistrito(data.filter(data => data.pro === state.canton)))
+
+    }
    }, [state.provincia]);
 
    addLocale('es', {
