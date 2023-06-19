@@ -417,7 +417,7 @@ export const insertarAsistencia = async (props) => {
   //console.log("date: ", props.fechaA.toLocaleDateString("zh-Hans-CN"));
    var infoA = {
      matrid: props.matrid,
-     fechaA: props.fechaA.toLocaleDateString("zh-Hans-CN"),
+     fechaA: props.fechaA,
      justificacion: props.justificacion,
      materia: props.materia,
      tipoAsistencia: props.asistencia,

@@ -92,8 +92,8 @@ export function Asistenciacom() {
                     alum[index].justificacion = jus;
                     setProductDialog(false);
                 }
-                if (props.estado != null) {
-                    alum[index].asistencia = props.estado;
+                if (props.tasistencia != null) {
+                    alum[index].asistencia = props.tasistencia;
                 }
                 alum[index].materia = materiaS;
                 console.log("date:", date);
@@ -120,12 +120,12 @@ export function Asistenciacom() {
             <React.Fragment>
                 <input
                     type="radio"
-                    value="1"
-                    checked={rowData.tasistencia==1}
+                    value="Presente"
+                    checked={rowData.tasistencia=="Presente"}
                     id="Presente"
                     name={rowData.cedula}
-                    onClick={async () => {
-                        await guardarCambios(rowData, { estado: "Presente", justi: null })
+                    onChange={async () => {
+                        await guardarCambios(rowData, { tasistencia: "Presente", justi: null })
                     }}
                 ></input>
             </React.Fragment>
@@ -138,12 +138,12 @@ export function Asistenciacom() {
             <React.Fragment>
                 <input
                     type="radio"
-                    value="2"
-                    checked={rowData.tasistencia==2}
+                    value="Ausencia injustificada"
+                    checked={rowData.tasistencia=="Ausencia injustificada"}
                     id="Ausente"
                     name={rowData.cedula}
-                    onClick={async () => {
-                        await guardarCambios(rowData, { estado: "Ausencia injustificada", justi: null })
+                    onChange={async () => {
+                        await guardarCambios(rowData, { tasistencia: "Ausencia injustificada", justi: null })
                     }}
                 ></input>
             </React.Fragment>
@@ -155,11 +155,11 @@ export function Asistenciacom() {
             <React.Fragment>
                 <input
                     type="radio"
-                    value="3"
-                    checked={rowData.tasistencia==3}
+                    value="Ausencia justificada"
+                    checked={rowData.tasistencia=="Ausencia justificada"}
                     id="AusenciaJusti"
                     name={rowData.cedula}
-                    onClick={() => {
+                    onChange={() => {
                         setEdit(rowData);
                         setProductDialog(true);
                     }}
@@ -176,7 +176,7 @@ export function Asistenciacom() {
                 <InputText
                     id="inputtext"
                     className="p-inputtext-sm block mb-2"
-                    value={rowData.justificacion}
+                    value={rowData.tasistencia === "Ausencia justificada" ? rowData.justificacion : ''}
                     style={{ width: '90%' }}
                     required />
             </React.Fragment>
@@ -218,8 +218,8 @@ export function Asistenciacom() {
                                 <Calendar
                                     id="icon"
                                     value={date}
-                                    dateFormat="yy-mm-dd"
-                                    onChange={(e) => setDate(e.value)}
+                                    dateFormat="dd-mm-yy" 
+                                    onChange={(e) => setDate(e.value.toLocaleDateString("zh-Hans-CN"))}
                                     showIcon
                                 />
                                 {"  "}
