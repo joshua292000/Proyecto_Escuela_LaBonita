@@ -101,7 +101,7 @@ const Obtener_Secciones = (request, response) => {
     //const Sec_Seccion = request.params.Sec_Seccion;
     connection.query('SELECT g.Gra_Grado AS grado,s.Sec_Seccion AS seccion ' +
         'FROM esc_funcionarios f, esc_seccion_has_funcionarios i,esc_grado g,esc_seccion s ' +
-        'WHERE f.Func_Id=i.Func_Id AND i.Sec_Id=s.Sec_Id AND s.Gra_Id=g.Gra_Id AND f.Func_Id=?',
+        'WHERE f.Func_Id=i.Func_Id AND i.Sec_Id=s.Sec_Id AND s.Gra_Id=g.Gra_Id AND EXTRACT(YEAR FROM s.Sec_FechaCreacion) = EXTRACT(YEAR FROM CURDATE()) AND f.Func_Id=?',
         [request.params.Func_Id],
         (error, results) => {
             if (error)

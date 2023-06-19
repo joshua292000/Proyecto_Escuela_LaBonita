@@ -418,9 +418,9 @@ export const insertarAsistencia = async (props) => {
    var infoA = {
      matrid: props.matrid,
      fechaA: props.fechaA,
-     justificacion: props.justificacion,
+     justificacion: props.justificacion || null,
      materia: props.materia,
-     tipoAsistencia: props.asistencia,
+     tipoAsistencia: props.tasistencia,
    };
     console.log("Vector de datos a guardar: ", infoA);
   try {
