@@ -240,10 +240,10 @@ const Obtener_Ausencias = (request, response) => {
     const Materia = request.params.Materia;
 
 
-    connection.query('SELECT SUM(IF(a.TAsi_Id=1,1,0)) AS Asistencia , SUM(IF(a.TAsi_Id=2,1,0)) AS Ausencia, SUM(IF(a.TAsi_Id=3,1,0)) AS Ausencia_Justificada, p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido ' +
-        'FROM esc_asistencia a, esc_tipoasistencia t, esc_estudiantes e, esc_personas p, esc_seccion s, esc_materias m ' +
-        'WHERE a.Asi_FechaActual BETWEEN ? AND ? AND t.TAsi_Id = a.TAsi_Id AND a.Est_Id = e.Est_Id AND e.Sec_Id = s.Sec_Id AND e.Per_Id = p.Per_Id AND a.Mat_Id= m.Mat_Id AND s.Sec_Grado=? AND s.Sec_Seccion=? AND m.Mat_Nombre=? GROUP BY  p.Per_PNombre ',
-        [FechaIni, FechaFin, Grado, Seccion, Materia],
+    connection.query('SELECT SUM(IF(a.TAsi_Id=1,1,0)) AS Asistencia , SUM(IF(a.TAsi_Id=2,1,0)) AS Ausencia, SUM(IF(a.TAsi_Id=3,1,0)) AS Ausencia_Justificada, p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido '+
+                        'FROM esc_asistencia a, esc_tipoasistencia t, esc_estudiantes e, esc_personas p, esc_seccion s, esc_materias m, esc_matricula l, esc_grado g '+
+                            'WHERE a.Asi_FechaActual BETWEEN ? AND ? AND t.TAsi_Id = a.TAsi_Id AND a.Matr_Id = l.Mat_Id AND l.Est_Id = e.Est_Id AND l.Sec_Id = s.Sec_Id	AND e.Per_Id = p.Per_Id AND a.Mat_Id = m.Mat_Id AND g.Gra_Grado = ? AND s.Sec_Seccion=? AND m.Mat_Nombre=? GROUP BY  p.Per_PNombre ',
+    [FechaIni, FechaFin, Grado, Seccion, Materia],
         (error, results) => {
             if (error)
                 throw error;
@@ -262,9 +262,9 @@ const Obtener_Asistencia_Individual = (request, response) => {
     const Materia = request.params.Materia;
     const Identificacion = request.params.Identificacion;
 
-    connection.query('SELECT SUM(IF(a.TAsi_Id=1,1,0)) AS Asistencia , SUM(IF(a.TAsi_Id=2,1,0)) AS Ausencia, SUM(IF(a.TAsi_Id=3,1,0)) AS Ausencia_Justificada, p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido ' +
-        'FROM esc_asistencia a, esc_tipoasistencia t, esc_estudiantes e, esc_personas p, esc_seccion s, esc_materias m ' +
-        'WHERE a.Asi_FechaActual BETWEEN ? AND ? AND t.TAsi_Id = a.TAsi_Id AND a.Est_Id = e.Est_Id AND e.Sec_Id = s.Sec_Id AND e.Per_Id = p.Per_Id AND a.Mat_Id= m.Mat_Id AND p.Per_Identificacion=? AND s.Sec_Grado=? AND s.Sec_Seccion=? AND m.Mat_Nombre=? GROUP BY  p.Per_PNombre ',
+    connection.query('SELECT SUM(IF(a.TAsi_Id=1,1,0)) AS Asistencia , SUM(IF(a.TAsi_Id=2,1,0)) AS Ausencia, SUM(IF(a.TAsi_Id=3,1,0)) AS Ausencia_Justificada, p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido '+
+                     'FROM esc_asistencia a, esc_tipoasistencia t, esc_estudiantes e, esc_personas p, esc_seccion s, esc_materias m, esc_matricula l, esc_grado g '+
+                        'WHERE a.Asi_FechaActual BETWEEN ? AND ? AND t.TAsi_Id = a.TAsi_Id AND a.Matr_Id = l.Mat_Id AND l.Est_Id = e.Est_Id AND l.Sec_Id = s.Sec_Id	AND e.Per_Id = p.Per_Id AND a.Mat_Id = m.Mat_Id AND p.Per_Identificacion=? AND g.Gra_Grado = ? AND s.Sec_Seccion=? AND m.Mat_Nombre=? GROUP BY  p.Per_PNombre ',
         [FechaIni, FechaFin, Identificacion, Grado, Seccion, Materia],
         (error, results) => {
             if (error)

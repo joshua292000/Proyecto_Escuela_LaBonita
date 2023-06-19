@@ -180,12 +180,13 @@ export function ReporteCom() {
                             <label><b>Fecha de inicio:</b></label>
                             <div className="FechaInicio">
                                 <Calendar
-                                    className=" block mb-2"
-                                    inputId="calendar" id="fInicial"
+                                    //className=" block mb-2"
+                                    inputId="calendar" 
+                                    id="fInicial"
                                     value={FechaInicial}
                                     onChange={(e) =>
                                         setFechaInicial(e.target.value)}
-                                    touchUI />
+                                    showIcon />
                             </div>
                         </div>
 
@@ -194,11 +195,12 @@ export function ReporteCom() {
                                 <label><b>Fecha final:</b></label>
                                 <br></br>
                                 <Calendar
-                                    className="block mb-2"
+                                    //className="block mb-2"
                                     inputId="calendar" id="fFinal"
                                     value={FechaFinal}
                                     onChange={(e) =>
                                         setFechaFinal(e.target.value)}
+                                    showIcon
                                     touchUI />
                             </div>
                         </div>

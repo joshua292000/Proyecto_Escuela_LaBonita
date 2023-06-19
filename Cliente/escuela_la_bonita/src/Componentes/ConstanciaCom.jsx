@@ -78,6 +78,9 @@ export function ConstanciasCom() {
         { name: 'Constancia de Traslado', code: 'T' },
         { name: 'Constancia de Estudio', code: 'E' }
     ];
+
+      
+
     return (
         <div>
             {" "} 
