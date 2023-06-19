@@ -321,9 +321,9 @@ app.get("/obtenerAlumnos/:Gra_Grado/:Mat_Seccion", obtenerAlumnos);
 
 const obtenerAsistencia = (request, response) => {
     connection.query(
-        'SELECT  p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre, p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido,a.Asi_Justificacion AS justificacion,a.TAsi_Id AS tasistencia,a.Matr_Id AS matrid ' +
-        'FROM esc_asistencia a, esc_materias m,esc_matricula r, esc_seccion s,esc_grado g, esc_estudiantes e, esc_personas p ' +
-        'WHERE m.Mat_Id=a.Mat_Id and m.Mat_Nombre= ? and a.Matr_Id=r.Mat_Id and r.Sec_Id=s.Sec_Id and s.Sec_Seccion=? and s.Gra_Id =g.Gra_Id and g.Gra_Grado=? and r.Est_Id=e.Est_Id and e.Per_Id=p.Per_Id and  a.Asi_FechaActual=?',
+        'SELECT  p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre, p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido,a.Asi_Justificacion AS justificacion,t.TAsi_Nombre AS tasistencia,a.Matr_Id AS matrid ' +
+        'FROM esc_asistencia a, esc_materias m,esc_matricula r, esc_seccion s,esc_grado g, esc_estudiantes e, esc_personas p, esc_tipoasistencia t ' +
+        'WHERE m.Mat_Id=a.Mat_Id and m.Mat_Nombre= ? and a.Matr_Id=r.Mat_Id and r.Sec_Id=s.Sec_Id and s.Sec_Seccion=? and s.Gra_Id =g.Gra_Id and g.Gra_Grado=? and r.Est_Id=e.Est_Id and e.Per_Id=p.Per_Id and a.TAsi_Id=t.TAsi_Id and a.Asi_FechaActual=?',
         [request.params.Mat_Nombre, request.params.Sec_Seccion, request.params.Gra_Grado, request.params.Asi_FechaActual],
         (error, results) => {
             if (error) throw error;
