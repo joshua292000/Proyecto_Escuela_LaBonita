@@ -41,20 +41,16 @@ export function Asistenciacom() {
         }
         obtenerDatos()
     }, [])
-
+    
     const obtenerA = async () => {
-        console.log("seccion",seccionS.seccion);
-        console.log("grado",seccionS.grado);
-        const formattedDate = moment(date).format("YYYY-MM-DD");
-        const datehoy = moment(Fechahoy).format("YYYY-MM-DD");
-        
-        //const res2 = await obtenerAsistencia({ materia: materiaS, seccion: seccionS.seccion, grado: seccionS.grado,fechaA: formattedDate});
-        const res2 = await obtenerAlumnos({seccion: seccionS.seccion, grado: seccionS.grado});
-   
-      //console.log("fechahoy",datehoy)
-        console.log("materia",materiaS)
-        console.log("res2:",res2)
-        console.log("fecha",formattedDate);
+        console.log("seccion", seccionS.seccion);
+        console.log("grado", seccionS.grado);
+        const formattedDate = moment(date).format("YYYY-MM-DD");    
+        const res2 = await obtenerAsistencia({ materia: materiaS, seccion: seccionS.seccion, grado: seccionS.grado, fechaA: formattedDate });
+        //console.log("fechahoy",datehoy)
+        console.log("materia", materiaS)
+        console.log("res2:", res2)
+        console.log("fecha", formattedDate);
         setAlumnos(res2);
         setLoading1(true);
         setTimeout(() => {
@@ -88,7 +84,7 @@ export function Asistenciacom() {
         if (datos.cedula.trim()) {
             let alum = [...alumnos];
             let data = { ...datos };
-            console.log("Objeto",alum)
+            console.log("Objeto", alum)
             if (data.cedula) {
                 const index = findIndexById(data.cedula);
                 if (props.justi != null) {
@@ -106,6 +102,7 @@ export function Asistenciacom() {
             }
             setAlumnos(alum);
         }
+       
     }
     const findIndexById = (cd) => {
         let index = -1;
@@ -123,7 +120,8 @@ export function Asistenciacom() {
             <React.Fragment>
                 <input
                     type="radio"
-                    value="true"
+                    value="1"
+                    checked={rowData.tasistencia==1}
                     id="Presente"
                     name={rowData.cedula}
                     onClick={async () => {
@@ -140,7 +138,8 @@ export function Asistenciacom() {
             <React.Fragment>
                 <input
                     type="radio"
-                    value="true"
+                    value="2"
+                    checked={rowData.tasistencia==2}
                     id="Ausente"
                     name={rowData.cedula}
                     onClick={async () => {
@@ -156,7 +155,8 @@ export function Asistenciacom() {
             <React.Fragment>
                 <input
                     type="radio"
-                    value="true"
+                    value="3"
+                    checked={rowData.tasistencia==3}
                     id="AusenciaJusti"
                     name={rowData.cedula}
                     onClick={() => {

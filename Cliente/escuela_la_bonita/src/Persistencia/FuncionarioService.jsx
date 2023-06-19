@@ -350,7 +350,6 @@ export const Obtener_Materias = async () => {
   try {
     const res = await axios
       .get("http://localhost:3000/ObtenerMaterias/" + cookies.get('Func_Id'))
-      
         if (res.data.length >0) {
           return res.data;
         } else {
@@ -362,20 +361,6 @@ export const Obtener_Materias = async () => {
   }
 };
 
-  export const obtenerAlumnos = async (props) => {
-    //Obtiene todos los alumnos
-    try {
-      const res = await axios.get("http://localhost:3000/obtenerAlumnos/" + props.grado +"/" + props.seccion);
-      if (res.data.length > 0) {
-        console.log("metodo ", res.data);
-        return res.data;
-      } else {
-        Swal.fire("Error", "Lo siento, ocurrió un error al obtener la lista");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
 
   export const AsistenciaComedor = async (props) => {
@@ -394,8 +379,42 @@ export const Obtener_Materias = async () => {
     }
   };
 
+
+export const obtenerAsistencia = async (props) => {
+  try {
+    const res = await axios.get("http://localhost:3000/obtenerAsistencia/" + props.materia + "/" + props.seccion + "/" + props.grado + "/" + props.fechaA);
+    if (res.data.length > 0) {
+      console.log("metodo ", res.data);
+      return res.data;
+    } else {
+      // Ejecutar la función obtenerAlumnos en caso de error
+    Swal.fire("Aviso", "El registro de la asistencia no existe, debe crear una asistencia nueva");
+    const alumnos = await obtenerAlumnos(props);
+    return alumnos;
+    }
+  } catch (error) {
+    console.log(error);
+    
+  }
+};
+
+export const obtenerAlumnos = async (props) => {
+  //Obtiene todos los alumnos
+  try {
+    const res = await axios.get("http://localhost:3000/obtenerAlumnos/" + props.grado +"/" + props.seccion);
+    if (res.data.length > 0) {
+      console.log("metodo ", res.data);
+      return res.data;
+    } else {
+      Swal.fire("Error", "Lo siento, ocurrió un error al obtener la lista");
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const insertarAsistencia = async (props) => {
-  console.log("date: ", props.fechaA.toLocaleDateString("zh-Hans-CN"));
+  //console.log("date: ", props.fechaA.toLocaleDateString("zh-Hans-CN"));
    var infoA = {
      matrid: props.matrid,
      fechaA: props.fechaA.toLocaleDateString("zh-Hans-CN"),
@@ -421,18 +440,3 @@ export const insertarAsistencia = async (props) => {
     console.log(e);
   }
 }
-
-export const obtenerAsistencia= async (props) => {
-  //Obtiene la asistencia 
-    try {
-      const res = await axios.get("http://localhost:3000/obtenerAsistencia/" + props.materia +"/" + props.seccion +"/" + props.grado + "/" + props.fechaA);
-      if (res.data.length > 0) {
-        console.log("metodo ", res.data);
-        return res.data;
-      } else {
-        Swal.fire("Error", "Lo sentimos, ocurrió un error al cargar la asistencia.");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-};

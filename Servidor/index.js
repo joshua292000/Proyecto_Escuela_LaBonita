@@ -13,7 +13,7 @@ app.use(cors())
 app.use(require('./services/encargadoEstuService'));
 app.use(require('./services/estudianteSevice'));
 app.use(require('./services/personaService'));
-app.use(require('./services/funcionarioService'));
+app.use(require('./services/FuncionarioService'));
 app.use(require('./services/viajaConService'));
 
 app.listen(process.env.PORT||3300,() => {
