@@ -115,8 +115,9 @@ export function Asistenciacom() {
                 toast.current.show({ severity: "success", summary: "Actualización", detail: "Asistencia Actualizada", life: 3000, });
             }
             setAlumnos(alum);
+          
         }
-       
+        
     }
     const findIndexById = (cd) => {
         let index = -1;
@@ -340,6 +341,7 @@ export function Asistenciacom() {
                                     onClick={() => {
                                         alumnos.map(async (dt) => {
                                             await insertarAsistencia(dt);
+                                            window.location.reload()
                                         })
                                     }}
                                 />
