@@ -9,7 +9,7 @@ const {connection} = require("../config");
 
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-
+const bcrypt = require('bcrypt');
 //Inserta en la tabla esc_Encargados
 const InsertarEncargado = (request, response) => {
     const {cedula, lugarTrabajo, viveConEstu, parentesco, ocupacion, escolaridad} = request.body;
@@ -113,14 +113,36 @@ const LogginEnc = (request, response) => {
 
     connection.query('SELECT u.Usu_Usuario, u.Usu_Clave '+
                     'FROM esc_usuarios u '+
-                    'WHERE u.Usu_Usuario=? AND u.Usu_Clave=?',
-    [usuario, clave],
-    (error, results) => {
-        if(error)
-           throw error;
-        response.status(201).json(results);
-    });
-};
+                    'WHERE u.Usu_Usuario=? ',
+    [usuario],
+   async (error, results) => {
+            if (error) {
+              throw error;
+            }
+      
+            if (results.length === 0) {
+              // Usuario no encontrado
+              response.status(201).json({ error: 'Usuario no válido' });
+            } else {
+              const { Usu_Clave, ...userData } = results[0];
+      
+              // Comparar la contraseña ingresada con la contraseña encriptada almacenada en la base de datos
+              const isMatch = await bcrypt.compare(clave, Usu_Clave);
+      
+              if (isMatch) {
+                // Contraseña correcta, retornar los datos del usuario junto con un mensaje adicional
+                response.status(200).json({
+                  message: 'Inicio de sesión exitoso',
+                  userData,
+                });
+              } else {
+                // Contraseña incorrecta, retornar un mensaje de error
+                response.status(201).json({ error: 'Contraseña incorrecta' });
+              }
+            }
+          }
+        );
+      };
 
 app.get("/logginEnc/:usuario/:clave",LogginEnc);
 
@@ -128,6 +150,10 @@ app.get("/logginEnc/:usuario/:clave",LogginEnc);
 //Crea el usuario de los encargados si el numero de cedula existe
 const CrearUsuarioEnc = (request, response) => {
     const{Identificacion, Clave} = request.body;
+    bcrypt.hash(Clave, 5, (err, Clave) => {
+      if (err) {
+        throw err;
+      }
     connection.query('CALL PRC_InsertarUsuarioEncargado(?, ?, @msjError); SELECT @msjError AS error;', 
       [Identificacion,Clave],
       (error, results) => {
@@ -136,8 +162,10 @@ const CrearUsuarioEnc = (request, response) => {
         }
         response.status(201).json(results);
       }
-    ); 
+      ); 
+    });
   };
+     
    
   //ruta
   app.route("/CrearUsuarioEnc").post(CrearUsuarioEnc);
@@ -145,6 +173,10 @@ const CrearUsuarioEnc = (request, response) => {
 //Actualiza el usuario
 const ActualizarUsuarioEnc = (request, response) => {
   const{Identificacion, Clave} = request.body;
+  bcrypt.hash(Clave, 5, (err, Clave) => {
+    if (err) {
+      throw err;
+    }
   connection.query('CALL PRC_ActualizarUsuarioEncargado(?, ?, @msjError); SELECT @msjError AS error;', 
     [Identificacion,Clave],
     (error, results) => {
@@ -153,7 +185,8 @@ const ActualizarUsuarioEnc = (request, response) => {
       }
       response.status(201).json(results);
     }
-  );  
+    ); 
+  });
 };
   
 //ruta

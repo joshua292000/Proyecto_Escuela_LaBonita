@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const path = require('path');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 
 //conexión con la base de datos
 const { connection } = require("../config");
@@ -15,16 +16,85 @@ const Loggin = (request, response) => {
 
     connection.query('SELECT u.Usu_Usuario, u.Usu_Clave, f.Func_Id, u.Rol_Id ' +
         'FROM esc_funcionarios f, esc_usuarios u ' +
-        'WHERE f.Usu_Id=u.Usu_Id AND u.Usu_Usuario=? AND u.Usu_Clave=?',
-        [usuario, clave],
-        (error, results) => {
-            if (error)
-                throw error;
-            response.status(201).json(results);
-        });
-};
+        'WHERE f.Usu_Id=u.Usu_Id AND u.Usu_Usuario=? ',
+        [usuario],
+        async (error, results) => {
+            if (error) {
+              throw error;
+            }
+      
+            if (results.length === 0) {
+              // Usuario no encontrado
+              response.status(201).json({ error: 'Usuario no válido' });
+            } else {
+              const { Usu_Clave, ...userData } = results[0];
+      
+              // Comparar la contraseña ingresada con la contraseña encriptada almacenada en la base de datos
+              const isMatch = await bcrypt.compare(clave, Usu_Clave);
+      
+              if (isMatch) {
+                // Contraseña correcta, retornar los datos del usuario junto con un mensaje adicional
+                response.status(200).json({
+                  message: 'Inicio de sesión exitoso',
+                  userData,
+                });
+              } else {
+                // Contraseña incorrecta, retornar un mensaje de error
+                response.status(201).json({ error: 'Contraseña incorrecta' });
+              }
+            }
+          }
+        );
+      };
 
 app.get("/loggin/:usuario/:clave", Loggin);
+
+
+//Crea el usuario de los funcionarios si el numero de cedula existe
+const CrearUsuarioFunc = (request, response) => {
+    const{Identificacion, Clave} = request.body;
+
+    bcrypt.hash(Clave, 5, (err, Clave) => {
+        if (err) {
+          throw err;
+        }
+    connection.query('CALL PRC_InsertarUsuarioFuncionario(?, ?, @msjError); SELECT @msjError AS error;', 
+      [Identificacion, Clave],
+      (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).json(results);  
+      }
+    ); 
+  });
+};
+   
+  //ruta
+  app.route("/CrearUsuarioFunc").post(CrearUsuarioFunc);
+
+//Actualiza el usuario 
+const ActualizarUsuarioFunc = (request, response) => {
+    const{Identificacion, Clave} = request.body;
+    
+    bcrypt.hash(Clave, 5, (err, Clave) => {
+        if (err) {
+          throw err;
+        }
+    connection.query('CALL PRC_ActualizarUsuarioEncargado(?, ?, @msjError); SELECT @msjError AS error;', 
+      [Identificacion,Clave],
+      (error, results) => {
+        if (error) {
+            throw error;
+        }
+        response.status(201).json(results);
+    }
+    ); 
+  });
+};
+    
+  //ruta
+  app.route("/ActualizarUsuarioFunc").put(ActualizarUsuarioFunc);
 
 const Obtener_Secciones = (request, response) => {
     //const Sec_Grado = request.params.Sec_Grado;
@@ -132,9 +202,9 @@ app.route("/insertarFuncionario").post(insertarFuncionario);
 
 const Obtener_estudiante = (request, response) => {
 
-    connection.query('SELECT p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido, s.Sec_Grado AS Grado, s.Sec_Seccion AS Seccion ' +
-        'FROM esc_personas p, esc_seccion s, esc_estudiantes e ' +
-        'WHERE e.Per_Id=p.Per_Id AND e.Sec_Id=s.Sec_Id AND p.Per_Identificacion=?',
+    connection.query('SELECT p.Per_Identificacion AS Identificacion, p.Per_PNombre AS PNombre, p.Per_SNombre AS SNombre, p.Per_PApellido AS PApellido, p.Per_SApellido AS SApellido, g.Gra_Grado AS Grado, s.Sec_Seccion AS Seccion '+
+                      'FROM esc_personas p, esc_seccion s, esc_estudiantes e, esc_matricula  m, esc_grado g '+ 
+                      'WHERE e.Per_Id=p.Per_Id AND m.Est_Id = e.Est_Id AND m.Sec_Id = s.Sec_Id AND s.Gra_Id = g.Gra_Id AND p.Per_Identificacion=? ',
         [request.params.Per_Identificacion],
         (error, results) => {
             if (error)
