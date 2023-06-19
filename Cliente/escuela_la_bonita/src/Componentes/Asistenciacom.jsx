@@ -8,6 +8,8 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
 import { Button } from "primereact/button";
+import { RadioButton } from 'primereact/radiobutton';
+import { addLocale } from 'primereact/api';
 import moment from "moment";
 
 export function Asistenciacom() {
@@ -19,7 +21,7 @@ export function Asistenciacom() {
     const [loading1, setLoading1] = useState(false);
     const [edit, setEdit] = useState();
     const [jus, setJus] = useState({});
-    const [date, setDate] = useState(null);
+    const [date, setDate] = useState();
     const [Fechahoy] = useState(new Date());
     const [productDialog, setProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
@@ -27,7 +29,16 @@ export function Asistenciacom() {
     const toast = useRef(null);
     const dt = useRef(null);
 
-
+    addLocale('es', {
+        firstDayOfWeek: 1,
+        dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+        dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+        monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+        today: 'Hoy',
+        clear: 'Limpiar'
+        });
 
     useEffect(() => {
         const obtenerDatos = async () => {
@@ -57,6 +68,9 @@ export function Asistenciacom() {
             setLoading1(false);
         }, 2000);
     };
+
+    console.log("ALUMNOS", alumnos)
+    console.log("FECHA", date)
 
     const selectedSeccionesTemplate = (option, props) => {
         if (option) {
@@ -88,12 +102,12 @@ export function Asistenciacom() {
             if (data.cedula) {
                 const index = findIndexById(data.cedula);
                 if (props.justi != null) {
-                    alum[index].asistencia = "Ausencia justificada";
+                    alum[index].tasistencia = "Ausencia justificada";
                     alum[index].justificacion = jus;
                     setProductDialog(false);
                 }
                 if (props.tasistencia != null) {
-                    alum[index].asistencia = props.tasistencia;
+                    alum[index].tasistencia = props.tasistencia;
                 }
                 alum[index].materia = materiaS;
                 console.log("date:", date);
@@ -118,8 +132,8 @@ export function Asistenciacom() {
     const buttonPresente = (rowData) => {
         return (
             <React.Fragment>
-                <input
-                    type="radio"
+                <RadioButton
+                    inputId="lista"
                     value="Presente"
                     checked={rowData.tasistencia=="Presente"}
                     id="Presente"
@@ -127,25 +141,26 @@ export function Asistenciacom() {
                     onChange={async () => {
                         await guardarCambios(rowData, { tasistencia: "Presente", justi: null })
                     }}
-                ></input>
+                ></RadioButton>
             </React.Fragment>
         );
     }
 
 
+
     const buttonAusenInjus = (rowData) => {
         return (
             <React.Fragment>
-                <input
-                    type="radio"
+                <RadioButton
+                    inputId="lista"
                     value="Ausencia injustificada"
                     checked={rowData.tasistencia=="Ausencia injustificada"}
                     id="Ausente"
                     name={rowData.cedula}
-                    onChange={async () => {
-                        await guardarCambios(rowData, { tasistencia: "Ausencia injustificada", justi: null })
+                    onChange={() => {
+                         guardarCambios(rowData, { tasistencia: "Ausencia injustificada", justi: null })
                     }}
-                ></input>
+                ></RadioButton>
             </React.Fragment>
         );
     }
@@ -153,8 +168,8 @@ export function Asistenciacom() {
     const buttonAusenJusti = (rowData) => {
         return (
             <React.Fragment>
-                <input
-                    type="radio"
+                <RadioButton
+                    inputId="lista"
                     value="Ausencia justificada"
                     checked={rowData.tasistencia=="Ausencia justificada"}
                     id="AusenciaJusti"
@@ -164,7 +179,7 @@ export function Asistenciacom() {
                         setProductDialog(true);
                     }}
 
-                ></input>
+                ></RadioButton>
             </React.Fragment>
         );
     }
@@ -216,10 +231,14 @@ export function Asistenciacom() {
                             <div className="col">
                                 <label><b>Fecha:</b></label>
                                 <Calendar
-                                    id="icon"
-                                    value={date}
+                                    className={"p-inputtext-sm mb-2"}
+                                    inputId="calendar"
+                                     id="fLista"
+                                    value={date} /* verificar por qué no carga a la primera */
                                     dateFormat="dd-mm-yy" 
-                                    onChange={(e) => setDate(e.value.toLocaleDateString("zh-Hans-CN"))}
+                                    locale="es" 
+                                    required
+                                    onChange={(e) => setDate(e.value.toLocaleDateString('en-ZA'))}
                                     showIcon
                                 />
                                 {"  "}
