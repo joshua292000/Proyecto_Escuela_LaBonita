@@ -61,7 +61,7 @@ return (
     <Header />
       <div>
       <div className="long-title">
-        <h3 className="titlehorario" >Subir Horarios en PDF</h3>
+        <b className="titlehorario">Subir Horarios en PDF</b>
       </div>
   <div className="dropzone-container" {...getRootProps()}>
       <input {...getInputProps()} onChange={handleFileChange}/>

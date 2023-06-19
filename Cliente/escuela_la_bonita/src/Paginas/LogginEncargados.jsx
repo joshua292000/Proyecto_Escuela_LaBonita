@@ -21,24 +21,21 @@ export function LogginEncargados() {
 
   const InicioSesion = async () => {
     try {
-      await axios
-        .get("http://localhost:3000/logginEnc/" + value1 + "/" + value2)
-        .then((res) => {
-          console.log("tiene loggin", res.data);
+      const response = await axios.get(
+        `http://localhost:3000/logginEnc/${value1}/${value2}`
+      );
+          if (response.data.error) {
 
-          if (res.data.length > 0) {
-            const cookies = new Cookies();
-            //cookies.set('Func_Id', res.data[0].Func_Id, {path: '/'});
-            // cookies.set('Rol_Id', res.data[0].Rol_Id, {path: '/'});
-            navegar("/InicioEnc");
+             Swal.fire('Error', 'Usuario o contraseña incorrectas');
+             
           } else {
-            Swal.fire("Error", "Usuario o contraseña incorrectas");
-          }
-        });
-    } catch (e) {
-      console.log(e);
+           const cookies = new Cookies();
+           navegar("/InicioEnc");
+         }
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }; 
 
   return (
     <div>

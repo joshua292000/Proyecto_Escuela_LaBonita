@@ -612,6 +612,10 @@ div.reset {
   color: black;
   font-weight: 700;
   max-width: 100%;
+  font-size: 30px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
   
 }
 

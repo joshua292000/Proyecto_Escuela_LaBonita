@@ -23,10 +23,12 @@ import { SubirPDF } from "./Paginas/SubirPDF";
 import { Horarios } from "./Paginas/Horarios";
 import { CrearUsu} from "./Paginas/CrearUsu";
 import { RecuperarContrasena } from "./Paginas/RecuperarContrasena";
+import { RecuperarContrasenaFuncionario } from "./Paginas/RecuperarContrasenaFuncionario";
 import {AsignarSeccion} from "./Paginas/AsignarSeccion";
 import {AsignarSeccionProfe} from "./Paginas/AsignarSecProfe";
 import InicioEnc from "./Paginas/InicioEnc";
 import DataViewDemo from "./Paginas/InfoProfesores";
+import { CrearUsuFuncionario } from "./Paginas/CrearUsuFuncionario";
 export function App() {
 return (
   <BrowserRouter>
@@ -50,7 +52,9 @@ return (
       <Route path="/SubirPDF" element={<SubirPDF />} />
       <Route path="/Horarios" element={<Horarios />} />
       <Route path="/CrearUsu" element={<CrearUsu />} />
+      <Route path="/CrearUsuFuncionario" element={<CrearUsuFuncionario />} />
       <Route path="/RecuperarContrasena" element={<RecuperarContrasena />} />
+      <Route path="/RecuperarContrasenaFuncionario" element={<RecuperarContrasenaFuncionario />} />
       <Route path="/Profesores" element={<DataViewDemo />} />
       <Route path="/AsignarSeccion" element={<AsignarSeccion/>} />
       <Route path="/AsignarSeccionProfe" element={<AsignarSeccionProfe/>}/>

@@ -46,20 +46,28 @@ export function ConstanciasCom() {
     };
 
     const OcultarBTNID = (e) => {
-        console.log("el combo ", e.target.value)
         setTipoConstancia(e.target.value);
 
         if (e.target.value === "T") {
             setVerComponentes(100);
             setVerBoton(true);
+            setCedula("");
+            setCircuito("");
+            setEscuela("");
+            setEstudiante("");
+            setRegional("");
         } else if (e.target.value === "E") {
             setVerBoton(true);
+            setVerComponentes(0);
+            setCedula("");
+            setCircuito("");
+            setEscuela("");
+            setEstudiante("");
+            
         }
     }
 
     const TipoPDF = () => {
-        console.log("el combo ", TipoConstancia)
-
         if (TipoConstancia === "T") {
             setVerPDF(!verPDF);
         } else if (TipoConstancia === "E") {
@@ -72,7 +80,7 @@ export function ConstanciasCom() {
     ];
     return (
         <div>
-            {" "}
+            {" "} 
             <div >
 
                 <div className="container" style={{
@@ -90,7 +98,7 @@ export function ConstanciasCom() {
                                         inputId="dropdown"
                                         name="Tipo de Constancia"
                                         id="TipoConstancia"
-                                        className="p-inputtext-sm block mb-2"
+                                        className="dropdown"
                                         value={TipoConstancia}
                                         options={TConstancia}
                                         placeholder="Elija un tipo de Constancia"
