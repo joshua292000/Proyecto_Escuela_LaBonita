@@ -143,6 +143,7 @@ export function InfoEstudianteMatricula() {
 
         }else{
             setState({ ...state, gradoSelec});
+            setGradoEst(gradoSelec);
         }
         
     }

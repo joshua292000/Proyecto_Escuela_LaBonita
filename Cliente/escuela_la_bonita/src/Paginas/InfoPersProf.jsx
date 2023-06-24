@@ -94,7 +94,7 @@ export default function Inicio() {
       && state.canton && state.distrito && state.direccion && state.sexo && state.lugarnacimiento && state.estadoCivil
       && stateCon.numTelefono && stateCon.cElectronico) {
       await agregarPersona({ state: state, setState: setState });
-      await agregarContacto({ cedula: state.cedula, tCotacto: "Teléfono", contacto: stateCon.numTelefono })
+      await agregarContacto({ cedula: state.cedula, tCotacto: "Telefono", contacto: stateCon.numTelefono })
       await agregarContacto({ cedula: state.cedula, tCotacto: "Correo", contacto: stateCon.cElectronico })
       await agregarFun({ state: state, setState: setState });
       onLoadingClick2();

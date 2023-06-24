@@ -56,6 +56,8 @@ export function ConstanciasCom() {
             setEscuela("");
             setEstudiante("");
             setRegional("");
+            setVerPDF(false);
+            setVerPDFM(false);
         } else if (e.target.value === "E") {
             setVerBoton(true);
             setVerComponentes(0);
@@ -63,6 +65,8 @@ export function ConstanciasCom() {
             setCircuito("");
             setEscuela("");
             setEstudiante("");
+            setVerPDFM(false);
+            setVerPDF(false);
             
         }
     }

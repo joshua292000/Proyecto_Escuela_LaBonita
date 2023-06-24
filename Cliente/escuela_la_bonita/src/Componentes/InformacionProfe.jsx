@@ -516,7 +516,7 @@ export function InfoProfesor(props) {
         listaMaterias();
         console.log("Perfil", state.Perfil)
         console.log("Error ", state.Error)
-        console.log("Materias", state.materia)
+        console.log("Materias", Materias)
     }, []);
 
 
@@ -533,7 +533,7 @@ export function InfoProfesor(props) {
         toast1.current.show({ severity: 'info', summary: 'Confirmación', detail: 'Usted ha aceptado', life: 3000 });
         agregarPersona({ state: state, setState: setState });
         agregarFun({ state: state, setState: setState });
-        agregarContacto({ cedula: state.cedula, tCotacto: "Teléfono", contacto: stateCon.numTelefono })
+        agregarContacto({ cedula: state.cedula, tCotacto: "Telefono", contacto: stateCon.numTelefono })
         agregarContacto({ cedula: state.cedula, tCotacto: "Correo", contacto: stateCon.cElectronico })
         //handleSubmit();
         onLoadingClick2();
