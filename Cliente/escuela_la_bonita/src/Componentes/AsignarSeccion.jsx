@@ -247,6 +247,7 @@ export function AsignarSecciones(){
     const cerrarModalMsj = () => {
         setVerModalMsj(false);
         if(icono){
+            //setEstudiantes([]);
             window.location.reload();
         }
     }
