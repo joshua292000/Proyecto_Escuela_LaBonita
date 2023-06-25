@@ -1,8 +1,4 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { infoEstudiante } from "../AppContext/providerEstudiante";
-import { infoEncargado } from '../AppContext/providerInfoEncargado';
-import { Matricula } from "../Persistencia/MatriculaService";
-import { ObtenerViajaCon, ObtenerPersonasViajaCon} from "../Persistencia/EstudianteService";
 import { Divider } from "primereact/divider";
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from "primereact/dropdown";
@@ -12,12 +8,17 @@ import { Calendar } from "primereact/calendar";
 import { Button } from 'primereact/button';
 import { ButtonSiguiente, Cargando, tiempoCargando } from "./Utils";
 import { addLocale } from 'primereact/api';
-
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
+
+import { infoEstudiante } from "../AppContext/providerEstudiante";
+import { infoEncargado } from '../AppContext/providerInfoEncargado';
+import { Matricula } from "../Persistencia/MatriculaService";
+import { ObtenerViajaCon, ObtenerPersonasViajaCon} from "../Persistencia/EstudianteService";
+import { crearObjetoDocumentoMatri } from "../Utils/CrearObjetoDocumentoMatri";
 
 
 export function InfoEstudianteMatricula() {
@@ -123,10 +124,11 @@ export function InfoEstudianteMatricula() {
     }
     const cerrarModalMsjMatricula = () => {
         setVerModalMatri(false);
-        if(matriCorrecta){
+        
+        /*if(matriCorrecta){
             window.location.href = '/Informacionpersonal';
  
-        }
+        }*/
     }
 
     const validarGradoSeleccionado = (gradoSelec) =>{
@@ -150,7 +152,7 @@ export function InfoEstudianteMatricula() {
 
     const obtenerAcompaniantes = async () =>{
         let acom =  await ObtenerPersonasViajaCon(state.id);
-        let est =  { ...state};
+        let est =  {...state};
         let datos = [];
         let subAcom;
         // tiene acompañantes ya registados. Si el tamaño es > 1 tiene uno o más acompañantes
@@ -254,7 +256,7 @@ export function InfoEstudianteMatricula() {
                 }
 
             } else {
-                msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'feiled', summary: 'Se produjo un problema', detail: 'Acompañante NO Registrado', life: 2500 });
+                msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'error', summary: 'Se produjo un problema', detail: 'Acompañante NO Registrado', life: 2500 });
             }
             setState({...state, acompaniante : datos});
             setVerModal(false);
@@ -270,7 +272,7 @@ export function InfoEstudianteMatricula() {
                 datos[index].estado = 'I';
                 msjEmergente.current.show({ severity: 'success', summary: 'Confirmación', detail: 'Encargado borrado correctamente', life: 3000 });
             } else {
-                msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'feiled', summary: 'Se produjo un problema', detail: 'Encargado NO eliminado', life: 3000 });
+                msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'error', summary: 'Se produjo un problema', detail: 'Encargado NO eliminado', life: 3000 });
             }
             setState({...state, acompaniante : datos});
             setAcompanianteEdit(datosVacios);
@@ -302,6 +304,8 @@ export function InfoEstudianteMatricula() {
                         setVerCargando(true);
                         respuesta = await Matricula(state, encargado);
                         if(respuesta === null){
+                            //funcion para crear el objeto para el documento de matrícula
+                            crearObjetoDocumentoMatri(state, encargado);
                             //El timeout es para mostar la modal de cargando por 1/2 segundo
                             setTimeout(()=>{
                                 setMsjModal("Estudiante matrículado correctamente");
@@ -324,12 +328,14 @@ export function InfoEstudianteMatricula() {
     
                         console.log("entro4", respuesta);
                     }else{
-                        msjEmergente.current.show({ severity: 'feiled', summary: 'Datos requeridos', detail: 'Es necesario agregar al menos un acompañante', life: 3000 });
+                        msjEmergente.current.show({ severity: 'error', summary: 'Datos requeridos', detail: 'Es necesario agregar al menos un acompañante', life: 3000 });
                     }
                 }else{
                     setVerCargando(true);
                     respuesta = await Matricula(state, encargado);
                     if(respuesta === null){
+                        //funcion para crear el objeto para el documento de matrícula
+                        crearObjetoDocumentoMatri(state, encargado);
                         //El timeout es para mostar la modal de cargando por 1/2 segundo
                         setTimeout(()=>{
                             setMsjModal("Estudiante matrículado correctamente");
@@ -350,10 +356,10 @@ export function InfoEstudianteMatricula() {
 
                 }
             }else{
-                msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'feiled', summary: 'Campos requeridos', detail: 'Es necesario completar todos los campos requeridos', life: 3000 });
+                msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'error', summary: 'Campos requeridos', detail: 'Es necesario completar todos los campos requeridos', life: 3000 });
             }
         }else{
-            msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'feiled', summary: 'Campos requeridos', detail: 'Es necesario completar todos los campos requeridos', life: 3000 });
+            msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'error', summary: 'Campos requeridos', detail: 'Es necesario completar todos los campos requeridos', life: 3000 });
         }
 
     }
@@ -782,7 +788,7 @@ export function InfoEstudianteMatricula() {
                                                 onKeyDown={(event)=>compoSiguente(event, 0)}
                                                 style={{ width: '30px' }}
                                                 id="cedula"
-                                                className={ requerido && !acompanianteEdit.cedula ? 'p-invalid'  : "p-inputtext-sm mb-2"}
+                                                className={ requerido && !acompanianteEdit.cedula ? 'p-invalid': "p-inputtext-sm mb-2"}
                                                 value={acompanianteEdit.cedula}
                                                 autoFocus
                                                 keyfilter = {/^[^\s]+$/}

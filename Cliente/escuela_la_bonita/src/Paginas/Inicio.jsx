@@ -208,7 +208,7 @@ return (
       onClick={() => navegar("/Informacionpersonal")}> 
         <img src={Matricula} className="card-img-top" alt="Imagen 1" />
         <div className="card-body">
-          <h5 className="card-title text-center" style={{fontSize: "25px"}}> Matricula</h5>
+          <h5 className="card-title text-center" style={{fontSize: "25px"}}> Matrícula</h5>
         </div>
     </div> 
    

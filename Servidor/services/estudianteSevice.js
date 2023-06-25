@@ -21,7 +21,7 @@ const InsertarEstudiante = (request, response) => {
             response.status(200).json(results[1]);
         }
     });
-    console.log(request.body);
+    //console.log(request.body);
    // console.log(cedula, viaja, poliza, vencePoliza, imas, grado, adecuacion, descripcion, seccion);
 };
 

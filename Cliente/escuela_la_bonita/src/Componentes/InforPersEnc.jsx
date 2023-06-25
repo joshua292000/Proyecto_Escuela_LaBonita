@@ -361,7 +361,7 @@ export function InfoEncargado() {
                             <DataTable ref={dt} value={encargado.filter((val) => val.estado === 'A') } responsiveLayout="scroll" >
                                 <Column field="cedula" header="Cédula" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column field={(dt)=>{return dt.pNombre +" "+ dt.pApellido}} header="Nombre completo" sortable style={{ minWidth: '12rem' }}></Column>
-                                <Column field="telefono" header="Telefono" sortable style={{ minWidth: '12rem' }}></Column>
+                                <Column field="telefono" header="Teléfono" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column field="correo" header="Correo" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column body={btnsColmDercTabla} exportable={false} style={{ minWidth: '8rem' }}></Column>
                             </DataTable>
