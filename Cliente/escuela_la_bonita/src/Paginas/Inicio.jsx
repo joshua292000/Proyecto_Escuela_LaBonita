@@ -1,4 +1,3 @@
-import { ButtonSiguiente } from "../Componentes/Utils";
 import { useNavigate } from "react-router-dom";
 import "../style.css";
 import "../Estilos.css"
@@ -15,9 +14,6 @@ import AsignarSeccionProfe from "../Recursos/AsignarSeccionProfe.png";
 
 import { Header } from "../Componentes/Cabecera";
 import React, { Component } from 'react';
-import { Card } from 'primereact/card';
-import { within } from "@testing-library/react";
-import { Tooltip } from 'primereact/tooltip';
 
 export default function Inicio() {
   const cookies = new Cookies();

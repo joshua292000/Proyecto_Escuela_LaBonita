@@ -1,6 +1,6 @@
 import "../style.css";
 import "../Estilos.css";
-import "../EstiloTablaPDF.scss"
+//import "../EstiloTablaPDF.scss"
 import { Header } from "../Componentes/Cabecera";
 import axios from "axios";
 import React, { useState } from "react";
