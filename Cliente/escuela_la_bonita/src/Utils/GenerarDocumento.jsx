@@ -9,6 +9,7 @@ export const generarDocumento = async (plantilla, datos, nombreSalida) =>{
         const content = response.data;
         const zip = new PizZip(content);
           const doc = new Docxtemplater().loadZip(zip);
+          console.log("datos en la funcion lleva : ", datos);
           
           doc.setData(datos);
           

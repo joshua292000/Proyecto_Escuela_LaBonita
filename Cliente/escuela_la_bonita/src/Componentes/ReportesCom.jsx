@@ -1,7 +1,5 @@
 import Cookies from "universal-cookie";
 import React, { useRef, useState, useEffect } from "react";
-import ReactPDF, { PDFViewer, } from "@react-pdf/renderer";
-import ConstanciaPDF from "../Componentes/ConstanciaPDF";
 import { Obtener_Secciones, ObtenerAusencias, Obtener_Materias, ObtenerAsistenciaIndividual } from "../Persistencia/FuncionarioService";
 import { BusquedaCedula } from "../Persistencia/FuncionarioService";
 import { InputText } from "primereact/inputtext";
@@ -9,9 +7,13 @@ import { Button } from "primereact/button";
 
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
-import ReportePDF from "../Componentes/ReportePDF";
-import ReportePDFI from "../Componentes/ReporteIndividualPDF"
+
 import { Divider } from 'primereact/divider';
+
+import { generarDocumento } from "../Utils/GenerarDocumento";
+import{getCurrentDate} from '../Utils/ObtenerFechaActual'
+import{ConvertirFechaATexto} from '../Utils/ObtenerFechaActual'
+import { Obtener_Persona_Rol } from "../Persistencia/FuncionarioService";
 
 export function ReporteCom() {
 
@@ -47,6 +49,8 @@ export function ReporteCom() {
 
     const [estudiante, setEstudiante] = useState([]);
 
+    const [funcionario, setFuncionario] = useState([]);
+
     window.myGlobalSeccion = secciones.grado + " " + secciones.seccion;
 
     useEffect(() => {
@@ -59,8 +63,14 @@ export function ReporteCom() {
             setMaterias(res);
         };
 
+        const ObtenerDatosFuncionario = async ()=>{
+            const res = await Obtener_Persona_Rol()
+            setFuncionario(res)
+          }
+
         ObtenerDatos();
         ObtenerMateria();
+        ObtenerDatosFuncionario();
     }, []);
 
 
@@ -72,30 +82,29 @@ export function ReporteCom() {
     };
 
     const ObtenerAsistenciaInd = async () => {
-
         const res = await ObtenerAsistenciaIndividual({ FechaIni: FechaInicial.toLocaleDateString("en-CA"), FechaFin: FechaFinal.toLocaleDateString("en-CA"), Identificacion: cedula, Grado: secciones.grado, Seccion: secciones.seccion, Materia: materia });
-        console.log("individual ", res)
         setDatos(res)
+        setVerBotonPDF(true);
     };
 
     const ObtenerEstudiante = async () => {
         const res = await BusquedaCedula(cedula);
-        setVerBotonPDF(true);
         setEstudiante(res);
+        ObtenerAsistenciaInd();
+
     };
 
     const OcultarBTNID = (e) => {
-        console.log("el combo ", e.target.value)
         setTipoReporte(e.target.value);
 
         if (e.target.value === "I") {
-
             setVerBotonID(100);
         } else if (e.target.value === "G") {
             setVerBoton(true);
         }
     }
 
+   
 
     const selectedCountryTemplate = (option, props) => {
         if (option) {
@@ -122,7 +131,6 @@ export function ReporteCom() {
         );
     }
 
-    console.log("datos trae ", datos)
 
     const tipoReporte = [
         { name: 'Reporte Grupal', code: 'G' },
@@ -130,12 +138,42 @@ export function ReporteCom() {
     ];
 
     const TipoPDF = () => {
-
+      
         if (TipoReporte === "G") {
-            setVerPDF(!verPDF)
+            const datosR = 
+            {
+                año: getCurrentDate(),
+                seccion: secciones.grado + " " + secciones.seccion,
+                fecha:ConvertirFechaATexto(),
+                directora: funcionario.map((func)=>{return func.PNombre +' '+func.SNombre+' '+func.PApellido+' '+func.SApellido})
+            };
+            datosR.datos = datos.map((dato) => ({
+            cedula: dato.Identificacion,
+            nombre: `${dato.PNombre} ${dato.SNombre} ${dato.PApellido} ${dato.SApellido}`,
+            presente: dato.Asistencia,
+            justificada: dato.Ausencia,
+            injustificada: dato.Ausencia_Justificada
+            }));
+
+        generarDocumento("REPORTEGRUPAL.docx", datosR, "Reporte de asistencia grupal")
+
         } else if (TipoReporte === "I") {
-            ObtenerAsistenciaInd()
-            setVerPDFI(!verPDFI)
+            
+            console.log("atraso de datos", datos);
+            const datosR = 
+            {
+                año: getCurrentDate(),
+                seccion: secciones.grado + " " + secciones.seccion,
+                nombre: `${datos[0].PNombre} ${datos[0].SNombre} ${datos[0].PApellido} ${datos[0].SApellido}`,
+                cedula: datos[0].Identificacion,
+                presente: datos[0].Asistencia,
+                justificada: datos[0].Ausencia,
+                injustificada: datos[0].Ausencia_Justificada,
+                fecha:ConvertirFechaATexto(),
+                directora: funcionario.map((func)=>{return func.PNombre +' '+func.SNombre+' '+func.PApellido+' '+func.SApellido})
+            };
+
+        generarDocumento("REPORTEINDIVIDUAL.docx", datosR, "Reporte de asistencia individual")
         }
     }
     return (
@@ -186,7 +224,9 @@ export function ReporteCom() {
                                     value={FechaInicial}
                                     onChange={(e) =>
                                         setFechaInicial(e.target.value)}
-                                    showIcon />
+                                    showIcon 
+                                    touchUI
+                                    />
                             </div>
                         </div>
 
@@ -216,7 +256,7 @@ export function ReporteCom() {
                                     optionValue="code"
                                     options={tipoReporte}
                                     onChange={OcultarBTNID}
-                                    placeholder="Seleccione la materia"
+                                    placeholder="Seleccione el reporte"
                                 />
                             </div>
                         </div>
@@ -224,7 +264,7 @@ export function ReporteCom() {
                             <label><b>Digite el número de cédula:</b></label>
                             <div className="p-inputgroup" style={{ width: '70%', backgroundPosition: "center" }}>
                                 <InputText
-                                    id="inputtext"
+                                    id="inputtext" 
                                     keyfilter="num"
                                     className=" block mb-2"
                                     value={cedula}
@@ -254,31 +294,11 @@ export function ReporteCom() {
 
                         <div className="col-sm">
                             <Button className="p-button-warning p-button-sm" style={{ transform: " translateY(29px)" }} visible={verBotonPDF} onClick={TipoPDF}>
-                                Generar PDF
+                                Generar Reporte
                             </Button>
                         </div>
                     </div>
                     <Divider align="left" ></Divider>
-                    <div className="row">
-                        <div className="col-sm">
-                            <div style={{ minHeight: "100%" }}>
-                                {datos ? (
-                                    <>
-                                        {verPDF ? (
-                                            <PDFViewer style={{ width: "100%", height: "200vh" }}>
-                                                <ReportePDF dato={datos} />
-                                            </PDFViewer>
-                                        ) : null}
-                                        {verPDFI ? (
-                                            <PDFViewer style={{ width: "100%", height: "200vh" }}>
-                                                <ReportePDFI dato={datos} />
-                                            </PDFViewer>
-                                        ) : null}
-                                    </>
-                                ) : null}
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>

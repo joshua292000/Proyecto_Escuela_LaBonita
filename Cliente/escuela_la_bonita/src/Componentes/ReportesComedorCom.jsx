@@ -1,11 +1,10 @@
 import Cookies from "universal-cookie";
 import React, { useRef, useState, useEffect } from "react";
-import ReactPDF, { PDFViewer, } from "@react-pdf/renderer";
+//import ReactPDF, { PDFViewer, } from "@react-pdf/renderer";
 import { AsistenciaComedor } from "../Persistencia/FuncionarioService";
 import { Button } from "primereact/button";
 
 import { Calendar } from 'primereact/calendar';
-import ReporteComedorPDF from "../Componentes/ReporteComedorPDF";
 
 export function ReporteComedorCom() {
 
@@ -70,15 +69,7 @@ export function ReporteComedorCom() {
                     <div className="row">
                         <div className="col-sm">
                             <div style={{ minHeight: "100%" }}>
-                                {datos ? (
-                                    <>
-                                        {verPDF ? (
-                                            <PDFViewer style={{ width: "100%", height: "200vh" }}>
-                                                <ReporteComedorPDF dato={datos} />
-                                            </PDFViewer>
-                                        ) : null}
-                                    </>
-                                ) : null}
+                               
                             </div>
                         </div>
                     </div>

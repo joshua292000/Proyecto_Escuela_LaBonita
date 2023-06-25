@@ -1,16 +1,16 @@
 import Cookies from "universal-cookie";
-import React, { useRef, useState, useEffect } from "react";
-import ReactPDF, { PDFViewer, } from "@react-pdf/renderer";
-import ConstanciaPDF from "../Componentes/ConstanciaPDF";
+import React, { useState, useEffect } from "react";
 import { Obtener_Secciones } from "../Persistencia/FuncionarioService";
 import { BusquedaCedula } from "../Persistencia/FuncionarioService";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import ConstanciaMatriculaPDF from "../Componentes/ConstanciaMatriculaPDF";
 import { Dropdown } from 'primereact/dropdown';
+import { generarDocumento } from "../Utils/GenerarDocumento";
+import{getCurrentDate} from '../Utils/ObtenerFechaActual'
+import{ConvertirFechaATexto} from '../Utils/ObtenerFechaActual'
+import { Obtener_Persona_Rol } from "../Persistencia/FuncionarioService";
 
 export function ConstanciasCom() {
-    const cookies = new Cookies();
 
     const [cedula, setCedula] = useState("");
 
@@ -32,12 +32,18 @@ export function ConstanciasCom() {
 
     const [verPDFM, setVerPDFM] = React.useState(false);
 
-    const [verBotonPDFM, setVerBotonPDFM] = React.useState(false);
+    //const [verBotonPDFM, setVerBotonPDFM] = React.useState(false);
 
-    window.myGlobalEscuela = escuela;
-    window.myGlobalRegional = regional;
-    window.myGlobalCircuito = circuito;
+    const [funcionario, setFuncionario] = useState([]);
 
+
+    useEffect(() => {
+        const ObtenerDatosFuncionario = async ()=>{
+          const res = await Obtener_Persona_Rol()
+          setFuncionario(res)
+        }
+        ObtenerDatosFuncionario();
+  },[]);
 
     const ObtenerEstudiante = async () => {
         const res = await BusquedaCedula(cedula);
@@ -72,10 +78,31 @@ export function ConstanciasCom() {
     }
 
     const TipoPDF = () => {
-        if (TipoConstancia === "T") {
-            setVerPDF(!verPDF);
+        if (TipoConstancia === "T") 
+        {
+            const datos = 
+                {
+                    nombre: estudiante[0].PNombre +" "+ estudiante[0].SNombre +" "+ estudiante[0].PApellido +" "+ estudiante[0].SApellido,
+                    cedula: estudiante[0].Identificacion,
+                    año: getCurrentDate(),
+                    escuela: escuela ,
+                    regional: regional,
+                    circuito: circuito,
+                    fecha:ConvertirFechaATexto(),
+                    directora: funcionario.map((func)=>{return func.PNombre +' '+func.SNombre+' '+func.PApellido+' '+func.SApellido})
+                }
+            generarDocumento("TRASLADO.docx", datos, "Constancia de traslado") 
+
         } else if (TipoConstancia === "E") {
-            setVerPDFM(!verPDFM);
+            const datos = 
+                {
+                    nombre: estudiante[0].PNombre +" "+ estudiante[0].SNombre +" "+ estudiante[0].PApellido +" "+ estudiante[0].SApellido,
+                    cedula: estudiante[0].Identificacion,
+                    año: getCurrentDate(),
+                    fecha:ConvertirFechaATexto(),
+                    directora: funcionario.map((func)=>{return func.PNombre +' '+func.SNombre+' '+func.PApellido+' '+func.SApellido})
+                }
+            generarDocumento("CONSTANCIAMATRICULA.docx", datos, "Constancia de matricula") 
         }
     }
     const TConstancia = [
@@ -83,7 +110,6 @@ export function ConstanciasCom() {
         { name: 'Constancia de Estudio', code: 'E' }
     ];
 
-      
 
     return (
         <div>
@@ -141,7 +167,7 @@ export function ConstanciasCom() {
                                         className="p-button-warning"
                                         onClick={() => {
                                             ObtenerEstudiante()
-                                            console.log("Hola ", estudiante)
+                                           
                                         }}
                                     />
 
@@ -211,33 +237,12 @@ export function ConstanciasCom() {
                     <div className="row justify-content-center">
                         <div className="col-4">
                             <Button className="p-button-warning" visible={verBoton} onClick={TipoPDF}>
-                                Cargar PDF
+                                Descargar Constancia
                             </Button>
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-sm">
-                            <div className="PDF" >
-                                <div style={{ minHeight: "100%" }}>
-                                    {estudiante ? (
-                                        <>
-                                            {verPDF ? (
-                                                <PDFViewer style={{ width: "100%", height: "200vh" }}>
-                                                    <ConstanciaPDF estudiante={estudiante} />
-                                                </PDFViewer>
-                                            ) : null}
-                                            {verPDFM ? (
-                                                <PDFViewer style={{ width: "100%", height: "200vh" }}>
-                                                    <ConstanciaMatriculaPDF estudiante={estudiante} />
-                                                </PDFViewer>
-                                            ) : null}
-                                        </>
-                                    ) : null}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    
                 </div>
             </div>
         </div>
