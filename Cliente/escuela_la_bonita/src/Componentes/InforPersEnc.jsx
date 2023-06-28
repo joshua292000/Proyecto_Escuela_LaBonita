@@ -52,8 +52,8 @@ export function InfoEncargado() {
     const [Can, setCanton] = useState([]);
     const [Dis, setDistrito] = useState([]);
     const Estado = [
-        { name: 'Soltero', code: 'S' },
-        { name: 'Casado', code: 'C' },
+        { name: 'Soltero(a)', code: 'S' },
+        { name: 'Casado(a)', code: 'C' },
         { name: 'Unión libre', code: 'U' },
         { name: 'Divorciado(a)', code: 'D' },
         { name: 'Viudo(a)', code: 'V' },
@@ -87,6 +87,7 @@ export function InfoEncargado() {
     const [requerido, setRequerido] = useState(false);
     const [correoValido, setCorreoValido] = useState(true);
     const [verCargando, setVerCargando] = useState(false);
+    const [fecha, setFecha] = useState();
 
     const navegar = useNavigate();
     const inputRefs = [
@@ -109,6 +110,7 @@ export function InfoEncargado() {
         Pais.getPais().then(data => setCountries(data));
         Provincia.getProvincia().then(data => setProvincia(data));
 
+        //consulta por los encargados si es un estudiante ya registrado
         if(encargado.length === 0 && "id" in estu){
             const consultarEncargado = async () => {
                 const res = await ObtenerEncargadosEstu({ idEst: parseInt(estu.id) });
@@ -116,10 +118,10 @@ export function InfoEncargado() {
                 setEncargado(data);
             }
             consultarEncargado();
-
         }
         
     }, [])
+
     useEffect(()=>{
         setCorreoValido(validarCorre());
 
@@ -202,6 +204,7 @@ export function InfoEncargado() {
             setEncargado(datos);
             setVerModal(false);
             setEncarEdit(datosVacios);
+            setFecha();
         }
     }
     const buscarXId = (cd) => {
@@ -227,6 +230,7 @@ export function InfoEncargado() {
 
     const editarEncargado = (data) => {
         setEncarEdit({ ...data });
+        setFecha(new Date(data.fechaNaci));
         setVerModal(true);
     }
 
@@ -255,16 +259,17 @@ export function InfoEncargado() {
     const cerrarModal = () => {
         setVerModal(false);
         setRequerido(false);
+        setFecha();
     }
 
     const cerrarModalBorrar = () => {
         setBorrarEnc(false);
     }
 
-    const cerrarModalMsj = () => {
+    const cerrarModalMsj = async () => {
         setVerModalMsj(false);
         setVerModal(true);
-        document.getElementById("cedula").focus();
+        //document.getElementById("cedu").focus();
     }
 
     const datosDeEntrada = (e, name) => {
@@ -296,7 +301,7 @@ export function InfoEncargado() {
             event.preventDefault();
             setVerModalMsj (false);
             setVerModal(true);
-            document.getElementById("cedula").focus();
+            //document.getElementById("cedula").focus();
         }
     }
 
@@ -358,7 +363,8 @@ export function InfoEncargado() {
                     <div className="col">
                         <div className="card">
                             <Toolbar className="mb-4" left={btnAgregarEncIzquierdo}></Toolbar>
-                            <DataTable ref={dt} value={encargado.filter((val) => val.estado === 'A') } responsiveLayout="scroll" >
+                            <DataTable ref={dt} value={encargado.filter((val) => val.estado === 'A') } responsiveLayout="scroll" 
+                                        emptyMessage = "No hay datos para mostar. Ingrese encargados">
                                 <Column field="cedula" header="Cédula" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column field={(dt)=>{return dt.pNombre +" "+ dt.pApellido}} header="Nombre completo" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column field="telefono" header="Teléfono" sortable style={{ minWidth: '12rem' }}></Column>
@@ -409,11 +415,12 @@ export function InfoEncargado() {
                                             onKeyDown={(event)=>compoSiguente(event,0)}
                                             style={{ width: '30px' }}
                                             id="cedula"
-                                            keyfilter = {/^[^\s]+$/}
+                                            keyfilter = {/^[a-zA-Z0-9]*$/}
                                             maxLength={45}
+                                            autoFocus
                                             className= { requerido && !encarEdit.cedula ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             value={encarEdit.cedula}
-                                            autoFocus
+                                            
                                             onChange={(e) =>
                                                 datosDeEntrada(e, 'cedula')}
                                             required />
@@ -437,11 +444,14 @@ export function InfoEncargado() {
                                     <Calendar
                                         className=  { requerido && !encarEdit.fechaNaci ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         inputId="calendar" id="fnacimiento"
-                                        value={new Date(encarEdit.fechaNaci)}
+                                        value={fecha}
                                         locale="es"
                                         required
-                                        onChange={(e) =>
-                                            setEncarEdit({ ...encarEdit, fechaNaci: e.value.toLocaleDateString('en-ZA')})}
+                                        onChange={(e) =>{
+                                            setEncarEdit({ ...encarEdit, fechaNaci: e.value.toLocaleDateString('en-ZA')});
+                                            setFecha(new Date(e.value));
+                                            }
+                                        }
                                         showIcon 
                                         style={{height: '45px'}}/>
                                     {requerido && !encarEdit.fechaNaci && <small className="p-error">Fecha de nacimiento es requerido</small>}

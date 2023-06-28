@@ -365,7 +365,7 @@ export function AsignarSecciones(){
                             <div className="card" >
                                 <Toolbar className="mb-4" left={btnAgregarSecIzquierdo} right={btnEliminarSecDerecho}></Toolbar>
                                 <DataTable value={estudiantes} ref={dt}  responsiveLayout="scroll" 
-                                 emptyMessage = "No hay datos para mostar. Selecciona un grado y cargue los datos" >
+                                 emptyMessage = "No hay datos para mostar. Seleccione un grado y cargue los datos">
                                     <Column  field="numero" style={{ minWidth: '2rem' }}></Column>
                                     <Column  field="cedula" header="Cédula" style={{ minWidth: '8rem' }}></Column>
                                     <Column  field="nombre" header="Nombre" style={{ minWidth: '12rem' }}></Column>

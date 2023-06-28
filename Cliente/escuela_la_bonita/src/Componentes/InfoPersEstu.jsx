@@ -19,7 +19,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export function InfoPersonal() {
    const [state, setState] = useContext(infoEstudiante);
- // const [state, setState] = useState({});
   const Distrito = new DistritoService();
   const Canton = new CantonService();
   const Provincia = new ProvinciaService();
@@ -32,13 +31,19 @@ export function InfoPersonal() {
   const [verModalMsj, setVerModalMsj] = useState(false);
   const [verCargando, setVerCargando] = useState(false);
   const navegar = useNavigate();
+  const [fecha, setFecha] = useState('');
 
   const msjEmergente = useRef(null);
 
   useEffect(() => {
       Pais.getPais().then(data => setCountries(data));
       Provincia.getProvincia().then(data => setProvincia(data));
+
+      //Se precarga la privincia y canton si se fuera a insertar un estudiante nuevo
+      setState({...state, provincia : "San José", canton: "Pérez Zeledón"});
   }, []);
+
+
 
  console.log("estu", state);
   useEffect(() => {
@@ -76,7 +81,7 @@ export function InfoPersonal() {
             state.lugarNacimiento){
             navegar("/informacionencargado");
         }else{
-            msjEmergente.current.show({  severity: 'warn', summary: 'Campos requeridos', detail: 'Es necesario completar todos los campos requeridos', life: 3000});
+            msjEmergente.current.show({  severity: 'error', summary: 'Campos requeridos', detail: 'Es necesario completar todos los campos requeridos', life: 3000});
         }
 
     }
@@ -110,6 +115,7 @@ export function InfoPersonal() {
             setTimeout(()=>{
                 setVerCargando(false); 
                 setState(res);
+                setFecha(new Date(res.fechaNaci));
             }, tiempoCargando);
             //setState(res);
             
@@ -164,7 +170,7 @@ export function InfoPersonal() {
                             onKeyDown={(event)=>compoSiguente(event,0)}
                                 style={{ width: '30px' }}
                                 id="cedula"
-                                keyfilter = {/^[^\s]+$/}
+                                keyfilter = {/^[a-zA-Z0-9]*$/}
                                 maxLength={45}
                                 className={requerido && !state.cedula ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                 value={state.cedula ? state.cedula :''}
@@ -190,12 +196,14 @@ export function InfoPersonal() {
                         <Calendar
                             className={requerido && !state.fechaNaci ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                             inputId="calendar" id="fnacimiento"
-                            value={new Date(state.fechaNaci)} 
                             dateFormat="dd-mm-yy"  
-                            locale="es"      
+                            value={fecha} 
+                            locale="es"     
                             required                     
-                            onChange={(e) =>
-                                setState({ ...state, fechaNaci: e.value.toLocaleDateString('en-ZA')})}
+                            onChange={(e) =>{
+                                setState({ ...state, fechaNaci: e.value.toLocaleDateString('en-ZA')})
+                                setFecha(new Date(e.value));
+                            }}
                             showIcon
                             />      
                         </div>

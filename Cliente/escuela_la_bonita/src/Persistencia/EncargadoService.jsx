@@ -7,7 +7,7 @@ export const agregarEncargado = async(props) => {
         console.log("AgregarEncargado");
         const res = await axios.post('http://localhost:3000/insertarEncargado', props);
         console.log(res.data); 
-        if(res.data[0].error != null){//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
+        if(res.data[0].error !== null){//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
             console.log("error", res.data[0].error);
             return 'Error'
         }

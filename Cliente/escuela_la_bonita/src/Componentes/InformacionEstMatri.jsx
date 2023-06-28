@@ -72,6 +72,7 @@ export function InfoEstudianteMatricula() {
     const [verCargando, setVerCargando] = useState(false);
     const [gradoEstAnte, setGradoEstAnte] = useState("");//almacena el grado anterior del estudiante a matricular(grado de la matrícula pasada)
     const [gradoEst, setGradoEst] = useState("");//almacena el grado actual a matricular del estudiante
+    const [fecha, setFecha] = useState();
 
     const msjEmergente = useRef(null);
     const dt = useRef(null);
@@ -95,10 +96,11 @@ export function InfoEstudianteMatricula() {
         if(state.poliza === "S"){
             setVerCanlendario(true);
         }
-        if(state.viaja === "A"){
+        /*if(state.viaja === "A"){
             setVerTabla(true);
-        }
+        }*/
         setGradoEstAnte(state.grado);
+        setFecha('vencePoliza' in state? new Date(state.vencePoliza):'');
 
     },[])
     console.log("estu", state, gradoEst);
@@ -150,6 +152,7 @@ export function InfoEstudianteMatricula() {
         
     }
 
+    //consulta por los acompañantes de un estudiante ya registrado y se carga la informacion si la hay
     const obtenerAcompaniantes = async () =>{
         let acom =  await ObtenerPersonasViajaCon(state.id);
         let est =  {...state};
@@ -157,6 +160,8 @@ export function InfoEstudianteMatricula() {
         let subAcom;
         // tiene acompañantes ya registados. Si el tamaño es > 1 tiene uno o más acompañantes
         if(acom.length > 1){
+            //por el tipo de consulta puede que retorne un array de tamaño 3, no va se superior a eso,
+            //si es de tamaño es 3 quiere decir que trae registros de dos tablas distintas.
             if(acom.length === 3){
                 for (let i=0; i < acom.length-1; i++) {
                      subAcom = acom[i];
@@ -180,7 +185,7 @@ export function InfoEstudianteMatricula() {
 
     const crearAcompaniante= ()=>{
         let datos = {...state}
-        let acom = {};
+        /* let acom = {};
         let dt = [];
         encargado.forEach(element =>{
             acom.cedulaEst = state.cedula;
@@ -192,8 +197,8 @@ export function InfoEstudianteMatricula() {
             acom.estado = element.estado;
             dt.push(acom);
             acom = {};
-        });
-        datos.acompaniante = dt;
+        });*/
+        datos.acompaniante = [];
         setState(datos);
     }
 
@@ -298,8 +303,8 @@ export function InfoEstudianteMatricula() {
         if(gradoEst && state.adecuacion && state.poliza && state.imas && state.viaja){
             if(state.poliza !=="S" || state.vencePoliza){
                 if(state.viaja ==="A"){
-                    let estado = state.acompaniante.some(obj => obj.estado === "A");
-                    if(estado){
+                    //let estado = state.acompaniante.some(obj => obj.estado === "A");
+                    //if(estado){
                         //hace matrícula
                         setVerCargando(true);
                         respuesta = await Matricula(state, encargado);
@@ -327,9 +332,9 @@ export function InfoEstudianteMatricula() {
                         }
     
                         console.log("entro4", respuesta);
-                    }else{
-                        msjEmergente.current.show({ severity: 'error', summary: 'Datos requeridos', detail: 'Es necesario agregar al menos un acompañante', life: 3000 });
-                    }
+                    //}else{
+                        //msjEmergente.current.show({ severity: 'error', summary: 'Datos requeridos', detail: 'Es necesario agregar al menos un acompañante', life: 3000 });
+                    //}
                 }else{
                     setVerCargando(true);
                     respuesta = await Matricula(state, encargado);
@@ -503,22 +508,18 @@ export function InfoEstudianteMatricula() {
                         </div>
                         <div className="col-sm-4">
                             <div className="field">
-                                <label for="descripcionAdecuacion">
+                                <label htmlFor="descripcionAdecuacion">
                                     <b>Descripción de adecuación:</b>
                                 </label>
                                 <br></br>
                                 <InputTextarea
                                     type="text"
                                     className="p-inputtext-sm mb-2"
-                                    value={state.descripcion}
+                                    value={state.descripcion === null ? '' : state.descripcion}
                                     autoResize
                                     maxLength={150}
                                     onChange={(e) =>
-                                        setState({
-                                            ...state,
-                                            descripcion: e.target.value,
-                                        })
-                                    }
+                                        setState({...state,descripcion: e.target.value})}
                                     rows={5}
                                     style={{width: '80%' }}
                                     required
@@ -587,9 +588,12 @@ export function InfoEstudianteMatricula() {
                                 <Calendar
                                     className={req && !state.vencePoliza && state.poliza === 'S' ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                     id="icon"
-                                    value={new Date(state.vencePoliza)}
+                                    value={fecha}
                                     locale="es"
-                                    onChange={(e) => setState({ ...state, vencePoliza: e.value.toLocaleDateString('en-ZA') })}
+                                    onChange={(e) =>{
+                                                setState({ ...state, vencePoliza: e.value.toLocaleDateString('en-ZA') })
+                                                setFecha(new Date(e.value));
+                                              }}
                                     showIcon
                                     dateFormat="yy-mm-dd"
                                 />
@@ -669,7 +673,7 @@ export function InfoEstudianteMatricula() {
                                 checked={state.viaja === "S"}
                                 id="solo"
                                 name="viaja"
-                                onChange={(e) => {setState({ ...state, viaja: 'S' }); setVerTabla(false);}}
+                                onChange={(e) => {setState({ ...state, viaja: 'S' });}}
                             />
                             <label htmlFor="viaja" style={{ transform: "translate(10px,7px)" }}>
                                 <b>Solo</b>
@@ -683,7 +687,7 @@ export function InfoEstudianteMatricula() {
                                 checked={state.viaja === "A"}
                                 id="acompañado"
                                 name="viaja"
-                                onChange={(e) => {setState({ ...state, viaja: 'A' }); setVerTabla(true)}}
+                                onChange={(e) => {setState({ ...state, viaja: 'A' });}}
                             />
                             <label
                                 htmlFor="viaja2"
@@ -699,8 +703,7 @@ export function InfoEstudianteMatricula() {
                             </div>
                         </div>
                     </div>
-                    
-                    {verTabla && 
+
                     <div className="container">
                         <Divider align="left"></Divider>
                          <Toast ref={msjEmergente} />
@@ -714,9 +717,10 @@ export function InfoEstudianteMatricula() {
                                 <div className="col">
                                     <div className="card">
                                         <Toolbar className="mb-4" left={btnAgregarViajaIzquierdo}></Toolbar>
-                                        <DataTable value={state.acompaniante ? state.acompaniante.filter((val) => val.estado === 'A') : null} ref={dt}  responsiveLayout="scroll" >
+                                        <DataTable value={state.acompaniante ? state.acompaniante.filter((val) => val.estado === 'A') : null} ref={dt}  responsiveLayout="scroll"
+                                                    emptyMessage = "No hay datos para mostar. Ingrese los acompañantes" >
                                             <Column  field="cedula" header="Cédula" sortable style={{ minWidth: '12rem' }}></Column>
-                                            <Column  field={(dt)=>{return dt.pNombre +" "+ dt.pApellido +" "+ dt.sApellido}} header="Nombre comple" sortable style={{ minWidth: '12rem' }}></Column>
+                                            <Column  field={(dt)=>{return dt.pNombre +" "+ dt.pApellido +" "+ dt.sApellido}} header="Nombre completo" sortable style={{ minWidth: '12rem' }}></Column>
                                             <Column body={btnsColmDercTabla} exportable={false} style={{ minWidth: '8rem' }}></Column>
                                         </DataTable>
                                     </div>
@@ -724,7 +728,6 @@ export function InfoEstudianteMatricula() {
                             </div>
                         </div>
                     </div>
-                    }
 
                     <Divider align="left"></Divider>
                     <div className='container'>
@@ -791,7 +794,7 @@ export function InfoEstudianteMatricula() {
                                                 className={ requerido && !acompanianteEdit.cedula ? 'p-invalid': "p-inputtext-sm mb-2"}
                                                 value={acompanianteEdit.cedula}
                                                 autoFocus
-                                                keyfilter = {/^[^\s]+$/}
+                                                keyfilter = {/^[a-zA-Z0-9]*$/}
                                                 maxLength={45}
                                                 onChange={(e) =>
                                                     datosDeEntrada(e, 'cedula')}

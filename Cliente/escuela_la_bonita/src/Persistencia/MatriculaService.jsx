@@ -38,11 +38,14 @@ export const Matricula = async (propsEst, propsEnc) => {
 
                 }else return respuesta
             }
-            if(propsEst.viaja ==="A"){
+            if(propsEst.acompaniante.length > 0){
                 for(let i=0; i < propsEst.acompaniante.length; i++){
-                    if(respuesta === null)
-                        await agregarViajaCon(propsEst.acompaniante[i]);
-                    return respuesta;
+                    if(respuesta === null){
+                        console.log("ciclo " + i);
+                        respuesta = await agregarViajaCon(propsEst.acompaniante[i]);
+                    }else{
+                        return respuesta;
+                    }
                 }
                 
             }
