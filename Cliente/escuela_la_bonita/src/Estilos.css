@@ -597,6 +597,10 @@ div.reset {
 }
 
 @media (max-width: 576px) {
+  .col-md-auto{
+    display: initial !important;
+  }
+
   .button-container {
     flex-wrap: wrap;
   }

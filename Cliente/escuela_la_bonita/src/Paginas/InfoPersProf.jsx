@@ -19,9 +19,10 @@ import {
   agregarContacto,
   ObtenerProfesor,
   Eliminarfun,
-  ObtenerImgFunc, 
+  ObtenerImgFunc,
   GuardarFoto,
-  ObtenerCont
+  ObtenerCont,
+  InsertarMateria
 } from "../Persistencia/FuncionarioService";
 import { InputText } from 'primereact/inputtext';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
@@ -30,6 +31,10 @@ import { useNavigate } from "react-router-dom";
 import { Divider } from 'primereact/divider';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { Splitter, SplitterPanel } from 'primereact/splitter';
+
+import { Carousel } from 'primereact/carousel';
+import { Tag } from 'primereact/tag';
 export default function Inicio() {
   const navegar = useNavigate();
   const [state, setState] = useContext(infoProfesores);
@@ -64,64 +69,76 @@ export default function Inicio() {
 
   useEffect(() => {
     if (state.pNombre) {
-      setState({ ...state, NombreCom: state.pNombre + ' ' + state.sNombre + ' ' + state.pApellido + ' ' + state.sApellido, })
+      setState({ ...state, NombreCom: state.pNombre + ' ' + state.sNombre + ' ' + state.pApellido + ' ' + state.sApellido, });
+
     }
   }, [state.pNombre]);
 
   useEffect(() => {
     const obtenerFoto = async () => {
-       
-        if(Foto){
-          const imageUrl = await ObtenerImgFunc(state.cedula);
+
+      if (Foto) {
+        const imageUrl = await ObtenerImgFunc(state.cedula);
         if (imageUrl !== null) {
           setImageUrl(imageUrl);
         } else {
           //va el error del servidor
         }
-      }else{
-        console.log("Cedula ",state.cedula)
+      } else {
+        console.log("Cedula ", state.cedula)
       }
     }
     obtenerFoto();
   }, [Foto]);
-  
+
 
   const Guardar = async () => {
     setrequerido(true);
     console.log("Todo ", state);
     console.log("Todo2 ", stateCon);
-    if (state.cedula && state.fechNac && state.pNombre && state.sNombre && state.pApellido && state.sApellido && state.provincia
+
+    for(let x=0;x<state.materia.length;x++){
+      await InsertarMateria({ state: state, setState: setState, materia: state.materia[x] });
+      console.log("Materias ", state.materia[x])
+    }
+    /*if (state.cedula && state.fechNac && state.pNombre && state.sNombre && state.pApellido && state.sApellido && state.provincia
       && state.canton && state.distrito && state.direccion && state.sexo && state.lugarnacimiento && state.estadoCivil
-      && stateCon.numTelefono && stateCon.cElectronico) {
+      && stateCon.numTelefono && stateCon.cElectronico && state.materia && state.Rol != 4) {
       await agregarPersona({ state: state, setState: setState });
       await agregarContacto({ cedula: state.cedula, tCotacto: "Telefono", contacto: stateCon.numTelefono })
       await agregarContacto({ cedula: state.cedula, tCotacto: "Correo", contacto: stateCon.cElectronico })
       await agregarFun({ state: state, setState: setState });
+
       onLoadingClick2();
       //setCreaVisible(false);
       //window.location.reload();
     }
     else {
       toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Faltan datos por llenar sfasd', life: 3000 });
-    }
+    }*/
 
   };
 
-  const GuardarPerfil = async ()=>{
+  const GuardarPerfil = async () => {
     await agregarFun({ state: state, setState: setState });
-    await GuardarFoto({cedula: state.cedula, image:image })
+    await GuardarFoto({ cedula: state.cedula, image: image })
     window.location.reload();
   };
+
+
   async function delayAddOne() {
     console.log("Hola entre", state.cedula)
     if (Editavisible || Eliminarvisible)
       await ObtenerProfesor({ state: state, setState: setState, estado: 'A' });
-      await ObtenerCont({ state: stateCon, setState: setStateCon, idFun: state.cedula });
-      setFoto(true);
+    await ObtenerCont({ state: stateCon, setState: setStateCon, idFun: state.cedula });
+    setFoto(true);
     setRender(true);
     console.log("Hola otra ves", state)
+    console.log("Hola otra contacto", stateCon)
   }
-  const cancelar = ()=>{
+
+
+  const cancelar = () => {
     setCreaVisible(false)
     window.location.reload();
   };
@@ -133,7 +150,7 @@ export default function Inicio() {
     </div>
   );
 
-  
+
   const botonesPerfil = (
     <div>
       <Button label="Cancelar" icon="pi pi-times" onClick={cancelar} className="p-button-text" />
@@ -143,7 +160,7 @@ export default function Inicio() {
   //Mensaje de confirmacion y efecto de carga del boton de guardar
   const accept = () => {
     toast.current.show({ severity: 'info', summary: 'Confirmación', detail: 'Usted ha aceptado', life: 3000 });
-    Eliminarfun({ state: state, setState: setState });
+    Eliminarfun({ state: state, setState: setState});
     console.log("Entre a borrar")
     window.location.reload();
   }
@@ -246,20 +263,18 @@ export default function Inicio() {
               <div className="col-sm offset-md-2">
                 <div className="field">
                   <label><b>Cédula:</b></label>{" "}
-                  <div className="p-inputgroup" style={{ width: '70%' }}>
+                  <div className="p-inputgroup" style={{ width: '70%', backgroundPosition: 'center' }}>
                     <InputText
                       style={{ width: '30px' }}
                       id="cedula"
-                      keyfilter="int"
-                      //ref={inputRefs[0]}
-                      //onKeyDown={(event) => compoSiguente(event, 0)}
+                      keyfilter= {/^[^\s]+$/}
+                      maxLength={45}
                       className={requerido && !state.cedula ? 'p-invalid' : "p-inputtext-sm mb-2"}
                       value={state.cedula ? state.cedula : ''}
                       onChange={(e) =>
                         setState({ ...state, cedula: e.target.value })}
                       required
                     />
-
                     <Button
                       icon="pi pi-search"
                       id="Buscar2"
@@ -279,8 +294,6 @@ export default function Inicio() {
                     <div>
                       <InputText
                         id="pnombre"
-                        //ref={inputRefs[1]}
-                        //onKeyDown={(event) => compoSiguente(event, 1)}
                         className={requerido && !state.pNombre ? 'p-invalid' : "p-inputtext-sm mb-2"}
                         value={state.NombreCom ? state.NombreCom : ''}
                         onChange={(e) =>
@@ -293,60 +306,102 @@ export default function Inicio() {
               </div>
               {render &&
                 <div>
-                  <Divider align="left" ></Divider>
-                  <div className="row">
-
-                    <label style={{ width: '100%' }}><b>Información adicional:</b></label>{" "}
-                    <div>
-                      <InputTextarea
-                        id="descrpcion"
-                        value={state.descrip}
-                        className={requerido && !state.descrip ? 'p-invalid' : "p-inputtext-sm mb-2"}
-                        autoResize
-                        onChange={(e) =>
-                          setState({ ...state, descrip: e.target.value })}
-                        rows={5}
-                        style={{ transform: 'translateX(5px)', width: '98%' }} />
-                    </div>
-                    {requerido && !state.descrip && <small className="p-error">{msjRequeridos}</small>}
-
-                  </div>
-                  <Divider align="left" ></Divider>
-                  <div className="row">
-                    <div className="col-sm">
-                      <label><b>Foto de perfil:</b></label>{" "}
-                      <div style={{ borderRadius: '1px', border: '1px solid rgb(155, 155, 155, 0.40)', width: '100%' }}>
-                        <div className="container">
-                          <br />
-                          <div className="row justify-content-center" >
-
-                            {imageUrl && <img src={imageUrl} className="Imgperfil" alt="Selected image"
-                              style={{ borderRadius: "100%", border: '5px solid rgb(212, 175, 55, 1)',width:'30%' }}  />}
+                  <Splitter style={{ height: '550px' }}>
+                    <SplitterPanel className="flex">
+                      <div className="container">
+                        <div className="row">
+                          <label style={{ width: '100%' }}><b>Información adicional:</b></label>{" "}
+                          <div>
+                            <InputTextarea
+                              id="descrpcion"
+                              value={state.descrip}
+                              className={requerido && !state.descrip ? 'p-invalid' : "p-inputtext-sm mb-2"}
+                              autoResize
+                              onChange={(e) =>
+                                setState({ ...state, descrip: e.target.value })}
+                              rows={3}
+                              style={{ transform: 'translateX(5px)', width: '98%' }} />
                           </div>
-                          <div className="row justify-content-center" >
-                            <div className="container-input " >
-                              <input type="file"
-                                onChange={handleChange}
-                                value={state.Perfil}
-                                accept="image/*"
-                                name="file-2"
-                                id="file-2"
-                                className="inputfile inputfile-2"
-                                data-multiple-caption="{count} archivos seleccionados" />
-                              <label htmlFor="file-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="iborrainputfile" width="20"
-                                  height="17" viewBox="0 0 20 17">
-                                  <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
-                                <span className="iborrainputfile">Seleccionar archivo</span>
-                              </label>
-                            </div>
+                          {requerido && !state.descrip && <small className="p-error">{msjRequeridos}</small>}
 
+                        </div>
+                        <Divider align="left" ></Divider>
+                        <div className="row">
+                          <div className="col-sm">
+                            <label><b>Foto de perfil:</b></label>{" "}
+                            <div style={{ borderRadius: '1px', border: '1px solid rgb(155, 155, 155, 0.40)', width: '98%' }}>
+                              <div className="container">
+                                <div className="row ">
+                                  <div className="col" style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div className="container-input " >
+                                      <input type="file"
+                                        onChange={handleChange}
+                                        value={state.Perfil}
+                                        accept="image/*"
+                                        name="file-2"
+                                        id="file-2"
+                                        className="inputfile inputfile-2"
+                                        data-multiple-caption="{count} archivos seleccionados" />
+                                      <label htmlFor="file-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="iborrainputfile" width="20"
+                                          height="17" viewBox="0 0 20 17">
+                                          <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                        <span className="iborrainputfile">Seleccionar archivo</span>
+                                      </label>
+                                    </div>
+
+                                  </div>
+                                  <div className="col" style={{ display: 'flex', alignItems: 'center' }} >
+                                    {imageUrl && <img src={imageUrl} className="Imgperfil" alt="Selected image"
+                                      style={{ borderRadius: "100%", border: '5px solid rgb(212, 175, 55, 1)', width: '70%' }} />}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>}
+
+                    </SplitterPanel>
+                    <SplitterPanel className="flex align-items-center justify-content-center" style={{height:'100%'}}>
+                      <div className="card flex justify-content-center" style={{height:'100%'}}>
+                        <div className='border-1 surface-border border-round m-2 text-center' >
+                          <div className="container ">
+                            <div className='row justify-content-md-center'>
+                              <div className="col-sm">
+                                {imageUrl && <img src={imageUrl} alt="Foto" className="w-6 shadow-2" />}
+                              </div>
+                            </div>
+                            <Tag className="mr-2" icon="pi pi-book" severity="success" value={state.MNombre} style={{ margin: '10px' }}></Tag>
+                            <div className='row'>
+                              <h4 className="mb-1">{state.NombreCom}</h4>
+                            </div>
+                            <div className='row'>
+                              <h6 className="mt-0 mb-3" style={{ overflowWrap: 'anywhere' }}>{state.descrip}</h6>
+                            </div>
+                            <div className='row justify-content-center'>
+                              <div className='col-md-auto'>
+                                <Button icon="pi pi-whatsapp" className="p-button-success p-button-rounded" />
+                              </div>
+                              <div className='col-md-auto' style={{ display: 'flex', alignItems: 'end' }}>
+                                <h6 className="mt-0 mb-3" >{stateCon.numTelefono}</h6>
+                              </div>
+                            </div>
+                            <div className='row justify-content-center'>
+                              <div className='col-md-auto'>
+                                <Button icon="pi pi-envelope" className="p-button p-button-rounded" />
+                              </div>
+                              <div className='col-md-auto' style={{ display: 'flex', alignItems: 'end' }}>
+                                <h6 className="mt-0 mb-3" style={{ overflowWrap: 'anywhere' }}>{stateCon.cElectronico}</h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </SplitterPanel>
+                  </Splitter>
+                </div>
+              }
             </div>
           </div>
         </Dialog>

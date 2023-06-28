@@ -1,46 +1,33 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
-import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
-import { Rating } from 'primereact/rating';
+import { Carousel } from 'primereact/carousel';
 import { Tag } from 'primereact/tag';
-import Constancia from '../Recursos/Constancia.png';
 import { ObtenerFunMostrar, ObtenerImgFunc } from "../Persistencia/FuncionarioService";
 import axios from 'axios';
-export function DataViewDemo() {
-    const [layout, setLayout] = useState('grid');
-    const [render, setRender] = useState(false);
-    
-    const Estado = [
-        { name: 'Soltero', image: Constancia, description: '../Recursos/Constancia.png', category: 'Español', Telefono: '89264496', Correo: 'kevin.mora.valverde@una.ac.cr' },
-        { name: 'Casado', image: Constancia, description: 'Hola', category: 'Español, Estudios, matematicas, ciencias', Telefono: '89264496', Correo: 'kevin.mora.valverde@una.ac.cr' },
-        { name: 'Unión libre', image: Constancia, description: 'Hola', category: 'Español', Telefono: '89264496', Correo: 'kevin.mora.valverde@una.ac.cr' },
-        { name: 'Divorciado(a)', image: Constancia, description: 'Hola', category: 'Español', Telefono: '89264496', Correo: 'kevin.mora.valverde@una.ac.cr' },
-        { name: 'Viudo(a)', image: Constancia, description: 'Hola', category: 'Español', Telefono: '89264496', Correo: 'kevin.mora.valverde@una.ac.cr' },
-        { name: 'Separado(a)', image: Constancia, description: 'Hola', category: 'Español', Telefono: '89264496', Correo: 'kevin.mora.valverde@una.ac.cr' }
-    ];
 
+export function DataViewDemo() {
     const [profesor, setProfesor] = useState();
-    
+    const [render, setRender] = useState(false);
     useEffect(() => {
-        const obtenerFun = async ()=>{
+        const obtenerFun = async () => {
             const data = await ObtenerFunMostrar();
-            if(data !== null){
-               await obtenerImg(data);
-            }else{
+            if (data !== null) {
+                await obtenerImg(data);
+            } else {
                 //va el error del servidor
             }
         }
         obtenerFun();
-        
+
     }, []);
-    
- 
-    const obtenerImg = async (datos) =>{
+
+
+    const obtenerImg = async (datos) => {
         let usuarioActualizado = {};
         let usuarios = [];
-        for(let i=0; i < datos.length; i++){
-            console.log("Cedula "+ datos[i].cedula);
+        for (let i = 0; i < datos.length; i++) {
+            console.log("Cedula " + datos[i].cedula);
             usuarioActualizado = { ...datos.find(product => product.cedula === datos[i].cedula) };
             usuarioActualizado.Foto = await ObtenerImgFunc(datos[i].cedula);
             const contactos = await usuarioActualizado.Contacto.split(',');
@@ -52,170 +39,89 @@ export function DataViewDemo() {
         console.log("Salio map");
         setProfesor(usuarios);
         setRender(true);
-
-    /*usuariosActualizados.map(async (dep) => {
-        console.log("Cedula "+ dep.cedula);
-        usuarioActualizado = { ...usuariosActualizados.find(product => product.cedula === dep.cedula) };
-        usuarioActualizado.Foto = await ObtenerImgFunc(dep.cedula);
-        const contactos = await usuarioActualizado.Contacto.split(',');
-        usuarioActualizado.Telefono = contactos[0];
-        usuarioActualizado.Correo = contactos[1];
-        //usuariosActualizados[usuariosActualizados.findIndex(product => product.cedula === dep.cedula)] = usuarioActualizado;
-        usuarios.push(usuarioActualizado);
-    })*/
-    //console.log("usuario", usuarios);
-    
     }
-
-    console.log("Profesor ",profesor);
-    
-
-    
-    const getSeverity = (product) => {
-        switch (product.inventoryStatus) {
-            case 'INSTOCK':
-                return 'success';
-
-            case 'LOWSTOCK':
-                return 'warning';
-
-            case 'OUTOFSTOCK':
-                return 'danger';
-
-            default:
-                return null;
+    const responsiveOptions = [
+        {
+            breakpoint: '1199px',
+            numVisible: 1,
+            numScroll: 1
+        },
+        {
+            breakpoint: '991px',
+            numVisible: 2,
+            numScroll: 1
+        },
+        {
+            breakpoint: '767px',
+            numVisible: 1,
+            numScroll: 1
         }
-    };
+    ];
 
-/*
-useEffect(()=>{
-    if(render === false){
-    axios.get('http://localhost:3000/MostrarFuncionario')
-    .then(response =>{
-      
-            //y.log("response de funcionarios "+ response.data[1])
-            setProfesor(response.data)
-            if(response.data !== null){
-                    console.log("entre")
-                    const usuariosActualizados = [...response.data];
-                    response.data.map(async (dep) => {
-                       // console.log("la cedula es "+ dep.cedula)
-                        await axios.get('http://localhost:3000/ImagenFuncionario/' + dep.cedula, { responseType: 'blob' }) 
-                        .then(res =>{
 
-                            //console.log("direccion de la imagen ", URL.createObjectURL(res.data))
-                            setImagen(URL.createObjectURL(res.data));
-                            //usuarios.push(res.data);
-                            const imageUrl = URL.createObjectURL(res.data);
-                        // Buscar el usuario  y crear una copia del objeto
-                        const usuarioActualizado = { ...usuariosActualizados.find(profesor => profesor.cedula === dep.cedula) };
-                        // Modificar la propiedad "Foto" del objeto copiado
-                        usuarioActualizado.Foto = imageUrl;
-                        // Separar cadena y agregar nuevos campos (Telefono y Correo)
-    
-                        const contactos =usuarioActualizado.Contacto.split(',');
-                        usuarioActualizado.Telefono = contactos[0];
-                        usuarioActualizado.Correo = contactos[1];
-    
-                        // Reemplazar el objeto antiguo con el objeto modificado en la copia del arreglo
-                        usuariosActualizados[usuariosActualizados.findIndex(profesor => profesor.cedula === dep.cedula)] = usuarioActualizado;
-                        // Actualizar el estado del arreglo con la copia actualizada
-                        console.log("usu actualizado es ", usuariosActualizados)
-                        setProfesor(usuariosActualizados);
-                        
-                            
-                        })
-                    })        
-            //axios.get('http://localhost:3000/ImagenFuncionario/' + profesor.map(profe=>(profe.cedula)), { responseType: 'blob' })
-           
-            }
-        
-        //setProfesor(response.data)
-        
-    })
-    setRender(true);}
-},[])
-*/
-
-    const listItem = (profesor) => {
+    const productTemplate = (profesor) => {
         return (
-            <div className="col-7">
-                <div className="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-                    <div className="flex align-items-center gap-3">
-                        <span className="flex align-items-center gap-2">
-                            <i className="pi pi-tag"></i>
-                            <span className="font-semibold">{profesor.MNombre}</span>
-                        </span>
-                        <Tag value={profesor.inventoryStatus} severity={getSeverity(profesor)}></Tag>
-                    </div>
-                    {profesor.Foto && <img className="w-9 shadow-2 border-round" alt="Selected image" src={profesor.Foto} 
-                    style={{ borderRadius: "100%"}} width={'40%'}/>}
-                    <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-                        <div className="flex flex-column align-items-center sm:align-items-start gap-3">
-                            <div className="text-2xl font-bold text-900">{profesor.Nombre}</div>
-                            <div className="text-2xl font-bold">{profesor.Descripcion}</div>
-
-                        </div>
-                        <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                        <span className="text-2xl font-semibold">{"Tel: "+profesor.Telefono}</span>
-                        <div className="text-2xl font-bold">{profesor.Correo}</div>
-                            <Button icon="pi pi-shopping-cart" className="p-button-rounded" disabled={profesor.inventoryStatus === 'OUTOFSTOCK'}></Button>
-                        </div>
+            <div className="border-1 surface-border border-round m-2 text-center py-5 px-3" style={{ width: '100%' }}>
+                <Tag className="mr-2" icon="pi pi-book" severity="success" value={profesor.MNombre} style={{ margin: '10px' }}></Tag>
+                <div className="mb-3">
+                    {profesor.Foto && <img src={profesor.Foto} alt="Foto" className="w-6 shadow-2" />}
+                </div>
+                <div>
+                    <h4 className="mb-1">{profesor.Nombre}</h4>
+                    <h6 className="mt-0 mb-3">{profesor.Descripcion}</h6>
+                    <div className="mt-5 ">
+                        <Button icon="pi pi-whatsapp" className="p-button-success p-button-rounded" />
+                        <h6 className="mt-0 mb-3">{profesor.Telefono}</h6>
+                        <Button icon="pi pi-envelope" className="p-button p-button-rounded" />
+                        <h6 className="mt-0 mb-3">{profesor.Correo}</h6>
                     </div>
                 </div>
             </div>
         );
     };
-
-    const gridItem = (profesor) => {
+    const productTemplate2 = (profesor) => {
         return (
-            <div className="col-4 sm:col-6 lg:col-12 xl:col-4 p-2" style={{width:'100% !important'}}>
-                <div className="p-4 border-1 surface-border surface-card border-round">
-                    <div className="flex flex-wrap align-items-center justify-content-between gap-2">
-                        <div className="flex align-items-center gap-2">
-                            <i className="pi pi-bookmark-fill"></i>
-                            <span className="" style={{width:'100% !important'}}>{profesor.MNombre}</span>
+            <div className='border-1 surface-border border-round m-2 text-center py-5 px-3'>
+                <div className="container ">
+                    <div className='row justify-content-md-center'>
+                        <div className="col-sm">
+                            {profesor.Foto && <img src={profesor.Foto} alt="Foto" className="w-6 shadow-2" />}
                         </div>
                     </div>
-                    <div className="flex flex-column align-items-center gap-3 py-5">
+                    <Tag className="mr-2" icon="pi pi-book" severity="success" value={profesor.MNombre} style={{ margin: '10px' }}></Tag>
 
-                        {profesor.Foto && <img className="" alt="Selected image" src={profesor.Foto}
-                        style={{ borderRadius: "10%", width:'80% ' }} />}
-                        <div className="text-2xl font-bold" style={{width:'100%'}}>{profesor.Nombre}</div>
-                        <div className="text-2xl font-bold" style={{width:'100%'}}>{profesor.Descripcion}</div>
+                    <div className='row'>
+                        <h4 className="mb-1">{profesor.Nombre}</h4>
                     </div>
-                    <div className="flex flex-column align-items-center gap-3 py-5">
-                        <span className="text-2xl font-semibold" style={{width:'100%'}}>{'Tel: '+profesor.Telefono}</span>
-                        <span className="text-2xl font-semibold" style={{width:'100%'}}>{'Correo: '+profesor.Correo}</span>
-                        <Button icon="pi pi-shopping-cart" className="p-button-rounded" disabled={profesor.inventoryStatus === 'OUTOFSTOCK'} onClick={() => console.log("PROFESORES ", profesor)}></Button>
+                    <div className='row'>
+                        <h6 className="mt-0 mb-3">{profesor.Descripcion}</h6>
+                    </div>
+                    <div className='row justify-content-center'>
+                        <div className='col-md-auto'>
+                            <Button icon="pi pi-whatsapp" className="p-button-success p-button-rounded" />
+                        </div>
+                        <div className='col-md-auto' style={{ display: 'flex', alignItems: 'end' }}>
+                            <h6 className="mt-0 mb-3" >{profesor.Telefono}</h6>
+                        </div>
+                    </div>
+                    <div className='row justify-content-center'>
+                        <div className='col-md-auto'>
+                            <Button icon="pi pi-envelope" className="p-button p-button-rounded" />
+                        </div>
+                        <div className='col-md-auto' style={{ display: 'flex', alignItems: 'end' }}>
+                            <h6 className="mt-0 mb-3" style={{ overflowWrap: 'anywhere' }}>{profesor.Correo}</h6>
+                        </div>
                     </div>
                 </div>
             </div>
+
         );
     };
-
-    const itemTemplate = (profesor, layout) => {
-
-        if (!profesor) {
-            return;
-        }
-
-        if (layout === 'list') return listItem(profesor);
-        else if (layout === 'grid') return gridItem(profesor);
-    };
-
-    const header = () => {
-        return (
-            <div className="flex justify-content-end">
-                <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value)} />
-            </div>
-        );
-    };
-
     return (
-            <div className="card">
-            
-            {render && <DataView value={profesor} itemTemplate={itemTemplate} lazy paginator rows={6} layout={layout} header={header()} />} 
-            </div>
+
+        <div className="card">
+            {render && <Carousel value={profesor} numVisible={2} numScroll={1} responsiveOptions={responsiveOptions} circular
+                autoplayInterval={3000} itemTemplate={productTemplate2} />}
+        </div>
     )
 }

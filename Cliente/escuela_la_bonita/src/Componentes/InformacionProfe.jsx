@@ -8,7 +8,8 @@ import {
     agregarContacto,
     agregarFoto,
     ObtenerFotoFuncionario,
-    Obtener_Lista_materia
+    Obtener_Lista_materia,
+    Obtener_Lista_roles
 } from "../Persistencia/FuncionarioService";
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
@@ -487,12 +488,13 @@ export function InfoPersonal(props) {
 export function InfoProfesor(props) {
     const [state, setState] = useContext(infoProfesores);
     const [stateCon, setStateCon] = useContext(infoContacto);
-    const [value2, setValue2] = useState('');
+    const [visible, setVisible] = useState('none');
     const toast = useRef(null);
     const [totalSize, setTotalSize] = useState(0);
     const fileUploadRef = useRef(null);
     const [Institucion, setInstitucion] = useState([]);
     const [Materias, setMaterias] = useState([]);
+    const [Roles, setRoles] = useState([]);
     const chooseOptions = { icon: 'pi pi-fw pi-images', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined' };
     const toast1 = useRef(null);
     const [loading2, setLoading2] = useState(false);
@@ -503,19 +505,25 @@ export function InfoProfesor(props) {
     const [image, setImage] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
 
+    const obtenerIns = async () => {
+        const res = await ObtenerInstitucion();
+        setInstitucion(res);
+    }
+    const listaMaterias = async()=>{
+        const lista= await Obtener_Lista_materia();
+        setMaterias(lista)
+    }
+    const listaRoles = async()=>{
+        const lista= await Obtener_Lista_roles();
+        setRoles(lista)
+    }
+
     useEffect(() => {
-        const obtenerIns = async () => {
-            const res = await ObtenerInstitucion();
-            setInstitucion(res);
-        }
         obtenerIns();
-        const listaMaterias = async()=>{
-            const lista= await Obtener_Lista_materia();
-            setMaterias(lista)
-        }
         listaMaterias();
-        console.log("Perfil", state.Perfil)
-        console.log("Error ", state.Error)
+        listaRoles();
+        //console.log("Perfil", state.Perfil)
+        //console.log("Error ", state.Error)
         console.log("Materias", Materias)
     }, []);
 
@@ -595,18 +603,6 @@ export function InfoProfesor(props) {
             });
     }
 
-  /*  useEffect(() => {
-        console.log("Cedula ", state.cedula)
-        if (state.Error !== 'Error' && state.cedula > 1) {
-            axios.get('http://localhost:3000/ImagenFuncionario/' + state.cedula, { responseType: 'blob' })
-                .then((response) => {
-                    const imageUrl = URL.createObjectURL(response.data);
-                    setImageUrl(imageUrl);
-                });
-        }
-    }, [state.cedula]);*/
-
-
     const [selectedCities, setSelectedCities] = useState(null);
     const cities = [
         { name: 'New York', code: 'NY' },
@@ -615,6 +611,18 @@ export function InfoProfesor(props) {
         { name: 'Istanbul', code: 'IST' },
         { name: 'Paris', code: 'PRS' }
     ];
+
+    const visivilida = (e)=>{
+        if (e.target.value !=4)
+            setVisible('block')
+        else 
+            setVisible('none')
+        setState({
+            ...state,
+            Rol: e.target.value,
+        })
+    };
+
     return (
         <div className="form-demo">
             <Toast ref={toast1} />
@@ -645,6 +653,26 @@ export function InfoProfesor(props) {
                         </div>
                         {props.Requerido && !state.Nescolar && <small className="p-error">{msjRequeridos}</small>}
                     </div>
+                    <div className="col-sm">
+                        <label><b>Rol a desempeñar:</b></label>
+                        <div>
+                            <Dropdown inputId="dropdown"
+                                className={props.Requerido && !state.Rol ? 'p-invalid' : "p-inputtext-sm mb-2"}
+                                name="Rol"
+                                id="dropDown"
+                                value={state.Rol}
+                                options={Roles}
+                                placeholder="Nivel escolar"
+                                required
+                                style={{ width: '100%' }}
+                                onChange={(e) =>
+                                    visivilida(e)
+                                }
+                                optionLabel="rol"
+                                optionValue="id" />
+                        </div>
+                        {props.Requerido && !state.Rol && <small className="p-error">{msjRequeridos}</small>}
+                    </div>
                 </div>
                 <Divider align="left" ></Divider>
                 <div className="row">
@@ -666,22 +694,22 @@ export function InfoProfesor(props) {
                         </div>
                         {props.Requerido && !state.fechIng && <small className="p-error">{msjRequeridos}</small>}
                     </div>
-                    <div className="col-sm">
+                    <div className="col-sm" style={{display:visible}}>
                         <label><b>Materias a impartir:</b></label>{" "}
                         <div className="">
                             <MultiSelect 
                                 value={state.materia} 
-                                onChange={(e) => setState({ ...state, materia: e.target.value, })}
+                                className={props.Requerido && !state.materia ? 'p-invalid' : "p-inputtext-sm mb-2"}
+                                onChange={(e) => setState({ ...state, materia: e.target.value, })} 
                                 options={Materias} 
-                                optionLabel="Materia" 
+                                optionLabel="materia" 
+                                display="chip" 
                                 optionValue="Id"
-                                display="chip"
                                 placeholder="Seleccione las materias" 
                                 maxSelectedLabels={4} 
-                                className="w-full md:w-20rem" />
-                                
+                                 /> 
                         </div>
-                        <Button label="Guardar" icon="pi pi-save" style={{ backgroundColor: '#00939C' }}onClick={console.log("State", state)} className="mr-2" />
+                        {props.Requerido && !state.materia && <small className="p-error">{msjRequeridos}</small>}
                     </div>
                 </div>
                 <Divider align="left" ></Divider>

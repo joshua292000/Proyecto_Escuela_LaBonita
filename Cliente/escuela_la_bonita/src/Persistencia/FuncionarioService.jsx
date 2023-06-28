@@ -196,6 +196,32 @@ export const Eliminarfun = async (props) => {
   }
 }
 
+
+export const InsertarMateria = async (props) => {
+  console.log(props.state);
+  //falta ingresar unas varas en interfas.
+  var infop = {
+    materia: props.materia,
+    cedula: props.state.cedula
+  }
+  console.log("Verctor de Eliminación: ", infop)
+  try {
+    await axios.post('http://localhost:3000/InsertarMateria', infop).then(res => {
+      console.log(res.data);
+      res.data[1].map((dep) => { //se mapea la respuesta del servidor
+        if (dep.error != null) {//se valida el valor de error, si es diferente de null es porque ocurrió un error en la inserción
+          Swal.fire('Error', dep.error);//se muestra el error en pantalla
+        }
+      })
+
+    });
+
+
+  } catch (e) {
+    console.log(e);
+
+  }
+}
 export const agregarPersona = async (props) => {
   console.log(props.state);
   //falta ingresar unas varas en interfas.
@@ -278,16 +304,31 @@ export const Obtener_Persona_Rol = async () => {
   }
 };
 
-
 export const Obtener_Lista_materia = async () => {
   try {
        const res = await axios
       .get("http://localhost:3000/ListarMateria")
         if (res.data.length >0) {
-         
+          console.log("Respuesta materias "+res.data.materia);
           return res.data;
         } else {
           Swal.fire('Error', 'No se encontraron materias');
+        }
+      
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const Obtener_Lista_roles = async () => {
+  try {
+       const res = await axios
+      .get("http://localhost:3000/ListarRoles")
+        if (res.data.length >0) {
+          console.log("Respuesta materias "+res.data);
+          return res.data;
+        } else {
+          Swal.fire('Error', 'No se encontraron los roles');
         }
       
   } catch (e) {

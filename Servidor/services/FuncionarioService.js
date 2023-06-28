@@ -291,9 +291,8 @@ app.get("/ObtenerMaterias/:Func_Id", Obtener_Materia);
 
 const ListarMateria = (request, response) => {
 
-    connection.query('SELECT m.Mat_Nombre AS materia '+
-                    'FROM esc_materias m, esc_materias_has_funcionarios h '+
-                    'WHERE h.Mat_Id = m.Mat_Id ',
+    connection.query('SELECT m.Mat_Nombre AS materia, m.Mat_Id AS Id '+
+                    'FROM esc_materias m ',
         (error, results) => {
             if (error)
                 throw error;
@@ -302,6 +301,36 @@ const ListarMateria = (request, response) => {
 };
 
 app.get("/ListarMateria", ListarMateria);
+
+
+const InsertarMateria = (request, response) => {
+    console.log("ELIMINAR ", request.body)
+    connection.query(' INSERT INTO esc_materias_has_funcionarios (Func_Id, Mat_Id) '+
+            'SELECT Func_Id, ? '+
+            'FROM esc_funcionarios f, esc_personas p '+
+            'WHERE f.Per_Id = p.Per_Id AND p.Per_Identificacion = ?;',
+        [request.body.materia,request.body.cedula],
+        (error, results) => {
+            if (error)
+                throw error;
+            response.status(201).json(results);
+        });
+};
+
+//ruta
+app.route("/InsertarMateria").post(InsertarMateria);
+
+const ListarRoles = (request, response) => {
+
+    connection.query('SELECT r.Rol_Id AS id, r.Rol_Nombre AS rol FROM esc_roles r ',
+        (error, results) => {
+            if (error)
+                throw error;
+            response.status(201).json(results);
+        });
+};
+
+app.get("/ListarRoles", ListarRoles);
 
 const obtenerAlumnos = (request, response) => {
     connection.query(
