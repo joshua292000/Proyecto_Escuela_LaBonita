@@ -11,7 +11,9 @@ import ReporteComedor from '../Recursos/reporteComedor.png'
 import HorariosEscuela from "../Recursos/HorariosEscuela.png";
 import AsignarSecciones from "../Recursos/AsignarSecciones.png";
 import AsignarSeccionProfe from "../Recursos/AsignarSeccionProfe.png";
-
+import AsistenciaComedor from "../Recursos/AsistenciaComedor.png";
+import CrearActividades from "../Recursos/CrearActividades.png";
+import CargarPracticas from "../Recursos/CargarPracticas.png";
 import { Header } from "../Componentes/Cabecera";
 import React, { Component } from 'react';
 
@@ -37,12 +39,12 @@ export default function Inicio() {
         <div>
           <div className="card col-sm-6 col-md-4 col-lg-3"
             id="Card_InicioEnc"
-            style={{backgroundColor: "#ADE25D", borderRadius: "20px"}} 
-            onClick={() => navegar("/RegistroProfesor")}>  
-              <img src={RegistroFun} className="card-img-top" alt="Imagen 1" />
-              <div className="card-body">
-                <h5 className="card-title text-center" style={{fontSize: "25px"}}> Registrar funcionarios</h5>
-              </div>
+            style={{ backgroundColor: "#ADE25D", borderRadius: "20px" }}
+            onClick={() => navegar("/RegistroProfesor")}>
+            <img src={RegistroFun} className="card-img-top" alt="Imagen 1" />
+            <div className="card-body">
+              <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Registrar funcionarios</h5>
+            </div>
           </div>
         </div>
       )
@@ -192,115 +194,148 @@ export default function Inicio() {
 
 }*/
 
-return (
-  <div>
-  {" "}
-  <Header />  
-  <div className="card-deck d-flex justify-content-center align-items-center"> {/* Alinea horizontal y verticalmente */}
-    
-    <div className="card col-sm-6 col-md-4 col-lg-3" 
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#AA98A9", borderRadius: "20px"}} 
-      onClick={() => navegar("/Informacionpersonal")}> 
-        <img src={Matricula} className="card-img-top" alt="Imagen 1" />
-        <div className="card-body">
-          <h5 className="card-title text-center" style={{fontSize: "25px"}}> Matrícula</h5>
-        </div>
-    </div> 
-   
+  return (
+    <div>
+      {" "}
+      <Header />
+      <div className="card-deck d-flex justify-content-center align-items-center"> {/* Alinea horizontal y verticalmente */}
 
-    <div className="card col-sm-6 col-md-4 col-lg-3" 
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#F9A825", borderRadius: "20px"}} 
-      onClick={() => navegar("/Constancias")}> {/* Controla el tamaño de la tarjeta */}
-        <img src={Constancia} className="card-img-top" alt="Imagen 2"  />
-        <div className="card-body">
-        <h5 className="card-title text-center" style={{fontSize: "25px"}}>Generar Constancias</h5>
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#AA98A9", borderRadius: "20px" }}
+          onClick={() => navegar("/Informacionpersonal")}>
+          <img src={Matricula} className="card-img-top" alt="Imagen 1" />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Matrícula</h5>
+          </div>
         </div>
-    </div> 
 
-    <div className="card col-sm-6 col-md-4 col-lg-3"
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#00EBF7", borderRadius: "20px"}} 
-      onClick={() => navegar("/AsistenciaEstudiantes")}>  
-        <img src={Asistencia} className="card-img-top" alt="Imagen 1" />
-        <div className="card-body">
-          <h5 className="card-title text-center" style={{fontSize: "25px"}}> Control de Asistencia</h5>
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#F9A825", borderRadius: "20px" }}
+          onClick={() => navegar("/Constancias")}> {/* Controla el tamaño de la tarjeta */}
+          <img src={Constancia} className="card-img-top" alt="Imagen 2" />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}>Generar Constancias</h5>
+          </div>
         </div>
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#00EBF7", borderRadius: "20px" }}
+          onClick={() => navegar("/AsistenciaEstudiantes")}>
+          <img src={Asistencia} className="card-img-top" alt="Imagen 1" />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Control de Asistencia</h5>
+          </div>
+        </div>
+      </div>
+      <br></br>
+      {/*---------------------------------------------------fila 2-----------------------------*/}
+      <div className="card-deck d-flex justify-content-center align-items-center"> {/* Alinea horizontal y verticalmente */}
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#F1948A", borderRadius: "20px" }}
+          onClick={() => navegar("/Reporte")}>
+          <img src={Reporte} className="card-img-top" alt="Imagen 1" />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Generar Reportes</h5>
+          </div>
+        </div>
+
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#5DADE2", borderRadius: "20px" }}
+          onClick={() => navegar("/ReporteComedor")}> {/* Controla el tamaño de la tarjeta */}
+          <img src={ReporteComedor} className="card-img-top" alt="Imagen 2" />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}>Reporte de Comedor</h5>
+          </div>
+        </div>
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#ADE25D", borderRadius: "20px" }}
+          onClick={() => navegar("/SubirPDF")}>
+          <img src={HorariosEscuela} className="card-img-top" alt="Imagen 1" />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Subir Horarios</h5>
+          </div>
+        </div>
+      </div>
+      <br></br>
+      {/*---------------------------------------------------fila 3-----------------------------*/}
+      <div className="card-deck d-flex justify-content-center align-items-center"> {/* Alinea horizontal y verticalmente */}
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#E5F2C9", borderRadius: "20px" }}
+          onClick={() => navegar("/AsignarSeccion")}>
+          <img src={AsignarSecciones} className="card-img-top" alt="Imagen 1" />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Asignar Secciones</h5>
+          </div>
+        </div>
+
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#70F8BA", borderRadius: "20px" }}
+          onClick={() => navegar("/AsignarSeccionProfe")}> {/* Controla el tamaño de la tarjeta */}
+          <img src={AsignarSeccionProfe} className="card-img-top" alt="Imagen 2" style={{ width: "265px" }} />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}>Asignar Secciones a Profesores</h5>
+          </div>
+        </div>
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#B78DE6", borderRadius: "20px" }}
+          onClick={() => navegar("/RegistroProfesor")}>
+          <img src={RegistroFun} className="card-img-top" alt="Imagen 1" style={{ width: "308px" }} />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Registrar funcionarios</h5>
+          </div>
+        </div>
+      </div>
+      <br></br>
+      {/*---------------------------------------------------fila 4-----------------------------*/}
+      <div className="card-deck d-flex justify-content-center align-items-center">
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#D9ACF5", borderRadius: "20px" }}
+          onClick={() => navegar("/AsistenciaComedor")}>
+          <img src={AsistenciaComedor} className="card-img-top" alt="Imagen 1" style={{ width: "245px", display: "block", margin: "0 auto" }}/>
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Control de asistencia al comedor</h5>
+          </div>
+        </div>
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#AAE3E2", borderRadius: "20px" }}
+          onClick={() => navegar("/AsignarSeccionProfe")}> {/* Controla el tamaño de la tarjeta */}
+          <img src={CrearActividades} className="card-img-top" alt="Imagen 2" style={{ width: "265px", display: "block", margin: "0 auto" }} />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Crear actividades</h5>
+          </div>
+        </div>
+
+        <div className="card col-sm-6 col-md-4 col-lg-3"
+          id="Card_InicioEnc"
+          style={{ backgroundColor: "#F3AE4B", borderRadius: "20px" }}
+          onClick={() => navegar("/RegistroProfesor")}>
+          <img src={CargarPracticas} className="card-img-top" alt="Imagen 1" style={{ width: "240px" , display: "block", margin: "0 auto"}} />
+          <div className="card-body">
+            <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Cargar archivos de práctica</h5>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <br></br>
-  {/*---------------------------------------------------fila 2-----------------------------*/ }
-  <div className="card-deck d-flex justify-content-center align-items-center"> {/* Alinea horizontal y verticalmente */}
-   
-    <div className="card col-sm-6 col-md-4 col-lg-3" 
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#F1948A", borderRadius: "20px"}} 
-      onClick={() => navegar("/Reporte")}> 
-        <img src={Reporte} className="card-img-top" alt="Imagen 1" />
-        <div className="card-body">
-          <h5 className="card-title text-center" style={{fontSize: "25px"}}> Generar Reportes</h5>
-        </div>
-    </div> 
-   
 
-    <div className="card col-sm-6 col-md-4 col-lg-3" 
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#5DADE2", borderRadius: "20px"}} 
-      onClick={() => navegar("/ReporteComedor")}> {/* Controla el tamaño de la tarjeta */}
-        <img src={ReporteComedor} className="card-img-top" alt="Imagen 2"  />
-        <div className="card-body">
-        <h5 className="card-title text-center" style={{fontSize: "25px"}}>Reporte de Comedor</h5>
-        </div>
-    </div> 
-
-    <div className="card col-sm-6 col-md-4 col-lg-3"
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#ADE25D", borderRadius: "20px"}} 
-      onClick={() => navegar("/SubirPDF")}>  
-        <img src={HorariosEscuela} className="card-img-top" alt="Imagen 1" />
-        <div className="card-body">
-          <h5 className="card-title text-center" style={{fontSize: "25px"}}> Subir Horarios</h5>
-        </div>
-    </div>
-  </div>
-  <br></br>
-  {/*---------------------------------------------------fila 3-----------------------------*/ }
-  <div className="card-deck d-flex justify-content-center align-items-center"> {/* Alinea horizontal y verticalmente */}
-   
-    <div className="card col-sm-6 col-md-4 col-lg-3" 
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#E5F2C9", borderRadius: "20px"}} 
-      onClick={() => navegar("/AsignarSeccion")}> 
-        <img src={AsignarSecciones} className="card-img-top" alt="Imagen 1" />
-        <div className="card-body">
-          <h5 className="card-title text-center" style={{fontSize: "25px"}}> Asignar Secciones</h5>
-        </div>
-    </div> 
-   
-
-    <div className="card col-sm-6 col-md-4 col-lg-3" 
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#70F8BA", borderRadius: "20px"}} 
-      onClick={() => navegar("/AsignarSeccionProfe")}> {/* Controla el tamaño de la tarjeta */}
-        <img src={AsignarSeccionProfe} className="card-img-top" alt="Imagen 2" style={{width:"265px"}}  />
-        <div className="card-body">
-        <h5 className="card-title text-center" style={{fontSize: "25px"}}>Asignar Secciones a Profesores</h5>
-        </div>
-    </div> 
-
-    <div className="card col-sm-6 col-md-4 col-lg-3"
-      id="Card_InicioEnc"
-      style={{backgroundColor: "#B78DE6", borderRadius: "20px"}} 
-      onClick={() => navegar("/RegistroProfesor")}>  
-        <img src={RegistroFun} className="card-img-top" alt="Imagen 1" style={{width:"308px"}} />
-        <div className="card-body">
-          <h5 className="card-title text-center" style={{fontSize: "25px"}}> Registrar funcionarios</h5>
-        </div>
-    </div>
-  </div>
-  <br></br>
-</div>
-  
-);
+  );
 }; 

@@ -41,7 +41,7 @@ export function AcercaDe() {
               Don Manuel Páez, administrador de la finca, propulsor de la
               apertura de la escuela, a este señor se debe que la escuela lleve
               el nombre de Rodrigo Facio Brenes, el propuso este nombre y fue
-              aceptado por el pueblo y por el Ministerio de Educación pública,
+              aceptado por el pueblo y por el Ministerio de Educación Pública,
               Don Rodrigo Facio Brenes había sido una persona de mucho prestigio
               como abogado, profesor universitario y luego como rector de la
               UCR, Don Manuel había trabajado en la UCR, en un puesto
