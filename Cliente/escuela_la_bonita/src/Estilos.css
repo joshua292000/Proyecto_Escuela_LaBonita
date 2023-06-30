@@ -883,3 +883,21 @@ color: #9f8465;
 #Card_InicioEnc:hover{
   box-shadow: 1px 1px 6px 5px #ffffff ;
   }
+
+
+  .rbc-calendar .rbc-month-view .rbc-month-row {
+    /* Estilos para las filas de los meses */
+    /* Por ejemplo, hacer los bordes más negros */
+    border-color: #000000;
+   
+  }
+  
+  .rbc-calendar .rbc-month-view .rbc-month-row:last-child {
+    /* Estilos para la última fila de los meses */
+    /* Por ejemplo, hacer el borde inferior más negro */
+    border-bottom-color: #000000;
+    
+  }
+
+  
+  

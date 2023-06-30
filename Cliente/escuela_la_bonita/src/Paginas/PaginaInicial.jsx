@@ -9,6 +9,7 @@ import Home from "../Componentes/Home";
 import { Header } from "../Componentes/Cabecera";
 
 function PaginaInicial() {
+  window.myGlobalLoggin = false;
   return (
     <>
       <div>

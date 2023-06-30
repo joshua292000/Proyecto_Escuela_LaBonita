@@ -27,6 +27,7 @@ export function Loggin() {
         console.log("lleva esto en fun y rol: ",Func_Id,"--",Rol_Id)
         cookies.set('Func_Id', Func_Id, { path: '/' });
         cookies.set('Rol_Id', Rol_Id, { path: '/' });
+        window.myGlobalLoggin = true;
         navegar('/Inicio');
       }
     } catch (error) {

@@ -516,5 +516,18 @@ app.get('/horarios/:filename', (req, res) => {
   };
    
   app.get("/ImagenFuncionario/:idcliente", ImagenFuncionario);
+
+
+  const ActividadesDiarias = (request, response) => {
+
+    connection.query('SELECT a.Act_Nombre AS title, a.Act_Descripcion AS description, a.Act_FechaIni AS start, a.Act_FechaFin AS end FROM esc_actividades a ',
+        (error, results) => {
+            if (error)
+                throw error;
+            response.status(201).json(results);
+        });
+};
+
+app.get("/Encargados/ActividadesDiarias", ActividadesDiarias);
   
 module.exports = app;

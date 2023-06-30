@@ -2,7 +2,9 @@ import React from "react";
 import "../style.css";
 import "../Estilos.css";
 import { Header } from "../Componentes/Cabecera";
-
+import gimnasio from "../Recursos/gim1.jpg"
+import donar from "../Recursos/donar.jpg"
+import huerta from "../Recursos/huerta.png"
 
 export function Proyectos() {
   return (
@@ -15,89 +17,55 @@ export function Proyectos() {
             <div class="timeline-2 left-2">
               <div class="card">
                 <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(135).webp"
+                  src={huerta}
                   class="card-img-top"
                   alt="Responsive image"
                 />
                 <div class="card-body p-4">
-                  <h4 class="fw-bold mb-4">Proyecto #1</h4>
-                  <p class="text-muted mb-4">
-                    <i class="far fa-clock" aria-hidden="true"></i> 2022
-                  </p>
-                  <p class="mb-0">
-                    Proyecto #1.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="timeline-2 right-2">
-              <div class="card">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(129).webp"
-                  class="card-img-top"
-                  alt="Responsive image"
-                />
-                <div class="card-body p-4">
-                  <h4 class="fw-bold mb-4">Proyecto #2</h4>
-                  <p class="text-muted mb-4">
-                    <i class="far fa-clock" aria-hidden="true"></i> 2021
-                  </p>
-                  <p class="mb-0">
-                  Proyecto #2.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="timeline-2 left-2">
-              <div class="card">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(131).webp"
-                  class="card-img-top"
-                  alt="Responsive image"
-                />
-                <div class="card-body p-4">
-                  <h4 class="fw-bold mb-4">Proyecto #3</h4>
-                  <p class="text-muted mb-4">
-                    <i class="far fa-clock" aria-hidden="true"></i> 2020
-                  </p>
-                  <p class="mb-0">
-                  Proyecto #3.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="timeline-2 right-2">
-              <div class="card">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(125).webp"
-                  class="card-img-top"
-                  alt="Responsive image"
-                />
-                <div class="card-body p-4">
-                  <h4 class="fw-bold mb-4"> Proyecto #4</h4>
-                  <p class="text-muted mb-4">
-                    <i class="far fa-clock" aria-hidden="true"></i> 2019
-                  </p>
-                  <p class="mb-0">
-                  Proyecto #4
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="timeline-2 left-2">
-              <div class="card">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/Slides/img%20(144).webp"
-                  class="card-img-top"
-                  alt="Responsive image"
-                />
-                <div class="card-body p-4">
-                  <h4 class="fw-bold mb-4">Proyecto #5</h4>
+                  <h4 class="fw-bold mb-4">Huerta Escolar</h4>
                   <p class="text-muted mb-4">
                     <i class="far fa-clock" aria-hidden="true"></i> 2018
                   </p>
                   <p class="mb-0">
-                  Proyecto #5.
+                    Huerta escolar con diferentes verduras y frutas.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-2 right-2">
+              <div class="card">
+                <img
+                  src={gimnasio}
+                  style={{height:"250px"}}
+                  class="card-img-top"
+                  alt="Responsive image"
+                />
+                <div class="card-body p-4">
+                  <h4 class="fw-bold mb-4">Construcción del Gimnasio</h4>
+                  <p class="text-muted mb-4">
+                    <i class="far fa-clock" aria-hidden="true"></i> 2023
+                  </p>
+                  <p class="mb-0">
+                  Imagen con fines ilustrativos.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-2 left-2">
+              <div class="card">
+                <img
+                  src={donar}
+                  style={{height:"250px"}}
+                  class="card-img-top"
+                  alt="Responsive image"
+                />
+                <div class="card-body p-4">
+                  <h4 class="fw-bold mb-4">Donaciones</h4>
+                  <p class="text-muted mb-4">
+                    <i class="far fa-clock" aria-hidden="true"></i> Puedes donar a la siguiente cuenta bancaria:
+                  </p>
+                  <p class="mb-0">
+                  1-1-1-1-1-1-1-1-1-1-1
                   </p>
                 </div>
               </div>

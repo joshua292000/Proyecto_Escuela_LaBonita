@@ -6,12 +6,13 @@ import { Carousel } from "primereact/carousel";
 import React from 'react';
 import Escuela1 from '../Recursos/EscuelaLado.jpg';
 import Bienvenidos from '../Recursos/Bienvenidos.png';
+import Estudiantes1 from '../Recursos/estudiantes.png';
 const itemTemplate = (product) => {
     // return content;
   };
 
 const Home = (props) => {
-
+    window.myGlobalLoggin = false;
     return (
         <div>
             <div id="carrusel-contenido">
@@ -27,7 +28,7 @@ const Home = (props) => {
                     <div class="carrusel-elemento">
                         <img
                             class="imagenes"
-                                src="https://th.bing.com/th/id/R.8efdb5e0d478b3f8d79c99bef96226e5?rik=N8U%2bCKpCZAgP%2bQ&pid=ImgRaw&r=0"
+                                src={Estudiantes1}
                         />
                     </div>
 

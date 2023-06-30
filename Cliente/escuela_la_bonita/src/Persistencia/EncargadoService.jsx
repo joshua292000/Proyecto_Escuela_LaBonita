@@ -1,6 +1,7 @@
 /* eslint-disable array-callback-return */
 import axios from 'axios';
 import { msjErrorServidor } from '../Componentes/Utils';
+import Swal from 'sweetalert2';
 
 export const agregarEncargado = async(props) => {
     try {
@@ -62,6 +63,21 @@ export const ObtenerContEncargado = async (props)=>{
     }
 
 }
+
+export const Obtener_Actividades_Diarias = async () => {
+    try {
+         const res = await axios
+        .get("http://localhost:3000/Encargados/ActividadesDiarias")
+          if (res.data.length >0) {
+            return res.data;
+          } else {
+            Swal.fire('Error', 'No se pudieron obtener las activades');
+          }
+        
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
  
 
