@@ -16,6 +16,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { addLocale } from 'primereact/api';
 import { ButtonSiguiente, Cargando, tiempoCargando } from "../Componentes/Utils";
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 import { ObtenerEncargadosEstu, ObtenerEncargado } from '../Persistencia/EncargadoService';
 import { infoEstudiante } from '../AppContext/providerEstudiante';
@@ -91,6 +92,8 @@ export function InfoEncargado() {
     const [fecha, setFecha] = useState();
 
     const navegar = useNavigate();
+    const cookies = new Cookies();
+
     const inputRefs = [
       useRef(null),
       useRef(null),
@@ -108,6 +111,11 @@ export function InfoEncargado() {
     const dt = useRef(null);
 
     useEffect(() => {
+        //valida si esta logeado
+        if(!cookies.get('Func_Id')){
+            navegar("/");
+        }
+
         Pais.getPais().then(data => setCountries(data));
         Provincia.getProvincia().then(data => setProvincia(data));
 

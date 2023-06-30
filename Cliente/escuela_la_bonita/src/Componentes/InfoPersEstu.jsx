@@ -12,6 +12,7 @@ import { addLocale } from 'primereact/api';
 import { useNavigate } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
+import Cookies from "universal-cookie";
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { Cargando, tiempoCargando, msjRequeridos } from "./Utils";
@@ -33,16 +34,22 @@ export function InfoPersonal() {
   const [verCargando, setVerCargando] = useState(false);
   const navegar = useNavigate();
   const [fecha, setFecha] = useState('');
-
   const msjEmergente = useRef(null);
 
-  useEffect(() => {
-     //setState({});
-      Pais.getPais().then(data => setCountries(data));
-      Provincia.getProvincia().then(data => setProvincia(data));
 
-      //Se precarga la privincia y canton si se fuera a insertar un estudiante nuevo
-      setState({...state, provincia : "San José", canton: "Pérez Zeledón"});
+  const cookies = new Cookies();
+
+  useEffect(() => {
+    //valida si esta logeado
+    if(!cookies.get('Func_Id')){
+    navegar("/");
+
+    }
+    Pais.getPais().then(data => setCountries(data));
+    Provincia.getProvincia().then(data => setProvincia(data));
+
+    //Se precarga la privincia y canton si se fuera a insertar un estudiante nuevo
+    setState({...state, provincia : "San José", canton: "Pérez Zeledón"});
   }, []);
 
 

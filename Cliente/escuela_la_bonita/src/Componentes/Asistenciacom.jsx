@@ -11,20 +11,24 @@ import { Button } from "primereact/button";
 import { RadioButton } from 'primereact/radiobutton';
 import { addLocale } from 'primereact/api';
 import moment from "moment";
+import { auto } from "@popperjs/core";
 
 export function Asistenciacom() {
     const [materia, setMateria] = useState([]);
     const [materiaS, setMateriaS] = useState();
     const [seccion, setSeccion] = useState([]);
-    const [seccionS, setSeccionS] = useState([]);
+    const [seccionSelec, setSeccionSelec] = useState([]);
     const [alumnos, setAlumnos] = useState([]);
     const [loading1, setLoading1] = useState(false);
     const [edit, setEdit] = useState();
     const [jus, setJus] = useState({});
-    const [date, setDate] = useState();
     const [Fechahoy] = useState(new Date());
     const [productDialog, setProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [fecha, setFecha] = useState();
+    const [date, setDate] = useState();
+    
+
 
     const toast = useRef(null);
     const dt = useRef(null);
@@ -47,6 +51,7 @@ export function Asistenciacom() {
             const res1 = await Obtener_Secciones();
             //console.log("res:", res);
 
+
             setMateria(res);
             setSeccion(res1);
         }
@@ -54,10 +59,10 @@ export function Asistenciacom() {
     }, [])
     
     const obtenerA = async () => {
-        console.log("seccion", seccionS.seccion);
-        console.log("grado", seccionS.grado);
+        console.log("seccion", seccionSelec.seccion);
+        console.log("grado", seccionSelec.grado);
         const formattedDate = moment(date).format("YYYY-MM-DD");    
-        const res2 = await obtenerAsistencia({ materia: materiaS, seccion: seccionS.seccion, grado: seccionS.grado, fechaA: formattedDate });
+        const res2 = await obtenerAsistencia({ materia: materiaS, seccion: seccionSelec.seccion, grado: seccionSelec.grado, fechaA: formattedDate });
         //console.log("fechahoy",datehoy)
         console.log("materia", materiaS)
         console.log("res2:", res2)
@@ -71,6 +76,9 @@ export function Asistenciacom() {
 
     console.log("ALUMNOS", alumnos)
     console.log("FECHA", date)
+    console.log("seccion", seccionSelec.seccion);
+    console.log("grado", seccionSelec.grado);
+
 
     const selectedSeccionesTemplate = (option, props) => {
         if (option) {
@@ -87,7 +95,7 @@ export function Asistenciacom() {
     const seccionOptionTemplate = (option) => {
         return (
             <div className="country-item">
-                <label>{option.grado + " " + option.seccion}</label>
+                <span>{option.grado + " " + option.seccion}</span>
             </div>
         );
     };
@@ -226,20 +234,21 @@ export function Asistenciacom() {
                 <div  >
                     <div className="container" style={{ backgroundColor: 'white', borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}>
                         <div className="row">
-                            <div className="col">
-                                <label className="Usuario"><b>Nombre de usuario</b></label>
-                            </div>
+                            
                             <div className="col">
                                 <label><b>Fecha:</b></label>
                                 <Calendar
                                     className={"p-inputtext-sm mb-2"}
                                     inputId="calendar"
                                      id="fLista"
-                                    value={date} /* verificar por qué no carga a la primera */
+                                    value={fecha} /* verificar por qué no carga a la primera */
                                     dateFormat="dd-mm-yy" 
                                     locale="es" 
                                     required
-                                    onChange={(e) => setDate(e.value.toLocaleDateString('en-ZA'))}
+                                    onChange={(e) => {
+                                        setDate(e.value.toLocaleDateString('en-ZA'));
+                                        setFecha(new Date(e.value));
+                                    }}
                                     showIcon
                                 />
                                 {"  "}
@@ -248,16 +257,15 @@ export function Asistenciacom() {
                                 <label><b>Sección:</b></label>
                                 <div>
                                     <Dropdown
-                                        name="label"
-                                        value={seccionS}
+                                        value={seccionSelec}
                                         optionLabel="grado"
-                                        className="dropdown"
+                                        className="p-inputtext-sm mb-2"
                                         valueTemplate={selectedSeccionesTemplate}
                                         itemTemplate={seccionOptionTemplate}
                                         options={seccion}
-                                        onChange={(e) => setSeccionS(e.value)}
+                                        onChange={(e) => setSeccionSelec(e.value)}
                                         placeholder="Seleccione el grado"
-                                        style={{ width: 'auto' }}
+                                        style={{ width: auto, height:'50%' }}
                                     />
                                 </div>
 
@@ -269,17 +277,18 @@ export function Asistenciacom() {
                                         value={materiaS}
                                         optionLabel="materia"
                                         optionValue="materia"
-                                        className="dropdown"
+                                        className="p-inputtext-sm mb-2"
                                         options={materia}
                                         onChange={(e) => setMateriaS(e.value)}
                                         placeholder="Selecione la materia"
-                                        style={{ width: 'auto' }}
+                                        style={{ width: auto, height:'50px' }}
                                     />
                                 </div>
 
                                 {"  "}
                             </div>
                             <div className="col">
+                               
                                 <Button
                                     style={{ transform: 'translateY(30%)' }}
                                     label="Cargar lista"
@@ -287,47 +296,20 @@ export function Asistenciacom() {
                                     icon="pi pi-check"
                                     loading={loading1}
                                     onClick={obtenerA}
+                                    disabled = {date && seccionSelec.grado && materiaS ? false: true}
+                                    
                                 />
                             </div>
                         </div>
                         <div className="row">
                             <div className="col">
-                                <DataTable ref={dt} value={alumnos} responsiveLayout="scroll">
-                                    <Column
-                                        field={"cedula"}
-                                        header="Cédula"
-                                        sortable
-                                        style={{ minWidth: "12rem" }}
-                                    ></Column>
-                                    <Column
-                                        field={"pnombre"}
-                                        header="Nombre"
-                                        sortable
-                                        style={{ minWidth: "12rem" }}
-                                    ></Column>
-                                    <Column
-                                        header="Presente"
-                                        body={buttonPresente}
-                                        style={{ minWidth: "12rem" }}
-                                    ></Column>
-                                    <Column
-                                        header="Ausencia injustificada"
-                                        body={buttonAusenInjus}
-                                        exportable={false}
-                                        style={{ minWidth: "12rem" }}
-                                    ></Column>
-                                    <Column
-                                        header="Ausencia justificada"
-                                        body={buttonAusenJusti}
-                                        exportable={false}
-                                        style={{ minWidth: "12rem" }}
-                                    ></Column>
-                                    <Column
-                                        header="Motivo de la ausencia"
-                                        body={inputJustificacion}
-                                        exportable={false}
-                                        style={{ minWidth: "12rem" }}
-                                    ></Column>
+                                <DataTable ref={dt} value={alumnos} responsiveLayout="scroll" scrollable emptyMessage = "No hay datos para mostar. Cargue la lista">
+                                    <Column field={"cedula"} header="Cédula" sortable style={{ minWidth: "12rem" }} />
+                                    <Column field={"pnombre"} header="Nombre" sortable style={{ minWidth: "12rem" }} />
+                                    <Column header="Presente" body={buttonPresente} style={{ minWidth: "12rem" }} />
+                                    <Column header="Ausencia injustificada" body={buttonAusenInjus} exportable={false} style={{ minWidth: "12rem" }}/>
+                                    <Column header="Ausencia justificada" body={buttonAusenJusti} exportable={false} style={{ minWidth: "12rem" }} />
+                                    <Column header="Motivo de la ausencia" body={inputJustificacion} exportable={false} style={{ minWidth: "12rem" }} />
                                 </DataTable>
                             </div>
                         </div>

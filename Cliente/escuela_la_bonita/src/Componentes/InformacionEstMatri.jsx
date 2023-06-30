@@ -14,6 +14,7 @@ import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { useNavigate} from "react-router-dom";
+import Cookies from "universal-cookie";
 
 import { infoEstudiante } from "../AppContext/providerEstudiante";
 import { infoEncargado } from '../AppContext/providerInfoEncargado';
@@ -58,7 +59,7 @@ export function InfoEstudianteMatricula() {
         sNombre: ""
     };
 
-    const navegar = useNavigate();
+    
     
     const [state, setState] = useContext(infoEstudiante);
     const [encargado, setEncargado] =  useContext(infoEncargado);
@@ -81,6 +82,9 @@ export function InfoEstudianteMatricula() {
     const msjEmergente = useRef(null);
     const dt = useRef(null);
 
+    const navegar = useNavigate();
+    const cookies = new Cookies();
+
 
     const inputRefs = [
         useRef(null),
@@ -91,6 +95,11 @@ export function InfoEstudianteMatricula() {
       ];
 
     useEffect(()=>{
+        //valida si esta logeado
+        if(!cookies.get('Func_Id')){
+            navegar("/");
+        }
+
         if("id" in state){
             obtenerAcompaniantes();
         }else if(!("acompaniante" in state)){

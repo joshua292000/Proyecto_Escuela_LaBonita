@@ -15,11 +15,22 @@ import AsistenciaComedor from "../Recursos/AsistenciaComedor.png";
 import CrearActividades from "../Recursos/CrearActividades.png";
 import CargarPracticas from "../Recursos/CargarPracticas.png";
 import { Header } from "../Componentes/Cabecera";
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 
 export default function Inicio() {
   const cookies = new Cookies();
   const navegar = useNavigate();
+  
+  useEffect(() => {
+    if(!cookies.get('Func_Id')){
+      navegar("/");
+
+    }
+  }, []);
+
+
+
+
   const header2 = (
     <img alt="Card" src="images/usercard.png" onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} />
   );

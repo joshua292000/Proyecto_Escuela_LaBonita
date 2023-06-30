@@ -334,9 +334,12 @@ app.get("/ListarRoles", ListarRoles);
 
 const obtenerAlumnos = (request, response) => {
     connection.query(
-        'SELECT p.Per_Identificacion AS cedula,p.Per_PNombre AS pnombre,p.Per_SNombre AS snombre,p.Per_PApellido AS papellido,p.Per_SApellido AS sapellido,m.Mat_Id AS matrid ' +
+        'SELECT p.Per_Identificacion AS cedula, p.Per_PNombre AS pnombre, p.Per_SNombre AS snombre, '+
+                'p.Per_PApellido AS papellido, p.Per_SApellido AS sapellido, m.Mat_Id AS matrid ' +
         'FROM esc_estudiantes e, esc_grado g, esc_personas p,esc_matricula m, esc_seccion s  ' +
-        'WHERE e.Per_Id=p.Per_Id  AND m.Est_Id=e.Est_Id AND m.Sec_Id=s.Sec_Id AND s.Gra_Id=g.Gra_Id AND g.Gra_Grado=? AND s.Sec_Seccion=?',
+        'WHERE e.Per_Id=p.Per_Id  AND m.Est_Id=e.Est_Id AND m.Sec_Id=s.Sec_Id AND s.Gra_Id=g.Gra_Id AND '+
+               'EXTRACT(YEAR FROM m.Mat_FechaMatricula) = EXTRACT(YEAR FROM CURDATE()) AND '+
+                'g.Gra_Grado=? AND s.Sec_Seccion=?',
         [request.params.Gra_Grado, request.params.Mat_Seccion],
         (error, results) => {
             if (error) throw error;

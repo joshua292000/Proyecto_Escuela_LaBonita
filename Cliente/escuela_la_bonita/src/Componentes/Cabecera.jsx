@@ -1,18 +1,22 @@
 import React from 'react';
-//import './style.css';
-import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
-import "primereact/resources/primereact.min.css";                  //core css
-import "primeicons/primeicons.css";   
 import { Menubar } from 'primereact/menubar';
 import { Carousel } from "primereact/carousel";
 import { useNavigate } from "react-router-dom";
 import { withRouter } from 'react-router'
-import "../Estilos.css";
 import Logo from "../Recursos/Escudo_escuela.png";
+import Cookies from 'universal-cookie';
+
+//import './style.css';
+import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
+import "primereact/resources/primereact.min.css";                  //core css
+import "primeicons/primeicons.css";   
+import "../Estilos.css";
+
 
 export function Header() {
 
    const navegar = useNavigate(); 
+   const cookies = new Cookies();
 
    function scrollToSection() {
       window.location.hash = '#Mision';
@@ -81,7 +85,9 @@ const items = [
       label:'Cerrar Sesión',
       icon:'pi pi-sign-out',
       visible: window.myGlobalLoggin,
-      command:(event)=>{navegar("/")}
+      command:(event)=>{cookies.remove('Func_Id', { path: '/' });
+                        cookies.remove('Rol_Id', { path: '/' });
+                        navegar("/")}
       
    },
   
