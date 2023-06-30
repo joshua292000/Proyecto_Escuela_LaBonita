@@ -5,6 +5,8 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Checkbox } from 'primereact/checkbox';
 import { Divider } from 'primereact/divider';
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 import { ObtenerFunAsigSeccion, ObtenerGradosSeccion, EliminarSecFuncionario, AgregarSecFuncionario } from '../Persistencia/EstudianteService';
 import { Cargando, tiempoCargando } from "../Componentes/Utils";
@@ -25,14 +27,20 @@ export function AsigSeccionProfes(){
     
     
     const dt = useRef(null);
+    const navegar = useNavigate();
+    const cookies = new Cookies();
 
     useEffect(()=>{
-       
-        setVerCargando(true);
-        setTimeout(()=>{
-            obtenerFuncionarios();
-            setVerCargando(false);
-        }, tiempoCargando);
+        if(!cookies.get('Func_Id')){
+            navegar("/");
+        }else{
+            setVerCargando(true);
+            setTimeout(()=>{
+                obtenerFuncionarios();
+                setVerCargando(false);
+            }, tiempoCargando);
+        }
+        
         
         
     }, []);

@@ -12,26 +12,29 @@ import { RadioButton } from 'primereact/radiobutton';
 import { addLocale } from 'primereact/api';
 import moment from "moment";
 import { auto } from "@popperjs/core";
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 export function Asistenciacom() {
+    const datosVacios = {justificacion: ""};
     const [materia, setMateria] = useState([]);
     const [materiaS, setMateriaS] = useState();
     const [seccion, setSeccion] = useState([]);
     const [seccionSelec, setSeccionSelec] = useState([]);
     const [alumnos, setAlumnos] = useState([]);
     const [loading1, setLoading1] = useState(false);
-    const [edit, setEdit] = useState();
-    const [jus, setJus] = useState({});
-    const [Fechahoy] = useState(new Date());
+    const [edit, setEdit] = useState({});
     const [productDialog, setProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [fecha, setFecha] = useState();
     const [date, setDate] = useState();
     
 
-
     const toast = useRef(null);
     const dt = useRef(null);
+
+    const navegar = useNavigate();
+    const cookies = new Cookies();
 
     addLocale('es', {
         firstDayOfWeek: 1,
@@ -44,18 +47,26 @@ export function Asistenciacom() {
         clear: 'Limpiar'
         });
 
+    
+
     useEffect(() => {
-        const obtenerDatos = async () => {
-            //se obtienen las materias y secciones según el funcionario
-            const res = await Obtener_Materias();
-            const res1 = await Obtener_Secciones();
-            //console.log("res:", res);
-
-
-            setMateria(res);
-            setSeccion(res1);
+        //valida si esta logeado
+        if(!cookies.get('Func_Id')){
+            navegar("/");
+        }else{
+            const obtenerDatos = async () => {
+                //se obtienen las materias y secciones según el funcionario
+                const res = await Obtener_Materias();
+                const res1 = await Obtener_Secciones();
+                //console.log("res:", res);
+    
+    
+                setMateria(res);
+                setSeccion(res1);
+            }
+            obtenerDatos()
         }
-        obtenerDatos()
+        
     }, [])
     
     const obtenerA = async () => {
@@ -101,29 +112,27 @@ export function Asistenciacom() {
     };
 
 
-    const guardarCambios = (datos, props) => {
+    const guardarCambios = (rowData, props) => {
         setSubmitted(true);
-        if (datos.cedula.trim()) {
+        if (rowData.cedula.trim()) {
             let alum = [...alumnos];
-            let data = { ...datos };
-            console.log("Objeto", alum)
-            if (data.cedula) {
-                const index = findIndexById(data.cedula);
-                if (props.justi != null) {
-                    alum[index].tasistencia = "Ausencia justificada";
-                    alum[index].justificacion = jus;
-                    setProductDialog(false);
-                }
-                if (props.tasistencia != null) {
-                    alum[index].tasistencia = props.tasistencia;
-                }
-                alum[index].materia = materiaS;
-                console.log("date:", date);
-                alum[index].fechaA = date;
-                toast.current.show({ severity: "success", summary: "Actualización", detail: "Asistencia Actualizada", life: 3000, });
+            let data = { ...rowData };
+            console.log("Objeto", data)           
+            const index = findIndexById(data.cedula);
+            if (props.justi != null) {
+                alum[index].tasistencia = "Ausencia justificada";
+                alum[index].justificacion = data.justificacion;
+                setProductDialog(false);
             }
+            if (props.tasistencia != null) {
+                alum[index].tasistencia = props.tasistencia;
+            }
+            alum[index].materia = materiaS;
+            console.log("date:", date);
+            alum[index].fechaA = date;
+            toast.current.show({ severity: "success", summary: "Actualización", detail: "Asistencia Actualizada", life: 1000, });
             setAlumnos(alum);
-          
+            //setEdit({});
         }
         
     }
@@ -147,8 +156,9 @@ export function Asistenciacom() {
                     checked={rowData.tasistencia=="Presente"}
                     id="Presente"
                     name={rowData.cedula}
-                    onChange={async () => {
-                        await guardarCambios(rowData, { tasistencia: "Presente", justi: null })
+                    onChange={() => {
+                        setEdit(rowData);
+                        guardarCambios(rowData, { tasistencia: "Presente", justi: null })
                     }}
                 ></RadioButton>
             </React.Fragment>
@@ -167,7 +177,8 @@ export function Asistenciacom() {
                     id="Ausente"
                     name={rowData.cedula}
                     onChange={() => {
-                         guardarCambios(rowData, { tasistencia: "Ausencia injustificada", justi: null })
+                        setEdit(rowData);
+                        guardarCambios(rowData, { tasistencia: "Ausencia injustificada", justi: null })
                     }}
                 ></RadioButton>
             </React.Fragment>
@@ -202,6 +213,12 @@ export function Asistenciacom() {
                     className="p-inputtext-sm block mb-2"
                     value={rowData.tasistencia === "Ausencia justificada" ? rowData.justificacion : ''}
                     style={{ width: '90%' }}
+                    onClick={()=>{
+                        if(rowData.tasistencia === "Ausencia justificada"){
+                            setEdit(rowData);
+                            setProductDialog(true);
+                        }
+                        }}
                     required />
             </React.Fragment>
         );
@@ -216,11 +233,11 @@ export function Asistenciacom() {
         <React.Fragment>
             <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
             <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={async () => {
-                await guardarCambios(edit, { estado: null, justi: "" })
+                guardarCambios(edit, { tasistencia: null, justi: "" })
             }} />
         </React.Fragment>)
 
-    console.log("edit", alumnos);
+    console.log("edit", edit);
     //console.log("materia", materiaS);
 
 
@@ -234,7 +251,6 @@ export function Asistenciacom() {
                 <div  >
                     <div className="container" style={{ backgroundColor: 'white', borderRadius: '15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}>
                         <div className="row">
-                            
                             <div className="col">
                                 <label><b>Fecha:</b></label>
                                 <Calendar
@@ -304,12 +320,12 @@ export function Asistenciacom() {
                         <div className="row">
                             <div className="col">
                                 <DataTable ref={dt} value={alumnos} responsiveLayout="scroll" scrollable emptyMessage = "No hay datos para mostar. Cargue la lista">
-                                    <Column field={"cedula"} header="Cédula" sortable style={{ minWidth: "12rem" }} />
-                                    <Column field={"pnombre"} header="Nombre" sortable style={{ minWidth: "12rem" }} />
-                                    <Column header="Presente" body={buttonPresente} style={{ minWidth: "12rem" }} />
-                                    <Column header="Ausencia injustificada" body={buttonAusenInjus} exportable={false} style={{ minWidth: "12rem" }}/>
-                                    <Column header="Ausencia justificada" body={buttonAusenJusti} exportable={false} style={{ minWidth: "12rem" }} />
-                                    <Column header="Motivo de la ausencia" body={inputJustificacion} exportable={false} style={{ minWidth: "12rem" }} />
+                                    <Column field={"cedula"} header="Cédula" sortable style={{ minWidth: "10rem" }} />
+                                    <Column field={(dt)=>{return dt.pnombre +" "+ dt.papellido}} header="Nombre" sortable style={{ minWidth: "12rem" }} />
+                                    <Column header="Presente" body={buttonPresente} style={{ minWidth: "10rem" }} />
+                                    <Column header="Ausencia injustificada" body={buttonAusenInjus} exportable={false} style={{ minWidth: "10rem" }}/>
+                                    <Column header="Ausencia justificada" body={buttonAusenJusti} exportable={false} style={{ minWidth: "10rem" }} />
+                                    <Column header="Motivo de la ausencia" body={inputJustificacion} exportable={false} style={{ minWidth: "10rem" }} />
                                 </DataTable>
                             </div>
                         </div>
@@ -320,6 +336,7 @@ export function Asistenciacom() {
                                     id="cargarlista"
                                     className="p-button-sm"
                                     icon="pi pi-save"
+                                    disabled = {alumnos.length > 0 ? false: true}
                                     onClick={() => {
                                         alumnos.map(async (dt) => {
                                             await insertarAsistencia(dt);
@@ -336,15 +353,7 @@ export function Asistenciacom() {
                     <Toast ref={toast} />
 
 
-                    <Dialog
-                        visible={productDialog}
-                        style={{ width: "800px" }}
-                        header="Justificación"
-                        modal
-                        className="p-fluid"
-                        footer={productDialogFooter}
-                        onHide={hideDialog}
-                    >
+                    <Dialog visible={productDialog}style={{ width: "800px" }} header="Justificación" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                         <div className="form-demo" style={{ height: "auto" }}>
                             <div className=" col-sm">
                                 <div className="field">
@@ -355,8 +364,9 @@ export function Asistenciacom() {
                                         <InputText
                                             id="inputtext"
                                             className="p-inputtext-sm block mb-2"
+                                            value={edit.justificacion}
                                             onChange={(e) => {
-                                                setJus(e.target.value);
+                                                setEdit({...edit, justificacion: e.target.value});
                                             }}
                                             style={{ width: "90%" }}
                                         />

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { Divider } from "primereact/divider";
@@ -7,6 +7,8 @@ import { Column } from 'primereact/column';
 import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { RadioButton } from 'primereact/radiobutton';
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 import { ObtenerEstudianteGrado } from '../Persistencia/EstudianteService';
 import { Cargando, tiempoCargando } from "../Componentes/Utils";
@@ -36,12 +38,21 @@ export function AsignarSecciones(){
     const [verBtnAsig, setVerBtnAsig] = useState(false);
     const [verBtnAsigElim, setVerBtnAsigElim] = useState(true);
     const [requerido, setRequerido] = useState(false);
+   
     const dt = useRef(null);
+    const navegar = useNavigate();
+    const cookies = new Cookies();
 
     
     console.log("Estudiantes ",estudiantes);
     console.log("cantSec ", cantSecciones);
     console.log("cantEstSec ", cantEstSec);
+
+    useEffect(()=>{
+        if(!cookies.get('Func_Id')){
+            navegar("/");
+        }
+    }, []);
 
     const buscarEstudiantesGrado= async ()=>{
         if(gradoBuscar){
