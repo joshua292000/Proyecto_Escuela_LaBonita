@@ -3,19 +3,20 @@ import React, { useContext, useState, useEffect, useRef} from "react";
 import { ObtenerEstudiante } from "../Persistencia/EstudianteService";
 import { InputText } from 'primereact/inputtext';
 import { Calendar } from 'primereact/calendar';
-import { PaisService, ProvinciaService, CantonService, DistritoService } from '../AppContext/Getdireccion';
 import { Dropdown } from 'primereact/dropdown';
 import { RadioButton } from 'primereact/radiobutton';
 import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { infoEstudiante } from "../AppContext/providerEstudiante";
 import { addLocale } from 'primereact/api';
 import { useNavigate } from "react-router-dom";
 import { Toast } from 'primereact/toast';
 import { Dialog } from 'primereact/dialog';
-import { Cargando, tiempoCargando } from "./Utils";
 import 'react-datepicker/dist/react-datepicker.css';
+
+import { Cargando, tiempoCargando, msjRequeridos } from "./Utils";
+import { PaisService, ProvinciaService, CantonService, DistritoService } from '../AppContext/Getdireccion';
+import { infoEstudiante } from "../AppContext/providerEstudiante";
 
 export function InfoPersonal() {
    const [state, setState] = useContext(infoEstudiante);
@@ -36,6 +37,7 @@ export function InfoPersonal() {
   const msjEmergente = useRef(null);
 
   useEffect(() => {
+     //setState({});
       Pais.getPais().then(data => setCountries(data));
       Provincia.getProvincia().then(data => setProvincia(data));
 
@@ -159,7 +161,6 @@ export function InfoPersonal() {
     </Dialog>
 
         <div className="container" >
-        
             <div className="row ">
                 <div className="col-sm offset-md-2">
                     <div className="field">
@@ -187,7 +188,7 @@ export function InfoPersonal() {
                                 }} />
                         </div>
                     </div>
-                    {requerido && !state.cedula && <small className="p-error">Cédula es requerido</small>}
+                    {requerido && !state.cedula && <small className="p-error">{msjRequeridos}</small>}
                 </div>
                 <div className="col-sm  ">
                     <div className="field">
@@ -207,7 +208,7 @@ export function InfoPersonal() {
                             showIcon
                             />      
                         </div>
-                        {requerido && !state.fechaNaci && <small className="p-error">Fecha de nacimiento es requerido</small>} 
+                        {requerido && !state.fechaNaci && <small className="p-error">{msjRequeridos}</small>} 
                     </div>
                 </div>
             </div>
@@ -228,7 +229,7 @@ export function InfoPersonal() {
                                     setState({ ...state, pNombre: e.target.value})}
                                 required 
                                 style={{ width: '90%' }} />
-                            {requerido && !state.pNombre && <small className="p-error">Primer nombre es requerido</small>}
+                            {requerido && !state.pNombre && <small className="p-error">{msjRequeridos}</small>}
                         </div>
                     </div>
                 </div>
@@ -265,7 +266,7 @@ export function InfoPersonal() {
                                 onChange={(e) =>
                                     setState({ ...state, pApellido: e.target.value})}
                                 required />
-                            {requerido && !state.pApellido && <small className="p-error">Primer apellido es requerido</small>}
+                            {requerido && !state.pApellido && <small className="p-error">{msjRequeridos}</small>}
                         </div>
                     </div>
                 </div>
@@ -284,13 +285,14 @@ export function InfoPersonal() {
                                 onChange={(e) =>
                                     setState({ ...state, sApellido: e.target.value})}
                                 required />
-                            {requerido && !state.sApellido && <small className="p-error">Segundo apellido es requerido</small>}
+                            {requerido && !state.sApellido && <small className="p-error">{msjRequeridos}</small>}
                         </div>
                     </div>
                 </div>
             </div>
             <Divider align="left" ></Divider>
             <div className="row">
+                <label ><b>Lugar de residencia:</b></label> <br/><br/>
                 <div className="col-sm">
                     <div className="field">
                         <label><b>Provincia:</b></label>
@@ -309,7 +311,7 @@ export function InfoPersonal() {
                                 optionLabel="name"
                                 style={{ width: 'auto' }} />
                         </div>
-                        {requerido && !state.provincia && <small className="p-error">Provincia es requerido</small>}
+                        {requerido && !state.provincia && <small className="p-error">{msjRequeridos}</small>}
                     </div>
                 </div>
                 <div className="col-sm">
@@ -333,7 +335,7 @@ export function InfoPersonal() {
                                 optionLabel="name" 
                                 style={{ width: 'auto' }}/>
                         </div>
-                        {requerido && !state.canton && <small className="p-error">Cantón es requerido</small>}
+                        {requerido && !state.canton && <small className="p-error">{msjRequeridos}</small>}
                     </div>
                 </div>
                 <div className="col-sm">
@@ -357,7 +359,7 @@ export function InfoPersonal() {
                                 optionLabel="name" 
                                 style={{ width: '100%', height: '45px' }}/>
                         </div>
-                        {requerido && !state.distrito && <small className="p-error">Distrito es requerido</small>}
+                        {requerido && !state.distrito && <small className="p-error">{msjRequeridos}</small>}
                     </div>
                 </div>
             </div>
@@ -380,7 +382,7 @@ export function InfoPersonal() {
                         rows={1}
                         autoResize
                         style={{ transform: 'translateX(5px)', width: '98%' }} />
-                    {requerido && !state.direccion && <small className="p-error">Dirección es requerido</small>}
+                    {requerido && !state.direccion && <small className="p-error">{msjRequeridos}</small>}
                 </div>
             </div>
             <Divider align="left" ></Divider>
@@ -426,7 +428,7 @@ export function InfoPersonal() {
                 <div className="row">
                 <div className="col-sm-4">
                     <br />
-                    {requerido && !state.sexo && <small className="p-error">Sexo es requerido</small>} 
+                    {requerido && !state.sexo && <small className="p-error">{msjRequeridos}</small>} 
                 </div>
                 </div>
         
@@ -444,13 +446,13 @@ export function InfoPersonal() {
                             optionValue="name"
                             value={state.lugarNacimiento}
                             options={countries}
-                            filter showClear filterBy="name"
+                            filter filterBy="name"
                             placeholder="Lugar de nacimiento"
                             style={{ width: '100%' }}
                             onChange={(e) =>
                                 setState({ ...state, lugarNacimiento: e.target.value})}
                             optionLabel="name" />
-                        {requerido && !state.lugarNacimiento && <small className="p-error">Este campo es requerido</small>}
+                        {requerido && !state.lugarNacimiento && <small className="p-error">{msjRequeridos}</small>}
                     </div>
                 </div>
             </div>

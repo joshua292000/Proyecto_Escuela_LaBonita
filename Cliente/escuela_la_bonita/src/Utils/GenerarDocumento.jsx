@@ -24,6 +24,8 @@ export const generarDocumento = async (plantilla, datos, nombreSalida) =>{
           } catch (error) {
             // Manejo de errores
             console.log(error);
+          } finally{
+            return false;
           }
 
     }catch(err){

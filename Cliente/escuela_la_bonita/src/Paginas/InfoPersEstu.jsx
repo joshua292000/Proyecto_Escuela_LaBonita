@@ -9,7 +9,7 @@ export default function Inicio() {
       {" "}
       <Header />
       <div className="Div">
-        <span className="titleBlack" style={{ marginBottom: '2%' }}>Información Personal del estudiante</span>
+        <span className="titleBlack" style={{ marginBottom: '2%' }}>Información Personal del Estudiante</span>
         <div style={{backgroundColor:'white' ,borderRadius: '15px',paddingTop:'15px', border: '15px solid rgb(163, 29, 29, 0.06)' }}>
           <InfoPersonal/>
           {/* <button type="button" onClick={()=>agregarInfoPersonal({value : state})}> Agregar</button><br /> */}

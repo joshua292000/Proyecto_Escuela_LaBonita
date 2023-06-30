@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { ObtenerEncargadosEstu, ObtenerEncargado } from '../Persistencia/EncargadoService';
 import { infoEstudiante } from '../AppContext/providerEstudiante';
 import { infoEncargado } from '../AppContext/providerInfoEncargado';
+import { msjRequeridos, msjAdCorreo } from '../Componentes/Utils';
 
 
 addLocale('es', {
@@ -134,8 +135,8 @@ export function InfoEncargado() {
         }
     }, [encarEdit.provincia]);
 
-    console.log("state", encarEdit);
-    console.log("datos", encargado);
+    console.log("encargadoEdit", encarEdit);
+    console.log("encargado", encargado);
     
     const validarCorre = () => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -181,31 +182,40 @@ export function InfoEncargado() {
         return res;
     }
 
+
     const guardarEncargado = () => {
         setRequerido(true);
-        if (encarEdit.cedula.trim()) {
-            let datos = [...encargado];
-            let editados = { ...encarEdit };
-            if (encarEdit.cedula) {
-                const index = buscarXId(encarEdit.cedula);
-                if (index >= 0) {
-                    editados.estado = "A";
-                    datos[index] = editados;
-                    msjEmergente.current.show({ severity: 'success', summary: 'Actualización', detail: 'Encargado actualizado', life: 2500 });
+        //valida si todos los campos requeridos estan llenos
+        if(encarEdit.cedula && encarEdit.fechaNaci && encarEdit.pNombre && encarEdit.pApellido &&
+            encarEdit.sApellido && encarEdit.provincia && encarEdit.canton && encarEdit.distrito &&
+            encarEdit.direccion &&  encarEdit.sexo && encarEdit.lugarNacimiento && encarEdit.estadoCivil &&
+            encarEdit.escolaridad && encarEdit.ocupacion && encarEdit.parentesco && encarEdit.viveConEstu){
+                let datos = [...encargado];
+                let editados = { ...encarEdit };
+                if (encarEdit.cedula) {
+                    const index = buscarXId(encarEdit.cedula);
+                    if (index >= 0) {
+                        editados.estado = "A";
+                        datos[index] = editados;
+                        msjEmergente.current.show({ severity: 'success', summary: 'Actualización', detail: 'Encargado actualizado', life: 2500 });
+                    } else {
+                        editados.estado = "A";
+                        datos.push(editados);
+                        msjEmergente.current.show({ severity: 'success', summary: 'Registrado', detail: 'Encargado Registrado', life: 2500 });
+                    }
+    
                 } else {
-                    editados.estado = "A";
-                    datos.push(editados);
-                    msjEmergente.current.show({ severity: 'success', summary: 'Registrado', detail: 'Encargado Registrado', life: 2500 });
+                    msjEmergente.current.show({ severity: 'feiled', style:{backgroundColor: 'white'},  summary: 'Se produjo un problema', detail: 'Encargado NO Registrado', life: 2500 });
                 }
-
-            } else {
-                msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'feiled', summary: 'Se produjo un problema', detail: 'Encargado NO Registrado', life: 2500 });
-            }
-            setEncargado(datos);
-            setVerModal(false);
-            setEncarEdit(datosVacios);
-            setFecha();
+                setVerModal(false);
+                setEncargado(datos);
+                setFecha();
+                //setEncarEdit(datosVacios);
+                
+        }else{
+            msjEmergente.current.show({ severity: 'error', style:{backgroundColor: 'white'},  summary: 'Campos requeridos', detail: 'Hay campos requeridos sin llenar', life: 2500 });
         }
+        
     }
     const buscarXId = (cd) => {
         let index = -1;
@@ -229,6 +239,7 @@ export function InfoEncargado() {
 
 
     const editarEncargado = (data) => {
+        setEncarEdit();
         setEncarEdit({ ...data });
         setFecha(new Date(data.fechaNaci));
         setVerModal(true);
@@ -282,7 +293,6 @@ export function InfoEncargado() {
    
   
     const compoSiguente = async (event, index) => {
-        console.log("enter1");
       if (event.key === 'Enter') {
         event.preventDefault();
         const _sigInput = index + 1;
@@ -296,12 +306,10 @@ export function InfoEncargado() {
     }
 
     const cerrarModalMsjEnter =  async (event) => {
-        console.log("enter2");
         if (event.key === 'Enter') {
             event.preventDefault();
             setVerModalMsj (false);
             setVerModal(true);
-            //document.getElementById("cedula").focus();
         }
     }
 
@@ -309,10 +317,9 @@ export function InfoEncargado() {
         let estado = encargado.some(obj => obj.estado === "A");
         if(estado){
             //avanza de pagina
-            console.log("entro4");
             navegar("/informacionestudiante");
         }else{
-            msjEmergente.current.show({ severity: 'warn', summary: 'Datos requeridos', detail: 'Es necesario agregar al menos un encargado', life: 3000});
+            msjEmergente.current.show({ severity: 'error', summary: 'Datos requeridos', detail: 'Es necesario agregar al menos un encargado', life: 3000});
         }
     }
 
@@ -363,7 +370,7 @@ export function InfoEncargado() {
                     <div className="col">
                         <div className="card">
                             <Toolbar className="mb-4" left={btnAgregarEncIzquierdo}></Toolbar>
-                            <DataTable ref={dt} value={encargado.filter((val) => val.estado === 'A') } responsiveLayout="scroll" 
+                            <DataTable ref={dt} value={encargado.filter((val) => val.estado === 'A') } responsiveLayout="scroll" scrollable 
                                         emptyMessage = "No hay datos para mostar. Ingrese encargados">
                                 <Column field="cedula" header="Cédula" sortable style={{ minWidth: '12rem' }}></Column>
                                 <Column field={(dt)=>{return dt.pNombre +" "+ dt.pApellido}} header="Nombre completo" sortable style={{ minWidth: '12rem' }}></Column>
@@ -420,21 +427,20 @@ export function InfoEncargado() {
                                             autoFocus
                                             className= { requerido && !encarEdit.cedula ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                             value={encarEdit.cedula}
-                                            
+                                            required 
                                             onChange={(e) =>
                                                 datosDeEntrada(e, 'cedula')}
-                                            required />
+                                            />
                                         <Button
                                             icon="pi pi-search"
                                             id="Buscar2"
                                             className="p-button-warning"
                                             onClick={async () => {
                                                 await buscarEncargado();
-                                                
                                             }} />
                                         
                                     </div>
-                                    {requerido && !encarEdit.cedula && <small className="p-error">Cédula es requerido</small>}
+                                    {requerido && !encarEdit.cedula &&  <small className="p-error">Cédula es requerido</small> }
                                 </div>
                             </div>
 
@@ -454,7 +460,7 @@ export function InfoEncargado() {
                                         }
                                         showIcon 
                                         style={{height: '45px'}}/>
-                                    {requerido && !encarEdit.fechaNaci && <small className="p-error">Fecha de nacimiento es requerido</small>}
+                                    {requerido && !encarEdit.fechaNaci && <small className="p-error">{msjRequeridos}</small>}
                                 </div>
                             </div>
                         </div>
@@ -475,7 +481,7 @@ export function InfoEncargado() {
                                                 datosDeEntrada(e, 'pNombre')}
                                             required
                                             style={{ width: '90%' }} />
-                                        {requerido && (!encarEdit.pNombre || encarEdit.pNombre === '') && <small className="p-error">Primer nombre es requerido</small>}
+                                        {requerido && (!encarEdit.pNombre || encarEdit.pNombre === '') && <small className="p-error">{msjRequeridos}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -512,7 +518,7 @@ export function InfoEncargado() {
                                             onChange={(e) =>
                                                 datosDeEntrada(e, 'pApellido')}
                                             required />
-                                        {requerido && !encarEdit.pApellido && <small className="p-error">Primer apellido es requerido</small>}
+                                        {requerido && !encarEdit.pApellido && <small className="p-error">{msjRequeridos}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -531,13 +537,14 @@ export function InfoEncargado() {
                                             onChange={(e) =>
                                                 datosDeEntrada(e, 'sApellido')}
                                             required />
-                                        {requerido && !encarEdit.sApellido && <small className="p-error">Segundo apellido es requerido</small>}
+                                        {requerido && !encarEdit.sApellido && <small className="p-error">{msjRequeridos}</small>}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <Divider align="left" ></Divider>
                         <div className="row">
+                            <label ><b>Lugar de residencia:</b></label> <br/><br/>
                             <div className="col-sm">
                                 <div className="field">
                                     <label><b>Provincia:</b></label>
@@ -556,7 +563,7 @@ export function InfoEncargado() {
                                                 setEncarEdit({ ...encarEdit, provincia: e.target.value, })}
                                             optionLabel="name"
                                             style={{ width: 'auto' }} />
-                                        {requerido && !encarEdit.provincia && <small className="p-error">Provincia es requerido</small>}
+                                        {requerido && !encarEdit.provincia && <small className="p-error">{msjRequeridos}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -581,7 +588,7 @@ export function InfoEncargado() {
                                             }
                                             optionLabel="name"
                                             style={{ width: 'auto' }} />
-                                        {requerido && !encarEdit.canton && <small className="p-error">Canton es requerido</small>}
+                                        {requerido && !encarEdit.canton && <small className="p-error">{msjRequeridos}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -606,7 +613,7 @@ export function InfoEncargado() {
                                             }
                                             optionLabel="name"
                                             style={{ width: 'auto' }} />
-                                        {requerido && !encarEdit.distrito && <small className="p-error">Distrito es requerido</small>}
+                                        {requerido && !encarEdit.distrito && <small className="p-error">{msjRequeridos}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -631,7 +638,7 @@ export function InfoEncargado() {
                                     autoResize
                                     required
                                     style={{ transform: 'translateX(5px)', width: '98%' }} />
-                                {requerido && !encarEdit.direccion && <small className="p-error">Dirección es requerido</small>}
+                                {requerido && !encarEdit.direccion && <small className="p-error">{msjRequeridos}</small>}
                             </div>
                         </div>
                         <Divider align="left" ></Divider>
@@ -673,7 +680,7 @@ export function InfoEncargado() {
                                     <b>Mujer</b>
                                 </label>
                             </div>
-                            {requerido && !encarEdit.sexo && <small className="p-error">Sexo es requerido</small>}
+                            {requerido && !encarEdit.sexo && <small className="p-error">{msjRequeridos}</small>}
                         </div>
                         <Divider align="left" ></Divider>
                         <div className="row">
@@ -686,7 +693,7 @@ export function InfoEncargado() {
                                         name="lugarnacimiento"
                                         id="dropDown"
                                         className={ requerido && !encarEdit.lugarNacimiento ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
-                                        filter showClear filterBy="name"
+                                        filter filterBy="name"
                                         placeholder="Lugar de nacimiento"
                                         optionValue="name"
                                         optionLabel="name"
@@ -696,7 +703,7 @@ export function InfoEncargado() {
                                         onChange={(e) =>
                                             datosDeEntrada(e, 'lugarNacimiento')}
                                     />
-                                    {requerido && !encarEdit.lugarNacimiento && <small className="p-error">Lugar de nacimiento es requerido</small>}
+                                    {requerido && !encarEdit.lugarNacimiento && <small className="p-error">{msjRequeridos}</small>}
                                 </div>
                             </div>
                             <div className="col-auto">
@@ -718,7 +725,7 @@ export function InfoEncargado() {
                                             datosDeEntrada(e, 'estadoCivil')
                                         }
                                     />
-                                    {requerido && !encarEdit.estadoCivil && <small className="p-error">Estado civil es requerido</small>}
+                                    {requerido && !encarEdit.estadoCivil && <small className="p-error">{msjRequeridos}</small>}
                                 </div>
                             </div>
                         </div>
@@ -737,7 +744,7 @@ export function InfoEncargado() {
                                         onKeyDown={(event)=>compoSiguente(event,6)}
                                         id="correo"
                                         value={encarEdit.correo}
-                                        className={ !correoValido && encarEdit.correo ? 'p-invalid'  : "p-inputtext-sm mb-2"}
+                                        className={encarEdit.correo && !correoValido ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                         style={{ width: '70%' }}
                                         keyfilter={/[^\s]/}
                                         maxLength={50}
@@ -747,7 +754,7 @@ export function InfoEncargado() {
 
                                         required />
                                 </div>
-                                {!correoValido && encarEdit.correo && <small className="p-error">Correo invalido</small>}
+                                {encarEdit.correo && !correoValido && <small className="p-error">{msjAdCorreo}</small>}
                             </div>
                             <div className="col-sm">
                                 <label><b>Número de Teléfono:</b></label>
@@ -757,7 +764,7 @@ export function InfoEncargado() {
                                         onKeyDown={(event)=>compoSiguente(event,7)}
                                         id="telefono"
                                         value={encarEdit.telefono}
-                                        className="p-inputtext-sm mb-2"
+                                        className={ requerido && !encarEdit.telefono ? 'p-invalid'  : "p-inputtext-sm mb-2"} 
                                         keyfilter="num"
                                         style={{ width: '40%' }}
                                         maxLength={45}
@@ -766,6 +773,7 @@ export function InfoEncargado() {
                                         }
                                         required />
                                 </div>
+                                {requerido && !encarEdit.telefono && <small className="p-error">{msjRequeridos}</small>}
                             </div>
                         </div>
                         <Divider align="left" ></Divider>
@@ -793,7 +801,7 @@ export function InfoEncargado() {
                                         onChange={(e) =>
                                             datosDeEntrada(e, 'escolaridad')}
                                     />
-                                    {requerido && !encarEdit.escolaridad && <small className="p-error">Escolaridad es requerido</small>}
+                                    {requerido && !encarEdit.escolaridad && <small className="p-error">{msjRequeridos}</small>}
                                 </div>
                             </div>
                             <div className="col-sm">
@@ -811,7 +819,7 @@ export function InfoEncargado() {
                                         onChange={(e) =>
                                             datosDeEntrada(e, 'ocupacion')}
                                         required />
-                                    {requerido && !encarEdit.ocupacion && <small className="p-error">Ocupacion es requerido</small>}
+                                    {requerido && !encarEdit.ocupacion && <small className="p-error">{msjRequeridos}</small>}
                                 </div>
                             </div>
                             <div className="col-sm">
@@ -857,7 +865,7 @@ export function InfoEncargado() {
                                         onChange={(e) =>
                                             datosDeEntrada(e, 'parentesco')}
                                     />
-                                    {requerido && !encarEdit.parentesco && <small className="p-error">Parentesco es requerido</small>}
+                                    {requerido && !encarEdit.parentesco && <small className="p-error">{msjRequeridos}</small>}
                                 </div>
                             </div>
                             <div className="col-sm ">
@@ -894,7 +902,7 @@ export function InfoEncargado() {
                                         <b>No</b>
                                     </label>
                                 </div>
-                                {requerido && !encarEdit.viveConEstu && <small className="p-error">Éste campo es requerido</small>}
+                                {requerido && !encarEdit.viveConEstu && <small className="p-error">{msjRequeridos}</small>}
                             </div>
                         </div>
                     </div>

@@ -201,7 +201,7 @@ export function AsigSeccionProfes(){
                 <div className="row">
                     <div className="col">
                         <div className="card">
-                            <DataTable ref={dt} value={funcionario} responsiveLayout="scroll" >
+                            <DataTable ref={dt} value={funcionario} responsiveLayout="scroll" scrollable >
                                 <Column body={checkConfirmacion} exportable={false} style={{ minWidth: '1rem' }}/>
                                 <Column field="cedula" header="Cédula" style={{ minWidth: '5rem' }}></Column>
                                 <Column field="nombre" header="Nombre" style={{ minWidth: '8rem' }}></Column>

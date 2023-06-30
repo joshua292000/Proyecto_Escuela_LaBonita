@@ -13,12 +13,15 @@ import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
+import { useNavigate} from "react-router-dom";
 
 import { infoEstudiante } from "../AppContext/providerEstudiante";
 import { infoEncargado } from '../AppContext/providerInfoEncargado';
 import { Matricula } from "../Persistencia/MatriculaService";
 import { ObtenerViajaCon, ObtenerPersonasViajaCon} from "../Persistencia/EstudianteService";
 import { crearObjetoDocumentoMatri } from "../Utils/CrearObjetoDocumentoMatri";
+import { generarDocumento } from "../Utils/GenerarDocumento";
+import { msjRequeridos } from "./Utils";
 
 
 export function InfoEstudianteMatricula() {
@@ -54,13 +57,14 @@ export function InfoEstudianteMatricula() {
         pNombre: "", sApellido: "",
         sNombre: ""
     };
+
+    const navegar = useNavigate();
     
     const [state, setState] = useContext(infoEstudiante);
     const [encargado, setEncargado] =  useContext(infoEncargado);
 
     const [acompanianteEdit, setAcompanianteEdit] = useState(datosVacios);//contendrá la información del viaja con, que se edite o se cree
     const [verModal, setVerModal] = useState(false);//control booleano de la pantalla modal. true se muestra, false se oculta
-    const [verTabla, setVerTabla] = useState(false);//controla el rendarizado condicional de la tabla
     const [borrarAcom, setBorrarAcom] = useState(false);//controla el estado de visibilidad de la modal de confirmación para eliminar el acompañante
     const [verModalMsj, setVerModalMsj] = useState(false);//controla el estado de visibilidad de la modal de confirmación de que no está registrado
     const [verCanlendario, setVerCanlendario] = useState(false);//controla el renderizado condicional del calendario de la fecha de vencimiento de la póliza
@@ -96,9 +100,6 @@ export function InfoEstudianteMatricula() {
         if(state.poliza === "S"){
             setVerCanlendario(true);
         }
-        /*if(state.viaja === "A"){
-            setVerTabla(true);
-        }*/
         setGradoEstAnte(state.grado);
         setFecha('vencePoliza' in state? new Date(state.vencePoliza):'');
 
@@ -126,11 +127,9 @@ export function InfoEstudianteMatricula() {
     }
     const cerrarModalMsjMatricula = () => {
         setVerModalMatri(false);
-        
-        /*if(matriCorrecta){
-            window.location.href = '/Informacionpersonal';
- 
-        }*/
+        if(matriCorrecta){
+            limpiarDatos();
+        }
     }
 
     const validarGradoSeleccionado = (gradoSelec) =>{
@@ -138,7 +137,7 @@ export function InfoEstudianteMatricula() {
             let indxGradoAnte = grados.findIndex((elemento) => elemento.name === gradoEstAnte);
             let indxGradoActual = grados.findIndex((elemento) => elemento.name === gradoSelec);
             if(indxGradoActual >= indxGradoAnte){
-                setState({ ...state, gradoSelec }); 
+                setState({ ...state, grado: gradoSelec }); 
                 setGradoEst(gradoSelec);
                 
             }else{
@@ -146,7 +145,7 @@ export function InfoEstudianteMatricula() {
             }
 
         }else{
-            setState({ ...state, gradoSelec});
+            setState({ ...state, grado: gradoSelec});
             setGradoEst(gradoSelec);
         }
         
@@ -185,19 +184,6 @@ export function InfoEstudianteMatricula() {
 
     const crearAcompaniante= ()=>{
         let datos = {...state}
-        /* let acom = {};
-        let dt = [];
-        encargado.forEach(element =>{
-            acom.cedulaEst = state.cedula;
-            acom.cedula = element.cedula;
-            acom.pNombre = element.pNombre;
-            acom.sNombre = element.sNombre;
-            acom.pApellido = element.pApellido;
-            acom.sApellido = element.sApellido;
-            acom.estado = element.estado;
-            dt.push(acom);
-            acom = {};
-        });*/
         datos.acompaniante = [];
         setState(datos);
     }
@@ -227,7 +213,6 @@ export function InfoEstudianteMatricula() {
         const res = await ObtenerViajaCon(acompanianteEdit.cedula);
         if(res.pNombre === null){
             setTimeout(()=>{
-                document.getElementById("cedula").focus();
                 setVerModal(false);
                 setVerModalMsj(true);
                 setVerCargando(false);
@@ -236,7 +221,6 @@ export function InfoEstudianteMatricula() {
             
         }else{
             setTimeout(()=>{
-                document.getElementById("cedula").focus();
                 setAcompanianteEdit({ ...res });
                 setVerCargando(false);
             }, 500);
@@ -245,7 +229,7 @@ export function InfoEstudianteMatricula() {
     }
     const guardarAcompaniante = () => {
         setRequerido(true);
-        if (acompanianteEdit.cedula.trim()) {
+        if (acompanianteEdit.cedula && acompanianteEdit.pNombre && acompanianteEdit.pApellido && acompanianteEdit.sApellido) {
             let datos = [...state.acompaniante];
             let editados = { ...acompanianteEdit };
             if (acompanianteEdit.cedula) {
@@ -266,6 +250,8 @@ export function InfoEstudianteMatricula() {
             setState({...state, acompaniante : datos});
             setVerModal(false);
             setAcompanianteEdit(datosVacios);
+        }else{
+            msjEmergente.current.show({ severity: 'error', style:{backgroundColor: 'white'},  summary: 'Campos requeridos', detail: 'Hay campos requeridos sin llenar', life: 2500 });
         }
     }
 
@@ -273,7 +259,7 @@ export function InfoEstudianteMatricula() {
         if (acompanianteEdit.cedula.trim()) {
             let datos = [...state.acompaniante];
             if (acompanianteEdit.cedula) {
-                const index = await buscarXId(acompanianteEdit.cedula);
+                const index = buscarXId(acompanianteEdit.cedula);
                 datos[index].estado = 'I';
                 msjEmergente.current.show({ severity: 'success', summary: 'Confirmación', detail: 'Encargado borrado correctamente', life: 3000 });
             } else {
@@ -286,8 +272,8 @@ export function InfoEstudianteMatricula() {
             
     }
 
-    const editarAcompaniante = async (data) => {
-        await setAcompanianteEdit({ ...data });
+    const editarAcompaniante = (data) => {
+        setAcompanianteEdit({ ...data });
         setVerModal(true);
     }
 
@@ -302,63 +288,27 @@ export function InfoEstudianteMatricula() {
         let respuesta = null;
         if(gradoEst && state.adecuacion && state.poliza && state.imas && state.viaja){
             if(state.poliza !=="S" || state.vencePoliza){
-                if(state.viaja ==="A"){
-                    //let estado = state.acompaniante.some(obj => obj.estado === "A");
-                    //if(estado){
-                        //hace matrícula
-                        setVerCargando(true);
-                        respuesta = await Matricula(state, encargado);
-                        if(respuesta === null){
-                            //funcion para crear el objeto para el documento de matrícula
-                            crearObjetoDocumentoMatri(state, encargado);
-                            //El timeout es para mostar la modal de cargando por 1/2 segundo
-                            setTimeout(()=>{
-                                setMsjModal("Estudiante matrículado correctamente");
-                                setVerModalMatri(true);
-                                setMatriCorrecta(true);
-                                setVerCargando(false);
-                            },tiempoCargando);
-                            
-    
-                        }else{
-                            //El timeout es para mostar la modal de cargando por 1/2 segundo
-                            setTimeout(()=>{
-                                setMsjModal(respuesta);
-                                setVerModalMatri(true);
-                                setMatriCorrecta(false);
-                                setVerCargando(false);
-                            },tiempoCargando);
-                            
-                        }
-    
-                        console.log("entro4", respuesta);
-                    //}else{
-                        //msjEmergente.current.show({ severity: 'error', summary: 'Datos requeridos', detail: 'Es necesario agregar al menos un acompañante', life: 3000 });
-                    //}
+                setVerCargando(true);
+                respuesta = await Matricula(state, encargado);
+                if(respuesta === null){
+                    //El timeout es para mostar la modal de cargando por 1/2 segundo
+                    setTimeout(()=>{
+                        setMsjModal({ confirmar:"Estudiante matrículado correctamente!",
+                                        imprimir: "Desea descargar el comprobante de matrícula?"});
+                        setVerModalMatri(true);
+                        setMatriCorrecta(true);
+                        setVerCargando(false);
+                    },tiempoCargando);
+                    
+
                 }else{
-                    setVerCargando(true);
-                    respuesta = await Matricula(state, encargado);
-                    if(respuesta === null){
-                        //funcion para crear el objeto para el documento de matrícula
-                        crearObjetoDocumentoMatri(state, encargado);
-                        //El timeout es para mostar la modal de cargando por 1/2 segundo
-                        setTimeout(()=>{
-                            setMsjModal("Estudiante matrículado correctamente");
-                            setVerModalMatri(true);
-                            setMatriCorrecta(true);
-                            setVerCargando(false);
-                        },tiempoCargando);
-
-                    }else{
-                        //El timeout es para mostar la modal de cargando por 1/2 segundo
-                        setTimeout(()=>{
-                            setMsjModal(respuesta);
-                            setVerModalMatri(true);
-                            setMatriCorrecta(false);
-                            setVerCargando(false);
-                        },tiempoCargando);
-                    }
-
+                    //El timeout es para mostar la modal de cargando por 1/2 segundo
+                    setTimeout(()=>{
+                        setMsjModal("Se produjo un problema al realizar la matrícula");
+                        setVerModalMatri(true);
+                        setMatriCorrecta(false);
+                        setVerCargando(false);
+                    },tiempoCargando);
                 }
             }else{
                 msjEmergente.current.show({ style:{backgroundColor: 'white'}, severity: 'error', summary: 'Campos requeridos', detail: 'Es necesario completar todos los campos requeridos', life: 3000 });
@@ -382,22 +332,46 @@ export function InfoEstudianteMatricula() {
         }
     }
 
+    const cerrarModalMatricula = () =>{
+        setVerModalMatri(false);
+    }
+
+    const limpiarDatos = () =>{
+        navegar("/Informacionpersonal");
+        setState({});
+        setEncargado([]);
+        
+
+    }
+
     const cerrarModalMsjEnter =  async (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
             setVerModalMsj (false);
             setVerModal(true);
-            document.getElementById("cedula").focus();
         }
     }
 
     const cerrarModalMatriculaEnter =  async (event) => {
         if (event.key === 'Enter') {
-            //event.preventDefault();
-            setVerModalMatri(false);
+            cerrarModalMatricula();
         }
     }
 
+   //funcion que genera y descarga el comprobante de matricula
+    const generarComprobante = async () =>{
+        setVerCargando(true);
+        //El timeout es para mostar la modal de cargando por 1/2 segundo
+        let datosComprobante = await crearObjetoDocumentoMatri(state, encargado);
+        let nombre = "Matrícula_"+state.pNombre+state.pApellido+"_"+state.cedula;
+        let res = await generarDocumento("PLANTILLAMATRICULA.docx", datosComprobante, nombre);
+        cerrarModalMatricula();
+        setTimeout(async()=>{
+            setVerCargando(res);
+            limpiarDatos();
+        },tiempoCargando);
+
+    }
 
     const btnAgregarViajaIzquierdo = () => {
         return (
@@ -440,7 +414,10 @@ export function InfoEstudianteMatricula() {
 
     const btnsModalMsjMatricula = (
         <React.Fragment>
-            <Button label="Cerrar" icon="pi pi-times" className="p-button-text" autoFocus onKeyDown={cerrarModalMatriculaEnter} onClick={cerrarModalMsjMatricula} />
+            
+            <Button visible ={matriCorrecta} label="NO"  className="p-button-text"  onClick={cerrarModalMsjMatricula} />
+            <Button visible ={matriCorrecta} label="SI"  className="p-button-text"  onClick={generarComprobante}/>
+            <Button visible ={!matriCorrecta} label="Cerrar" icon="pi pi-times" className="p-button-text" autoFocus onKeyDown={cerrarModalMatriculaEnter} onClick={cerrarModalMatricula} />
         </React.Fragment>
     );
 
@@ -470,7 +447,7 @@ export function InfoEstudianteMatricula() {
                                     inputId="dropdown"
                                     name="Grado"
                                     id="Grado"
-                                    className= {req && !state.grado ? 'p-invalid'  : "p-inputtext-sm mb-2"}
+                                    className= {req && !gradoEst ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                     value={gradoEst}
                                     options={grados}
                                     placeholder="Seleccione un grado..."
@@ -480,7 +457,7 @@ export function InfoEstudianteMatricula() {
                                     style={{ width: "auto" }}
                                 />
                             </div>
-                            {req && !gradoEst && <small className="p-error">Grado es requerido</small>}
+                            {req && !gradoEst && <small className="p-error">{msjRequeridos}</small>}
                         </div>
                         <div className="col-sm">
                             <div className="field">
@@ -492,7 +469,7 @@ export function InfoEstudianteMatricula() {
                                     inputId="dropdown"
                                     name="Adecuación"
                                     id="dropDown"
-                                    className={req && !state.grado ? 'p-invalid'  : "p-inputtext-sm mb-2"}
+                                    className={req && !state.adecuacion ? 'p-invalid'  : "p-inputtext-sm mb-2"}
                                     value={state.adecuacion}
                                     options={adecuaciones}
                                     placeholder="Adecuación"
@@ -504,7 +481,7 @@ export function InfoEstudianteMatricula() {
                                     style={{ width: "auto" }}
                                 />
                             </div>
-                            {req && !state.adecuacion && <small className="p-error">Adecuación es requerido</small>}
+                            {req && !state.adecuacion && <small className="p-error">{msjRequeridos}</small>}
                         </div>
                         <div className="col-sm-4">
                             <div className="field">
@@ -586,7 +563,7 @@ export function InfoEstudianteMatricula() {
                             <div className="field">
                                 <div>
                                 <Calendar
-                                    className={req && !state.vencePoliza && state.poliza === 'S' ? 'p-invalid'  : "p-inputtext-sm mb-2"}
+                                  className={req && !state.vencePoliza && state.poliza === 'S' ? 'p-invalid'  : "p-inputtext-sm mb-2"}  
                                     id="icon"
                                     value={fecha}
                                     locale="es"
@@ -598,14 +575,14 @@ export function InfoEstudianteMatricula() {
                                     dateFormat="yy-mm-dd"
                                 />
                                 </div>
-                                {req && !state.vencePoliza && state.poliza ==='S' && <small className="p-error">Este campo es requerido</small>}
+                                {req && !state.vencePoliza && state.poliza ==='S' && <small className="p-error">{msjRequeridos}</small>}
                             </div>
                             }
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-sm-4">
-                            {req && !state.poliza && <small className="p-error">Póliza es requerido</small>}
+                            {req && !state.poliza && <small className="p-error">{msjRequeridos}</small>}
                         </div>
                     </div>
                     <Divider align="left"></Divider>
@@ -651,7 +628,7 @@ export function InfoEstudianteMatricula() {
                         <div className="row">
                             <div className="col-sm-4">
                                 <br />
-                                {req && !state.imas && <small className="p-error">IMAS es requerido</small>}
+                                {req && !state.imas && <small className="p-error">{msjRequeridos}</small>}
                             </div>
                         </div>
                     </div>
@@ -699,7 +676,7 @@ export function InfoEstudianteMatricula() {
                         <div className="row">
                             <div className="col-sm-4">
                                 <br />
-                                {req && !state.viaja && <small className="p-error">Viaja es requerido</small>}
+                                {req && !state.viaja && <small className="p-error">{msjRequeridos}</small>}
                             </div>
                         </div>
                     </div>
@@ -765,10 +742,27 @@ export function InfoEstudianteMatricula() {
 
                     <Dialog visible={verModalMatri} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Información" modal footer={btnsModalMsjMatricula} onHide={cerrarModalMsjMatricula}>
                         <div className="confirmation-content">
-                            <i className="pi pi-check-circle" style={{ fontSize: '2rem', marginRight: '15px' }} />
-                            <span >
-                                {msjModal}
-                            </span>
+                            {matriCorrecta && 
+                                <div> 
+                                    <i className="pi pi-check-circle" style={{ fontSize: '2rem', marginRight: '15px' }} />
+                                    <span >
+                                    {msjModal.confirmar}
+                                    </span> <br/><br/>
+                                    <i className="pi pi-download" style={{ fontSize: '2rem', marginRight: '15px' }} />
+                                    <span >
+                                        {msjModal.imprimir}
+                                    </span>
+                                </div> 
+                            }
+                            {!matriCorrecta && 
+                                <div>
+                                    <i className="pi pi-times-circle" style={{ fontSize: '2rem', marginRight: '15px' }} />
+                                    <span >
+                                    {msjModal}
+                                    </span>
+                                </div>
+                            }
+                            
                         </div>
                     </Dialog>
 
@@ -807,7 +801,7 @@ export function InfoEstudianteMatricula() {
                                                      await buscarViajaCon();
                                                 }} />
                                         </div>
-                                        {requerido && !acompanianteEdit.cedula && <small className="p-error">Cédula es requerido</small>}
+                                        {requerido && !acompanianteEdit.cedula && <small className="p-error">{msjRequeridos}</small>}
                                     </div>
                                 </div>
                             </div>
@@ -828,7 +822,7 @@ export function InfoEstudianteMatricula() {
                                                     datosDeEntrada(e, 'pNombre')}
                                                 required
                                                 style={{ width: '90%' }} />
-                                            {requerido && !acompanianteEdit.pNombre && <small className="p-error">Primer nombre es requerido</small>}
+                                            {requerido && !acompanianteEdit.pNombre && <small className="p-error">{msjRequeridos}</small>}
                                         </div>
                                     </div>
                                 </div>
@@ -865,7 +859,7 @@ export function InfoEstudianteMatricula() {
                                                 onChange={(e) =>
                                                     datosDeEntrada(e, 'pApellido')}
                                                 required />
-                                            {requerido && !acompanianteEdit.pApellido && <small className="p-error">Primer apellido es requerido</small>}
+                                            {requerido && !acompanianteEdit.pApellido && <small className="p-error">{msjRequeridos}</small>}
                                         </div>
                                     </div>
                                 </div>
@@ -884,7 +878,7 @@ export function InfoEstudianteMatricula() {
                                                 onChange={(e) =>
                                                     datosDeEntrada(e, 'sApellido')}
                                                 required />
-                                            {requerido && !acompanianteEdit.sApellido && <small className="p-error">Segundo apellido es requerido</small>}
+                                            {requerido && !acompanianteEdit.sApellido && <small className="p-error">{msjRequeridos}</small>}
                                         </div>
                                     </div>
                                 </div>

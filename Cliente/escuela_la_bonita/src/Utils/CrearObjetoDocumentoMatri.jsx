@@ -1,13 +1,14 @@
 import { differenceInYears, differenceInMonths, differenceInDays, format } from 'date-fns';
 
-export const crearObjetoDocumentoMatri = (dtEst, dtEnc) =>{
-    console.log("data", dtEst, dtEnc);
+export const crearObjetoDocumentoMatri = async (dtEst, dtEnc) =>{
     let objeto = {};
     let datosEstu = datosEstudiante(dtEst, dtEnc);
     let datosEnc = datosEncargado(dtEnc);
+    let fecha = obtenerDiaMesAnio();
 
-    objeto = {...datosEstu, ...datosEnc};
-    console.log("Objeto", objeto);
+    objeto = {...datosEstu, ...datosEnc, ...fecha};
+    
+    return objeto;
 }
 
 //retorna la edad del estudiante en años, meses y dias
@@ -26,6 +27,23 @@ const formatoFecha = (fecha) => {
     const date = new Date(fecha);
     return format(date, 'dd/MM/yyyy');
 };
+
+//se obtine el dia, el mes es texto y el anio
+const obtenerDiaMesAnio = () =>{
+
+    let meses = [
+        'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+      ];
+
+    const fechaActual = new Date();
+    // Obtener el mes actual (0-11)
+    const mesActual = fechaActual.getMonth();
+    // Obtener el nombre del mes actual
+    const mesTexto = meses[mesActual];
+
+    return {dia: fechaActual.getDate(), mes: mesTexto, anio: fechaActual.getFullYear()};
+}
 
 // retorna el estado civil en texto del encargado 
 const estadoCivil= (estado, genero) => {
@@ -86,7 +104,11 @@ const datosEstudiante = (dtEst, dtEnc) =>{
     objeto.adecuacion = dtEst.adecuacion;
     objeto.grado = dtEst.grado;
     objeto.distritoE = dtEst.distrito;
+    objeto.viaja = dtEst.viaja === "S"? "Solo": "Acompañado";
     objeto.acompaniante = dtEst.acompaniante;
+    objeto.poliza = dtEst.poliza === "S"? "Si": "No";
+    objeto.fechaVencePoliza = dtEst.poliza === "S"? formatoFecha(dtEst.vencePoliza): "";
+    objeto.imas = dtEst.imas === "S"? "Si": "No";
     dtEnc.forEach(obj => {
         if(obj.parentesco === "Madre"){
             objeto.telefonoME = obj.telefono;
