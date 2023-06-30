@@ -97,11 +97,29 @@ export default function Inicio() {
     console.log("Todo ", state);
     console.log("Todo2 ", stateCon);
 
-    for(let x=0;x<state.materia.length;x++){
+    const cantidadDatos1 = Object.keys(state).filter(key => state[key] !== '').length;
+    const cantidadDatos2 = Object.keys(stateCon).filter(key => stateCon[key] !== '').length;
+
+    const cantidadDatos3 = Object.keys(state).filter(key => state[key] == '').length;
+    const cantidadDatos4 = Object.keys(stateCon).filter(key => stateCon[key] == '').length;
+    
+    if ((cantidadDatos1-cantidadDatos3 + cantidadDatos2-cantidadDatos4 ) > 19 && (cantidadDatos1-cantidadDatos3 + cantidadDatos2-cantidadDatos4) < 22)
+    {
+      console.log("Cantidad ", cantidadDatos1-cantidadDatos3 + cantidadDatos2-cantidadDatos4);
+    }
+    else{
+      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Faltan datos por llenar sfasd', life: 3000 });
+      console.log("Cantidad ", cantidadDatos1-cantidadDatos3 + cantidadDatos2-cantidadDatos4);
+      console.log("Cantidad1 ", cantidadDatos1);
+      console.log("Cantidad3 ", cantidadDatos3);
+      console.log("Cantidad2 ", cantidadDatos2);
+      console.log("Cantidad4 ", cantidadDatos4);
+    }
+    /*for(let x=0;x<state.materia.length;x++){
       await InsertarMateria({ state: state, setState: setState, materia: state.materia[x] });
       console.log("Materias ", state.materia[x])
     }
-    /*if (state.cedula && state.fechNac && state.pNombre && state.sNombre && state.pApellido && state.sApellido && state.provincia
+    if (state.cedula && state.fechNac && state.pNombre && state.sNombre && state.pApellido && state.sApellido && state.provincia
       && state.canton && state.distrito && state.direccion && state.sexo && state.lugarnacimiento && state.estadoCivil
       && stateCon.numTelefono && stateCon.cElectronico && state.materia && state.Rol != 4) {
       await agregarPersona({ state: state, setState: setState });
@@ -212,7 +230,7 @@ export default function Inicio() {
                 id="Crear"
                 header={<img alt="Card" src={Crear} />}
                 onClick={() => setCreaVisible(true)}>
-                <h3>Crear y editar Funciocionario</h3>
+                <h3>Crear y editar Funcionario</h3>
               </Card>
             </div>
             <div className="col-md d-flex justify-content-center">
@@ -225,7 +243,7 @@ export default function Inicio() {
                 id="Editar"
                 header={<img alt="Card" src={Editar} />}
                 onClick={() => setEditaVisible(true)}>
-                <h3>Crear y Editar perfil de Funciocionario</h3>
+                <h3>Crear y Editar perfil de Funcionario</h3>
               </Card>
 
             </div>
@@ -240,7 +258,7 @@ export default function Inicio() {
                 id="Eliminar"
                 header={<img alt="Card" src={Eliminar} />}
                 onClick={() => setEliminarvisible(true)}>
-                <h3>Eliminar Funciocionario</h3>
+                <h3>Eliminar Funcionario</h3>
               </Card>
             </div>
           </div>

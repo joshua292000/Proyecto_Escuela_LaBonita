@@ -662,7 +662,7 @@ export function InfoProfesor(props) {
                                 id="dropDown"
                                 value={state.Rol}
                                 options={Roles}
-                                placeholder="Nivel escolar"
+                                placeholder="Rol desempeñado"
                                 required
                                 style={{ width: '100%' }}
                                 onChange={(e) =>
