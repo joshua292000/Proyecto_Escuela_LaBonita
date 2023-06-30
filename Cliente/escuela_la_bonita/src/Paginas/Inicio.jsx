@@ -329,7 +329,7 @@ export default function Inicio() {
         <div className="card col-sm-6 col-md-4 col-lg-3"
           id="Card_InicioEnc"
           style={{ backgroundColor: "#AAE3E2", borderRadius: "20px" }}
-          onClick={() => navegar("/AsignarSeccionProfe")}> {/* Controla el tamaño de la tarjeta */}
+          onClick={() => navegar("/CrearActividadesD")}> {/* Controla el tamaño de la tarjeta */}
           <img src={CrearActividades} className="card-img-top" alt="Imagen 2" style={{ width: "265px", display: "block", margin: "0 auto" }} />
           <div className="card-body">
             <h5 className="card-title text-center" style={{ fontSize: "25px" }}> Crear actividades</h5>

@@ -49,7 +49,7 @@ export const ActividadesDiarias = () => {
       <Header />
         <div>
             <Calendar
-              views={["month", "work_week", "day" ]}
+              views={["month"]}
               selectable
               localizer={localizer}
               defaultDate={new Date()}
@@ -73,8 +73,7 @@ export const ActividadesDiarias = () => {
                       previous: "mes anterior",
                       today: "Hoy",
                       month: "Mes",
-                      work_week: "Semana",
-                      day: "Día"
+                      
                     }}
             />
           </div>

@@ -523,7 +523,7 @@ app.get('/horarios/:filename', (req, res) => {
 
   const ActividadesDiarias = (request, response) => {
 
-    connection.query('SELECT a.Act_Nombre AS title, a.Act_Descripcion AS description, a.Act_FechaIni AS start, a.Act_FechaFin AS end FROM esc_actividades a ',
+    connection.query('SELECT a.Act_Nombre AS title, a.Act_Descripcion AS description, DATE_FORMAT(a.Act_FechaIni, "%Y/%m/%d") AS start, DATE_FORMAT(a.Act_FechaFin, "%Y/%m/%d") AS end FROM esc_actividades a ',
         (error, results) => {
             if (error)
                 throw error;
@@ -532,5 +532,44 @@ app.get('/horarios/:filename', (req, res) => {
 };
 
 app.get("/Encargados/ActividadesDiarias", ActividadesDiarias);
+
+const CrearActividadDiarias = (request, response) => {
+    const { title, title2, description, start, end, title3, description2, start2, end2, title4 } = request.body;
+    connection.query('SELECT Act_Nombre FROM esc_actividades WHERE Act_Nombre = ?; '+
+                    'INSERT INTO esc_actividades (Act_Nombre, Act_Descripcion, Act_FechaIni, Act_FechaFin) '+
+                    'SELECT ?, ?, ?, ? '+
+                    'FROM dual '+
+                    'WHERE NOT EXISTS (SELECT Act_Nombre FROM esc_actividades WHERE Act_Nombre = ?); '+                                      
+                    'UPDATE esc_actividades '+
+                    'SET Act_Descripcion = ?, Act_FechaIni = ?, Act_FechaFin = ? '+
+                    'WHERE Act_Nombre = ?; ',
+        [title, title2, description, start, end, title3, description2, start2, end2, title4],
+        (error, results) => {
+            if (error)
+                throw error;
+            response.status(201).json(results);
+        });
+};
+
+//ruta
+app.route("/CrearActividadDiarias").post(CrearActividadDiarias);
+
+
+const EliminarActividadDiaria = (request, response) => {
+    const title = request.params.title;
+
+    console.log("lleva", title);
+    connection.query('DELETE FROM esc_actividades '+
+                     'WHERE Act_Nombre = ?; ',
+        [title],
+        (error, results) => {
+            if (error)
+                throw error;
+            response.status(201).json(results);
+        });
+};
+
+//ruta
+app.delete("/EliminarActividadDiaria/:title",EliminarActividadDiaria);
   
 module.exports = app;

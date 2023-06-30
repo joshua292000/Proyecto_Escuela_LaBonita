@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie";
-
+import { msjErrorServidor } from '../Componentes/Utils';
 const cookies = new Cookies(); 
 
 
@@ -481,3 +481,58 @@ export const insertarAsistencia = async (props) => {
     console.log(e);
   }
 }
+
+
+export const CrearActividad = async(props) => {
+  
+  var infoA = {
+    title: props.title,
+    title2: props.title,
+    description: props.description,
+    start: props.start,
+    end: props.end,
+    title3: props.title, 
+    description2: props.description,
+    start2: props.start,
+    end2: props.end,
+    title4: props.title,
+  
+  };
+  console.log("data del service ", infoA); 
+  try {
+    const res = await axios.post("http://localhost:3000/CrearActividadDiarias", infoA)
+    console.log("metodo ", res.status);
+          //se mapea la respuesta del servidor
+          if (res.status === 201) {
+            return res.data;
+          } else {
+            Swal.fire("Error", "Lo siento, ocurrió un error al crear la actividad");
+          }
+        
+      
+  } catch (e) {
+    console.log(e);
+  }
+ 
+}
+
+
+
+export const EliminarActividad = async(props) => {
+  console.log("el eliminar trae ", props);
+  
+  try {
+    const res = await axios.delete("http://localhost:3000/EliminarActividadDiaria/"+ props)
+    console.log("metodo ", res.status);
+          //se mapea la respuesta del servidor  
+          if (res.status === 201) {  
+            return res.data;    
+          } else {
+            Swal.fire("Error", "Lo siento, ocurrió un error al eliminar la actividad");
+          }
+  } catch (e) {   
+    console.log(e);
+  }
+ 
+}
+

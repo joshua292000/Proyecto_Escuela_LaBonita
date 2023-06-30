@@ -9,7 +9,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 
 import { Divider } from 'primereact/divider';
-
+import { useNavigate } from "react-router-dom";
 import { generarDocumento } from "../Utils/GenerarDocumento";
 import{getCurrentDate} from '../Utils/ObtenerFechaActual'
 import{ConvertirFechaATexto} from '../Utils/ObtenerFechaActual'
@@ -53,7 +53,14 @@ export function ReporteCom() {
 
     window.myGlobalSeccion = secciones.grado + " " + secciones.seccion;
 
+    const cookies = new Cookies();
+    const navegar = useNavigate();
+
     useEffect(() => {
+        if(!cookies.get('Func_Id')){
+            navegar("/");
+      
+          }
         const ObtenerDatos = async () => {
             const res = await Obtener_Secciones();
             setSeccion(res);

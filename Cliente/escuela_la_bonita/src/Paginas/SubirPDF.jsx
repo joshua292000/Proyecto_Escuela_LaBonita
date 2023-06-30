@@ -2,17 +2,29 @@ import "../style.css";
 import "../Estilos.css";
 import { Header } from "../Componentes/Cabecera";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //import "bootstrap/dist/css/bootstrap.css";
 import {Container, Row, Col, Button } from "react-bootstrap";
 import { useDropzone  } from 'react-dropzone';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import { FaFilePdf } from 'react-icons/fa';
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
+
 export function SubirPDF() {
 
     const [pdfFiles, setPdfFiles] = useState([]);
     const [isDragging, setIsDragging] = useState(false);
+    const cookies = new Cookies();
+    const navegar = useNavigate();
+
+    useEffect(() => {
+      if(!cookies.get('Func_Id')){
+          navegar("/");
+    
+        }
+    },[]);
 
     function handleFileChange(event) {
         setPdfFiles(Array.from(event.target.files));

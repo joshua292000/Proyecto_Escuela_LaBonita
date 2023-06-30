@@ -9,6 +9,7 @@ import { generarDocumento } from "../Utils/GenerarDocumento";
 import{getCurrentDate} from '../Utils/ObtenerFechaActual'
 import{ConvertirFechaATexto} from '../Utils/ObtenerFechaActual'
 import { Obtener_Persona_Rol } from "../Persistencia/FuncionarioService";
+import { useNavigate } from "react-router-dom";
 
 export function ConstanciasCom() {
 
@@ -36,8 +37,14 @@ export function ConstanciasCom() {
 
     const [funcionario, setFuncionario] = useState([]);
 
+    const cookies = new Cookies();
+    const navegar = useNavigate();
 
     useEffect(() => {
+        if(!cookies.get('Func_Id')){
+            navegar("/");
+      
+          }
         const ObtenerDatosFuncionario = async ()=>{
           const res = await Obtener_Persona_Rol()
           setFuncionario(res)

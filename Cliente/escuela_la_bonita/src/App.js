@@ -29,6 +29,7 @@ import {AsignarSeccionProfe} from "./Paginas/AsignarSecProfe";
 import InicioEnc from "./Paginas/InicioEnc";
 import DataViewDemo from "./Paginas/InfoProfesores";
 import { CrearUsuFuncionario } from "./Paginas/CrearUsuFuncionario";
+import { CrearActividadesD } from "./Paginas/CrearActividadesD"; 
 import { AsistenciaComedor } from "./Paginas/AsistenciaComedor";
 
 export function App() {
@@ -61,6 +62,8 @@ return (
       <Route path="/AsignarSeccion" element={<AsignarSeccion/>} />
       <Route path="/AsignarSeccionProfe" element={<AsignarSeccionProfe/>}/>
       <Route path="/AsistenciaComedor" element={<AsistenciaComedor/>}/>
+      <Route path="/CrearActividadesD" element={<CrearActividadesD/>}/>
+
 
     </Routes>
   </BrowserRouter>
