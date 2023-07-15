@@ -65,7 +65,7 @@ export const ActividadesDiarias = () => {
                 start,
                 end,
                 isSelected,
-                style: { backgroundColor: "green", height: "70px" }
+                style: { backgroundColor: "green", height: "40px" }
               })}
               
               messages={{

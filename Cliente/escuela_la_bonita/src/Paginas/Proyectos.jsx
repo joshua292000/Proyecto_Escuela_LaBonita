@@ -27,7 +27,7 @@ export function Proyectos() {
                     <i class="far fa-clock" aria-hidden="true"></i> 2018
                   </p>
                   <p class="mb-0">
-                    Huerta escolar con diferentes verduras y frutas.
+                    Proyecto de huerta escolar, donde participan los estudiantes.
                   </p>
                 </div>
               </div>

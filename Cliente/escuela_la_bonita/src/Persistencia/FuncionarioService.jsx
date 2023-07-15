@@ -444,7 +444,10 @@ export const obtenerAlumnos = async (props) => {
   try {
     const res = await axios.get("http://localhost:3000/obtenerAlumnos/" + props.grado +"/" + props.seccion);
     if (res.data.length > 0) {
-      console.log("metodo ", res.data);
+      //se le asigna un estado inicial a la asistencia
+      for(let i=0; i < res.data.length; i++){
+        res.data[i].tasistencia = "Presente";
+      }
       return res.data;
     } else {
       Swal.fire("Error", "Lo siento, ocurrió un error al obtener la lista");
